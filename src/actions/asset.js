@@ -8,9 +8,9 @@ export async function publish(formValues, account, providers) {
     const { ocean } = providers
     const publisherId = account.name
     // check account balance and request tokens if necessary
-    const tokensBalance = await ocean.getTokenBalance(publisherId)
+    const tokensBalance = await ocean.account.getTokenBalance(publisherId)
     if (tokensBalance < MINIMUM_REQUIRED_TOKENS) {
-        await ocean.requestTokens(MINIMUM_REQUIRED_TOKENS, publisherId)
+        await ocean.account.requestTokens(MINIMUM_REQUIRED_TOKENS, publisherId)
     }
 
     // Get user entered form values
@@ -86,7 +86,7 @@ export async function list(account, providers) {
 export async function purchase(asset, account, providers) {
     const { ocean } = providers
 
-    Logger.log('Purchasing asset by consumer:  ', account.name, ' assetid: ', asset.assetId)
+    Logger.log('Purchasing asset by consumer:', account.name, 'assetid: ', asset.assetId)
 
     // TODO: allow user to set timeout through the UI.
     const timeout = (new Date().getTime() / 1000) + 3600 * 12 // 12 hours

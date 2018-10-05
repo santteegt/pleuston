@@ -20,7 +20,7 @@ export function getAccounts() {
 
         dispatch({
             type: 'SET_ACCOUNTS',
-            accounts: await ocean.getAccounts()
+            accounts: await ocean.account.list()
         })
     }
 }
@@ -54,7 +54,7 @@ export function makeItRain(amount) {
         const state = getState()
         const { ocean } = state.provider
         try {
-            await ocean.requestTokens(
+            await ocean.account.requestTokens(
                 amount,
                 getActiveAccount(state).name
             )
