@@ -89,7 +89,8 @@ export async function purchase(asset, account, providers) {
     Logger.log('Purchasing asset by consumer:', account.name, 'assetid: ', asset.assetId)
 
     // TODO: allow user to set timeout through the UI.
-    const timeout = (new Date().getTime() / 1000) + 3600 * 12 // 12 hours
+    const timeout = new Date().setHours(new Date().getHours() + 12)
+    Logger.log(timeout)
     const order = await ocean.order.purchaseAsset(asset, timeout, account.name)
     Logger.log('order', order)
     if (order.accessUrl) {
