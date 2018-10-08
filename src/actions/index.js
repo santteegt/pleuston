@@ -218,6 +218,25 @@ export function getOrders() {
     }
 }
 
+export function loadOauthAccounts() {
+    /* Get list cloud credentials from localstore */
+    return (dispatch) => {
+        const cloudCredentials = JSON.parse(window.localStorage.getItem('cloudCredentials'))
+        dispatch({
+            type: 'CLOUD_ACCOUNTS',
+            blobs: cloudCredentials
+        })
+    }
+}
+
+export function storeOauthAccounts() {
+    /* Get list cloud credentials from localstore */
+    /* Refresh if needed? */
+    return (dispatch) => {
+        // update localStorage
+    }
+}
+
 export function getCloudFiles() {
     /* Get list of blobs in cloud storage if cloud access is defined in the config file */
     return async (dispatch) => {

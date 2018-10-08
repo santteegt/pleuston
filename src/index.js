@@ -25,7 +25,8 @@ import {
     getAssets,
     setProviders,
     getOrders,
-    getCloudFiles
+    getCloudFiles,
+    loadOauthAccounts
 } from './actions/index'
 
 import App from './App'
@@ -52,6 +53,7 @@ function boot() {
                 .then(() => {
                     store.dispatch(getOrders())
                     store.dispatch(getCloudFiles())
+                    store.dispatch(loadOauthAccounts())
                 })
         })
 }

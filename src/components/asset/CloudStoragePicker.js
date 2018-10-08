@@ -37,11 +37,11 @@ export default class CloudStoragePicker extends PureComponent {
                     ) : (
                         blobs.map(blob => (
                             <span
-                                key={blob}
+                                key={blob.label}
                                 onClick={(e) => this.handleSelection(e)}
                                 className={styles.file}
                             >
-                                {blob}
+                                {blob.label}
                             </span>
                         ))
                     )

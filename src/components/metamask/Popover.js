@@ -2,6 +2,7 @@ import styles from './Status.module.scss'
 import Truncate from 'react-truncate'
 import PropTypes from 'prop-types'
 import React from 'react'
+import Oauth from './Oauth'
 
 const Popover = ({ network, selectedAccount }) => (
     <div className={styles.metamaskPopover}>
@@ -16,6 +17,9 @@ const Popover = ({ network, selectedAccount }) => (
         </div>
         <div key={'balances-ocn'} className={styles.metamaskPopoverInfoline}>
             Ocean Tokens: {selectedAccount ? selectedAccount.balance.ocn.toString() : ''}
+        </div>
+        <div key={'oauth'} className={styles.metamaskPopoverInfoline}>
+            <Oauth />
         </div>
     </div>
 )

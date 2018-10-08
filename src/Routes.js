@@ -6,6 +6,7 @@ import NewDataset from './pages/NewDataset'
 import Orders from './pages/Orders'
 import DatasetLoader from './containers/DatasetLoader'
 import OrderLoader from './containers/OrderLoader'
+import Oauth from './pages/Oauth'
 
 const Routes = () => (
     <Switch>
@@ -13,6 +14,7 @@ const Routes = () => (
         <Route exact component={NewDataset} path="/new" />
         <Route exact component={Orders} path="/orders" />
         <Route exact component={OrderLoader} path="/orders/:id" />
+        <Route exact component={Oauth} path="/oauth/azure" />
         <Route exact component={DatasetLoader} path="/:id" />
 
         <Route component={NotFound} />
