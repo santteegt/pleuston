@@ -75,10 +75,13 @@ export async function publish(formValues, account, providers) {
 export async function list(account, providers) {
     const { ocean } = providers
     let dbAssets = await ocean.metadata.getAssetsMetadata()
-    Logger.log('assets: ', dbAssets)
+    // Logger.log('Loaded assets (from provider):', JSON.stringify(dbAssets, null, 2))
+    Logger.log(`Loaded ${Object.keys(dbAssets).length} assets (from provider)`)
 
-    dbAssets = Object.values(dbAssets).filter(async (asset) => { return ocean.asset.isAssetActive(asset.assetId) })
-    Logger.log('assets (published on-chain): ', dbAssets)
+    dbAssets = Object.values(dbAssets)
+        .filter(async (asset) => ocean.asset.isAssetActive(asset.assetId))
+    // Logger.log('Loaded assets (that are published on-chain):', JSON.stringify(dbAssets, null, 2))
+    Logger.log(`Loaded ${Object.keys(dbAssets).length} assets (that are published on-chain)`)
 
     return dbAssets
 }

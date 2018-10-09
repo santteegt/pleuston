@@ -179,12 +179,12 @@ export function getOrders() {
         const state = getState()
         const account = getActiveAccount(state)
         if (!account) {
-            Logger.log('active account is not set.')
+            Logger.error('Active account is not set!')
             return []
         }
         const { ocean } = state.provider
         let orders = await ocean.order.getOrdersByConsumer(account.name)
-        Logger.log('ORDERS: ', orders, Object.values(state.asset.assets))
+        // Logger.log('ORDERS: ', orders, Object.values(state.asset.assets))
         let assets = null
         // do we have assets in the state?ß
         if (Object.values(state.asset.assets).length !== 0) {
@@ -208,7 +208,8 @@ export function getOrders() {
             map[obj._id] = obj
             return map
         }, {})
-        Logger.log('Mapped orders: ', orders)
+        // Logger.log('Mapped orders: ', JSON.stringify(orders, null, 2))
+        Logger.log(`Mapped ${Object.keys(orders).length} orders.`)
 
         dispatch({
             type: 'SET_ORDERS',

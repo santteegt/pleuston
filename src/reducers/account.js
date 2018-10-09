@@ -9,7 +9,7 @@ const initialState = {
 const account = (state = initialState, action) => {
     switch (action.type) {
         case 'SET_ACCOUNTS':
-            Logger.log('accounts', action.accounts)
+            Logger.log('Setting accounts', JSON.stringify(action.accounts, null, 2))
             return {
                 ...state,
                 accounts: action.accounts
