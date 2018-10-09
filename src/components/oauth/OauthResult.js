@@ -1,46 +1,20 @@
 import React, { Component } from 'react'
-import { OauthReceiver } from 'react-oauth-flow'
+import PropTypes from 'prop-types'
+import { withRouter } from 'react-router'
+// import { OauthReceiver } from 'react-oauth-flow'
+// import { appId, appAuthKey } from '../../../config/cloudStorage'
 
 class OauthResult extends Component {
-    constructor(props) {
-        super(props)
-
-        this.state = {
-            isWritable: false
-        }
-    }
-    /*
-    handleSuccess(accessToken, { response, state }) {
-        console.error('Successfully authorized')
-        // await setProfileFromDropbox(accessToken);
-        // await redirect(state.from);
-    }
-    handleError(error) {
-        console.error('An error occured')
-        console.error(error.message)
-        return error
-    }
-    */
     render() {
+        const { location } = this.props
         return (
-            <OauthReceiver
-                tokenUrl="https://api.dropbox.com/oauth2/token"
-                clientId={process.env.CLIENT_ID}
-                clientSecret={process.env.CLIENT_SECRET}
-                redirectUri="https://www.yourapp.com/auth/dropbox"
-                // onAuthSuccess={this.handleSuccess}
-                // onAuthError={this.handleError}
-                render={({ processing, state, error }) => (
-                    <div>
-                        {processing && <p>Authorizing now...</p>}
-                        {error && (
-                            <p className="error">An error occured: {error.message}</p>
-                        )}
-                    </div>
-                )}
-            />
+            <div>{JSON.stringify(location)}</div>
         )
     }
 }
 
-export default OauthResult
+OauthResult.propTypes = {
+    location: PropTypes.object
+}
+
+export default withRouter(OauthResult)
