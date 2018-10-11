@@ -1,7 +1,7 @@
 import React from 'react'
 import Spinner from '../atoms/Spinner'
 import config from '../../../config/ocean.js'
-import styles from './Unavailable.module.scss'
+import styles from './Web3Unavailable.module.scss'
 
 const Web3AccountUnavailable = () => (
     <div className={styles.unavailable}>
