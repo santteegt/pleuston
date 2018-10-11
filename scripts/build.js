@@ -1,3 +1,5 @@
+/* eslint-disable no-console */
+
 // Do this as the first thing so that any code reading it knows the right env.
 process.env.BABEL_ENV = 'production'
 process.env.NODE_ENV = 'production'
@@ -115,10 +117,20 @@ function build(previousFileSizes) {
     let compiler = webpack(config)
     return new Promise((resolve, reject) => {
         compiler.run((err, stats) => {
+            let messages
             if (err) {
-                return reject(err)
+                if (!err.message) {
+                    return reject(err)
+                }
+                messages = formatWebpackMessages({
+                    errors: [err.message],
+                    warnings: []
+                })
+            } else {
+                messages = formatWebpackMessages(
+                    stats.toJson({ all: false, warnings: true, errors: true })
+                )
             }
-            const messages = formatWebpackMessages(stats.toJson({}, true))
             if (messages.errors.length) {
                 // Only keep the first error. Others are often indicative
                 // of the same problem, but confuse the reader with noise.
@@ -129,23 +141,26 @@ function build(previousFileSizes) {
             }
             if (
                 process.env.CI &&
-        (typeof process.env.CI !== 'string' ||
-          process.env.CI.toLowerCase() !== 'false') &&
-        messages.warnings.length
+            (typeof process.env.CI !== 'string' ||
+              process.env.CI.toLowerCase() !== 'false') &&
+            messages.warnings.length
             ) {
                 console.log(
                     chalk.yellow(
                         '\nTreating warnings as errors because process.env.CI = true.\n' +
-              'Most CI servers set it automatically.\n'
+                  'Most CI servers set it automatically.\n'
                     )
                 )
                 return reject(new Error(messages.warnings.join('\n\n')))
             }
-            return resolve({
+
+            const resolveArgs = {
                 stats,
                 previousFileSizes,
                 warnings: messages.warnings
-            })
+            }
+
+            return resolve(resolveArgs)
         })
     })
 }
