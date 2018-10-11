@@ -8,8 +8,7 @@
     "build": "node scripts/build.js",
     "lint:js": "eslint ./src/",
     "lint:css": "stylelint ./src/**/*.scss",
-    "lint": "npm run lint:js && npm run lint:css",
-    "copy:contracts": "",
+    "lint": "run-p --continue-on-error lint:js lint:css",
     "test": "npm run lint && node scripts/test.js --env=jsdom --coverage && cat ./coverage/lcov.info | codacy-coverage",
     "requirements-check": "./scripts/check-node-version.sh",
     "preinstall": "npm run requirements-check"
@@ -92,6 +91,7 @@
     "jest": "^23.5.0",
     "mini-css-extract-plugin": "^0.4.3",
     "node-sass": "^4.9.3",
+    "npm-run-all": "^4.1.3",
     "optimize-css-assets-webpack-plugin": "^5.0.1",
     "postcss-loader": "^3.0.0",
     "postcss-preset-env": "^6.1.0",

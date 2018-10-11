@@ -82,7 +82,7 @@ const getStyleLoaders = (cssOptions, preProcessor) => {
             loader: require.resolve(preProcessor),
             options: {
                 sourceMap: shouldUseSourceMap,
-                includePaths: ['src/assets/stylesheets/']
+                includePaths: ['src/styles/']
             }
         })
     }
