@@ -1,42 +1,59 @@
-import React from 'react'
+import React, { PureComponent } from 'react'
 import PropTypes from 'prop-types'
-import Blockies from 'react-blockies'
-import Truncate from 'react-truncate'
+import Balance from './Balance'
+import Status from './Status'
+import Popover from './Popover'
+import styles from './Account.module.scss'
 
-import './Account.scss'
-import AccountBalance from './AccountBalance'
+export default class Account extends PureComponent {
+    constructor(props) {
+        super(props)
 
-const Account = ({
-    balance,
-    handleClick,
-    image,
-    name
-}) => (
-    <button className="account" onClick={handleClick}>
-        {
-            typeof name === 'string'
-                ? <h3 className="account__title">
-                    <Truncate>{name}</Truncate>
-                </h3> : name
+        this.state = {
+            popoverOpen: false
         }
-        <div className="account__image">
-            {image || <Blockies seed={name} />}
-        </div>
-        <div className="account__balance">
-            <AccountBalance {...balance} />
-        </div>
-    </button>
-)
+    }
+
+    togglePopover() {
+        this.setState(prevState => ({
+            popoverOpen: !prevState.popoverOpen
+        }))
+    }
+
+    render() {
+        const { activeAccount, networkName, initMakeItRain } = this.props
+        const { popoverOpen } = this.state
+
+        const balanceEther = activeAccount ? activeAccount.balance.eth.toString() : '0.00'
+        const balanceOcean = activeAccount ? activeAccount.balance.ocn.toString() : '0.00'
+
+        return (
+            <div
+                className={styles.account}
+                onMouseEnter={() => this.togglePopover()}
+                onMouseLeave={() => this.togglePopover()}
+                onTouchStart={() => this.togglePopover()}
+            >
+                <Balance eth={balanceEther} ocn={balanceOcean} />
+                <Status
+                    networkName={networkName}
+                    activeAccount={activeAccount}
+                    initMakeItRain={initMakeItRain}
+                />
+                {popoverOpen && (
+                    <Popover
+                        networkName={this.props.networkName}
+                        activeAccount={this.props.activeAccount}
+                        initMakeItRain={this.props.initMakeItRain}
+                    />
+                )}
+            </div>
+        )
+    }
+}
 
 Account.propTypes = {
-    balance: PropTypes.object.isRequired,
-    handleClick: PropTypes.func.isRequired,
-    name: PropTypes.string.isRequired,
-    image: PropTypes.element
+    networkName: PropTypes.string,
+    activeAccount: PropTypes.object,
+    initMakeItRain: PropTypes.func
 }
-
-Account.defaultProps = {
-    image: null
-}
-
-export default Account

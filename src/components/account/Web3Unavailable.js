@@ -1,5 +1,5 @@
 import React from 'react'
-import styles from './Unavailable.module.scss'
+import styles from './Web3Unavailable.module.scss'
 
 const Web3Unavailable = () => (
     <div className={styles.unavailable}>
