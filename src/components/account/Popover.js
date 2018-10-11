@@ -20,7 +20,7 @@ const Popover = ({ networkName, activeAccount, initMakeItRain }) => {
                 ) : 'No account selected'}
             </div>
             <div key={'network'} className={styles.popoverInfoline}>
-                Network: <strong>{networkName}</strong>
+                Network: &nbsp;<strong>{networkName}</strong>
             </div>
             <div key={'makeItRain'} className={styles.popoverInfoline}>
                 <button className={styles.action} onClick={initMakeItRain}>Make it rain</button>

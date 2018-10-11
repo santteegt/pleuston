@@ -25,7 +25,7 @@ export default class Account extends PureComponent {
         const { popoverOpen } = this.state
 
         const balanceEther = activeAccount ? activeAccount.balance.eth.toString() : '0.00'
-        const balanceOcean = activeAccount ? activeAccount.balance.ocn.toString() : '0.00'
+        const balanceOcean = activeAccount ? activeAccount.balance.ocn.toString() : '0'
 
         return (
             <div

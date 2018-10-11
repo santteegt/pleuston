@@ -21,6 +21,12 @@
     align-items: center;
     width: 50%;
     cursor: pointer;
+
+    &:hover,
+    &:focus,
+    &:active {
+        transform: none;
+    }
 }
 
 .headerLogoImage {
