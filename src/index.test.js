@@ -19,7 +19,7 @@ import appReducer from './reducers'
 import { Web3Provider } from 'react-web3'
 
 import App from './App'
-import registerServiceWorker from './registerServiceWorker'
+import * as serviceWorker from './serviceWorker'
 import Web3Unavailable from './components/metamask/Unavailable'
 import Web3AccountUnavailable from './components/metamask/AccountUnavailable'
 
@@ -33,7 +33,7 @@ const store = createStore(
     )
 )
 
-registerServiceWorker()
+serviceWorker.register()
 
 it('index renders without crashing', () => {
     const div = document.createElement('div')
