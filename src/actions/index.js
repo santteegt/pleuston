@@ -4,7 +4,8 @@ import azure from 'azure-storage'
 import * as ocean from './ocean'
 import * as asset from './asset'
 import { Logger } from '@oceanprotocol/squid'
-import { cloudName, storageAccount, accessKey, container } from '../../config/cloudStorage'
+import { storageAccount, accessKey, container } from '../../config/cloudStorage'
+import queryString from 'query-string'
 
 export function setProviders() {
     return async (dispatch) => {
@@ -218,47 +219,76 @@ export function getOrders() {
     }
 }
 
-export function loadOauthAccounts() {
-    /* Get list cloud credentials from localstore */
+export function getOauthAccounts() {
     return (dispatch) => {
-        const cloudCredentials = JSON.parse(window.localStorage.getItem('cloudCredentials'))
+        let oauthAccounts = {}
+        let storeObject = window.localStorage.getItem('oauthAccounts')
+        if (storeObject !== null && storeObject !== undefined) {
+            oauthAccounts = JSON.parse(storeObject)
+        }
         dispatch({
-            type: 'CLOUD_ACCOUNTS',
-            blobs: cloudCredentials
+            type: 'SET_OAUTH_ACCOUNTS',
+            oauthAccounts: oauthAccounts
         })
     }
 }
 
-export function storeOauthAccounts() {
-    /* Get list cloud credentials from localstore */
-    /* Refresh if needed? */
+export function updateOauthAccounts(state) {
+    if (state.router.location.pathname === '/oauth/azure') {
+        const query = queryString.parse(state.router.location.hash)
+        state.oauthAccounts['azure'] = query
+    }
+    window.localStorage.setItem('oauthAccounts', JSON.stringify(state.oauthAccounts))
     return (dispatch) => {
-        // update localStorage
+        dispatch({
+            type: 'SET_OAUTH_ACCOUNTS',
+            oauthAccounts: state.oauthAccounts
+        })
     }
 }
 
 export function getCloudFiles() {
     /* Get list of blobs in cloud storage if cloud access is defined in the config file */
-    return async (dispatch) => {
-        if (cloudName === 'azure') {
-            const blobService = azure.createBlobService(storageAccount, accessKey)
-            blobService.listBlobsSegmented(container, null, (error, results) => {
-                if (!error) {
-                    let cloudBlobs = []
-                    console.log('blobs: ', results)
-                    // Just process blobs,ignoring directories for now
-                    for (let blob of results.entries) {
-                        // Deal with blob object
-                        cloudBlobs.push({ container, blobName: blob.name })
+    return async (dispatch, getState) => {
+        const state = getState()
+        if (state.oauthAccounts.azure !== undefined) {
+            const tokenCredential = new azure.TokenCredential(state.oauthAccounts.azure.access_token)
+            const blobService = azure.createBlobServiceWithTokenCredential('https://testocnfiles.blob.core.windows.net', tokenCredential)
+            blobService.listContainersSegmented(null, function(error, results) {
+                if (error) {
+                    console.log('listing container errors', error)
+                } else {
+                    console.log('CONTAINERS', results)
+                    const cloudBlobs = []
+                    for (const con of results.entries) {
+                        /*
+                        // FOLLOWING FUNCTIONS ARE NOT WORKING DUE AZURE PREVIEW
+                        blobService.listBlobsSegmented(containr.name, null, (error, results) => {
+                            if (!error) {
+                                console.error('blobs in azure storage.', results)
+                            } else {
+                                console.error('error listing blobs in azure storage.', error)
+                            }
+                        })
+                        */
+                        const blobservice = azure.createBlobService(storageAccount, accessKey)
+                        blobservice.listBlobsSegmented(con.name, null, (error, result) => {
+                            if (!error) {
+                                // Just process blobs,ignoring directories for now
+                                for (let blob of result.entries) {
+                                    // Deal with blob object
+                                    cloudBlobs.push({ container: con.name, blobName: blob.name })
+                                }
+                            } else {
+                                console.error('error listing blobs in azure storage.', error)
+                            }
+                        })
                     }
-
                     console.log('blobs from azure storage: ', cloudBlobs)
                     dispatch({
                         type: 'CLOUD_BLOBS',
                         blobs: cloudBlobs
                     })
-                } else {
-                    console.error('error listing blobs in azure storage.', error)
                 }
             })
         }

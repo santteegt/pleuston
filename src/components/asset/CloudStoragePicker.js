@@ -41,7 +41,7 @@ export default class CloudStoragePicker extends PureComponent {
                                 onClick={(e) => this.handleSelection(e)}
                                 className={styles.file}
                             >
-                                {blob.label}
+                                {blob.container}/{blob.label}
                             </span>
                         ))
                     )

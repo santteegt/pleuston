@@ -19,6 +19,7 @@ export default connect(
         enableReinitialize: true,
         blobs: Object.values(state.cloudStorage.blobs).map((fileObject, index) => ({
             id: index,
+            container: fileObject.container,
             label: fileObject.blobName,
             value: false
         }))
