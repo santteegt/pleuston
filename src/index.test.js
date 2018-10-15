@@ -14,14 +14,14 @@ import {
     routerMiddleware
 } from 'connected-react-router'
 
-import appReducer from './reducers'
-
 import { Web3Provider } from 'react-web3'
+import Web3Unavailable from './components/metamask/Unavailable'
+import Web3AccountUnavailable from './components/metamask/AccountUnavailable'
+
+import appReducer from './reducers'
 
 import App from './App'
 import registerServiceWorker from './registerServiceWorker'
-import Web3Unavailable from './components/metamask/Unavailable'
-import Web3AccountUnavailable from './components/metamask/AccountUnavailable'
 
 const history = createBrowserHistory()
 
