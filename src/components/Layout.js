@@ -1,6 +1,6 @@
 import React, { Fragment, PureComponent } from 'react'
 import PropTypes from 'prop-types'
-import HeaderLoader from '../containers/HeaderLoader'
+import Header from '../components/Header'
 import SidebarLoader from '../containers/SidebarLoader'
 
 import Spinner from './atoms/Spinner'
@@ -33,7 +33,7 @@ class Layout extends PureComponent {
 
         return (
             <Fragment>
-                <HeaderLoader />
+                <Header />
 
                 <main className={styles.layout}>
                     <nav className={styles.layoutSidebar}>
