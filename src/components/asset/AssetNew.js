@@ -53,7 +53,6 @@ class AssetNew extends Component {
                             <Button
                                 link="true"
                                 icon={IconAzure}
-                                // onClick={urlGetter}
                                 onClick={(e) => this.toggleModal(e)}
                             >
                                 Azure

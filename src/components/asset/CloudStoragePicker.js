@@ -1,6 +1,6 @@
 import React, { PureComponent } from 'react'
 import PropTypes from 'prop-types'
-// import MultiSelectReact from 'multi-select-react'
+import Button from '../atoms/Button'
 
 import styles from './CloudStoragePicker.module.scss'
 
@@ -9,51 +9,60 @@ export default class CloudStoragePicker extends PureComponent {
         super(props)
 
         this.state = {
-            selection: null
+            selection: []
         }
     }
-    handleSelection(e) {
-        if (e.currentTarget.class === styles.selected) {
-            e.currentTarget.className = styles.file
+
+    handleSelection(blobId) {
+        if (this.state.selection.includes(blobId)) {
+            this.setState({ selection: this.state.selection.filter(bId => bId !== blobId) })
         } else {
-            e.currentTarget.className = styles.selected
+            this.setState(prevState => ({
+                selection: [...prevState.selection, blobId]
+            }))
         }
+    }
 
-        if (this.state.selection === e.currentTarget) this.props.urlGetter()
-
-        this.setState({ selection: e.currentTarget })
+    submitSelection() {
+        const selectionWithData = []
+        for (const e of this.state.selection) {
+            selectionWithData.push(this.props.blobs[e])
+        }
+        this.props.urlGetter(selectionWithData)
     }
 
     render() {
         const { blobs } = this.props
-
         return (
-            <div className={styles.files}>
-                {
-                    blobs === undefined || blobs.length === 0 ? (
-                        <div className={styles.empty}>
-                            <span>No files found</span>
-                        </div>
-                    ) : (
-                        blobs.map(blob => (
-                            <span
-                                key={blob.label}
-                                onClick={(e) => this.handleSelection(e)}
-                                className={styles.file}
-                            >
-                                {blob.container}/{blob.label}
-                            </span>
-                        ))
-                    )
-                }
+            <div>
+                <div className={styles.files}>
+                    {
+                        blobs === undefined || blobs.length === 0 ? (
+                            <div className={styles.empty}>
+                                <span>No files found</span>
+                            </div>
+                        ) : (
+                            blobs.map(blob => (
+                                <span
+                                    key={blob.id}
+                                    onClick={() => this.handleSelection(blob.id)}
+                                    className={this.state.selection.includes(blob.id) ? styles.selected : styles.file}
+                                >
+                                    {blob.container}/{blob.blobName}
+                                </span>
+                            ))
+                        )
+                    }
+                </div>
+                <div className={styles.listSubmit}>
+                    <Button
+                        primary="true"
+                        type="submit"
+                        onClick={() => this.submitSelection()}>
+                        Submit
+                    </Button>
+                </div>
             </div>
-            // <MultiSelectReact
-            //     className={styles.select}
-            //     name="selectBlobs"
-            //     options={this.props.blobs}
-            //     selectedBadgeClicked={this.props.urlGetter}
-            //     isSingleSelect
-            // />
         )
     }
 }

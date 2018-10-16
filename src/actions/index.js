@@ -4,7 +4,7 @@ import azure from 'azure-storage'
 import * as ocean from './ocean'
 import * as asset from './asset'
 import { Logger } from '@oceanprotocol/squid'
-import { storageAccount, accessKey, container } from '../../config/cloudStorage'
+import { storageAccount, accessKey } from '../../config/cloudStorage'
 import queryString from 'query-string'
 
 export function setProviders() {
@@ -297,18 +297,8 @@ export function getCloudFiles() {
 
 export function handleBlobChosen(blobsList) {
     return (dispatch, getState) => {
-        const state = getState()
-        console.log('get azure blob url', state.cloudStorage.files, storageAccount, accessKey)
         console.log('selected files: ', blobsList)
-        let selectedBlobs = []
-        for (let option of blobsList) {
-            if (option.value === true) {
-                selectedBlobs.push(option.label)
-            }
-        }
-
         const blobService = azure.createBlobService(storageAccount, accessKey)
-        console.log('time: ', (new Date().getTime()))
         const timeout = (new Date().getTime()) + 3600 * 24 * 30 // 12 hours
         const sharedAccessPolicy = {
             AccessPolicy: {
@@ -316,11 +306,10 @@ export function handleBlobChosen(blobsList) {
                 Expiry: timeout
             }
         }
-
-        const blobName = selectedBlobs[0]
-        const token = blobService.generateSharedAccessSignature(container, blobName, sharedAccessPolicy)
-        const sasUrl = blobService.getUrl(container, blobName, token)
-        console.log(container, blobName, token)
+        const firstBlob = blobsList[0]
+        const token = blobService.generateSharedAccessSignature(firstBlob.container, firstBlob.blobName, sharedAccessPolicy)
+        const sasUrl = blobService.getUrl(firstBlob.container, firstBlob.blobName, token)
+        console.log('sasUrl', sasUrl)
         dispatch({ type: 'GET_LINKS', url: sasUrl })
     }
 }

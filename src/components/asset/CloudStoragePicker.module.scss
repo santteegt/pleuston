@@ -13,6 +13,7 @@
 
 .file {
     display: block;
+    cursor: pointer;
     padding: $spacer / 3;
     border-bottom: 1px solid $brand-grey-lighter;
     transition: .2s ease-out;
@@ -50,4 +51,9 @@
     max-height: 300px;
     min-height: 200px;
     color: $brand-grey-light;
+}
+
+.listSubmit {
+    margin-top: 17px;
+    text-align: right;
 }
