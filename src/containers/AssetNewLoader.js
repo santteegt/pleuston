@@ -8,15 +8,7 @@ import {
 } from '../actions/index'
 
 export default connect(
-    state => ({
-        blobs: Object.values(state.cloudStorage.blobs).map((fileObject, index) => ({
-            id: index,
-            container: fileObject.container,
-            blobName: fileObject.blobName,
-            value: false
-        }))
-    }),
-
+    null,
     dispatch => ({
         onSubmit: values => {
             console.log('form values: ', values)

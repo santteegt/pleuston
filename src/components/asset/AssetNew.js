@@ -31,8 +31,7 @@ class AssetNew extends Component {
     render() {
         const {
             handleSubmit,
-            linkSetter,
-            blobs
+            linkSetter
         } = this.props
 
         return (
@@ -120,9 +119,7 @@ class AssetNew extends Component {
                 <AssetNewModal
                     isOpen={this.state.isModalOpen}
                     handleCloseModal={this.toggleModal}
-                    linksSetter={this.linksSetter}
                     linkSetter={linkSetter}
-                    blobs={blobs}
                 />
             </Fragment>
         )
@@ -131,7 +128,6 @@ class AssetNew extends Component {
 
 AssetNew.propTypes = {
     handleSubmit: PropTypes.func.isRequired,
-    blobs: PropTypes.array.isRequired,
     linkSetter: PropTypes.func.isRequired
 }
 

@@ -1,7 +1,7 @@
 import React from 'react'
 import Modal from '../atoms/Modal'
 import styles from './AssetNewModal.module.scss'
-import CloudStoragePicker from './CloudStoragePicker'
+import CloudStorageLoader from '../../containers/CloudStorageLoader'
 
 const AssetNewModal = ({ ...props }) => (
     <Modal
@@ -11,10 +11,9 @@ const AssetNewModal = ({ ...props }) => (
     >
         <div className={styles.content}>
 
-            <CloudStoragePicker
+            <CloudStorageLoader
                 handleCloseModal={props.handleCloseModal}
                 linkSetter={props.linkSetter}
-                blobs={props.blobs}
             />
 
         </div>
