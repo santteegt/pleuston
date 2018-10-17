@@ -1,9 +1,10 @@
 import React, { Component } from 'react'
+import Empty from '../atoms/Empty'
 
 class OauthResult extends Component {
     render() {
         return (
-            <div>TODO: UI display error or continue flow to publish</div>
+            <Empty title="Authorized" text="You can now see azure blobs in list!" action="+ Add new data set" actionLink="/new" />
         )
     }
 }
