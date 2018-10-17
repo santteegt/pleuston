@@ -12,7 +12,8 @@ const AssetNewModal = ({ ...props }) => (
         <div className={styles.content}>
 
             <CloudStoragePicker
-                urlGetter={props.urlGetter}
+                handleCloseModal={props.handleCloseModal}
+                linkSetter={props.linkSetter}
                 blobs={props.blobs}
             />
 

@@ -5,7 +5,6 @@ import account from './account'
 import asset from './asset'
 import provider from './provider'
 import order from './order'
-import newAsset from './newAsset'
 import cloudStorage from './cloudStorage'
 import oauthAccounts from './oauthaccounts'
 
@@ -15,7 +14,6 @@ const appReducer = combineReducers({
     asset,
     provider,
     order,
-    newAsset,
     cloudStorage,
     oauthAccounts
 })

@@ -1,6 +1,8 @@
 import React, { PureComponent } from 'react'
 import PropTypes from 'prop-types'
 import Button from '../atoms/Button'
+import azure from 'azure-storage'
+import { storageAccount, accessKey } from '../../../config/cloudStorage'
 
 import styles from './CloudStoragePicker.module.scss'
 
@@ -28,7 +30,19 @@ export default class CloudStoragePicker extends PureComponent {
         for (const e of this.state.selection) {
             selectionWithData.push(this.props.blobs[e])
         }
-        this.props.urlGetter(selectionWithData)
+        const blobService = azure.createBlobService(storageAccount, accessKey)
+        const timeout = (new Date().getTime()) + 3600 * 24 * 30 // 12 hours
+        const sharedAccessPolicy = {
+            AccessPolicy: {
+                Permissions: azure.BlobUtilities.SharedAccessPermissions.READ,
+                Expiry: timeout
+            }
+        }
+        const firstBlob = selectionWithData[0]
+        const token = blobService.generateSharedAccessSignature(firstBlob.container, firstBlob.blobName, sharedAccessPolicy)
+        const sasUrl = blobService.getUrl(firstBlob.container, firstBlob.blobName, token)
+        this.props.linkSetter(sasUrl)
+        this.props.handleCloseModal()
     }
 
     render() {
@@ -68,6 +82,7 @@ export default class CloudStoragePicker extends PureComponent {
 }
 
 CloudStoragePicker.propTypes = {
-    urlGetter: PropTypes.func.isRequired,
+    linkSetter: PropTypes.func.isRequired,
+    handleCloseModal: PropTypes.func.isRequired,
     blobs: PropTypes.array.isRequired
 }

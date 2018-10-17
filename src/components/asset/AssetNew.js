@@ -22,14 +22,16 @@ class AssetNew extends Component {
     }
 
     toggleModal(e) {
-        e.preventDefault()
+        if (e !== undefined) {
+            e.preventDefault()
+        }
         this.setState({ isModalOpen: !this.state.isModalOpen })
     }
 
     render() {
         const {
             handleSubmit,
-            urlGetter,
+            linkSetter,
             blobs
         } = this.props
 
@@ -118,7 +120,8 @@ class AssetNew extends Component {
                 <AssetNewModal
                     isOpen={this.state.isModalOpen}
                     handleCloseModal={this.toggleModal}
-                    urlGetter={urlGetter}
+                    linksSetter={this.linksSetter}
+                    linkSetter={linkSetter}
                     blobs={blobs}
                 />
             </Fragment>
@@ -128,12 +131,13 @@ class AssetNew extends Component {
 
 AssetNew.propTypes = {
     handleSubmit: PropTypes.func.isRequired,
-    urlGetter: PropTypes.func.isRequired,
-    blobs: PropTypes.array.isRequired
+    blobs: PropTypes.array.isRequired,
+    linkSetter: PropTypes.func.isRequired
 }
 
 const AssetNewForm = reduxForm({
-    form: 'new_asset'
+    form: 'newAsset',
+    fields: ['name']
 })(AssetNew)
 
 export default AssetNewForm

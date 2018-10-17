@@ -249,7 +249,7 @@ export function updateOauthAccounts(state) {
 
 export function getCloudFiles() {
     /* Get list of blobs in cloud storage if cloud access is defined in the config file */
-    return async (dispatch, getState) => {
+    return (dispatch, getState) => {
         const state = getState()
         if (state.oauthAccounts.azure !== undefined) {
             const tokenCredential = new azure.TokenCredential(state.oauthAccounts.azure.access_token)
@@ -292,24 +292,5 @@ export function getCloudFiles() {
                 }
             })
         }
-    }
-}
-
-export function handleBlobChosen(blobsList) {
-    return (dispatch, getState) => {
-        console.log('selected files: ', blobsList)
-        const blobService = azure.createBlobService(storageAccount, accessKey)
-        const timeout = (new Date().getTime()) + 3600 * 24 * 30 // 12 hours
-        const sharedAccessPolicy = {
-            AccessPolicy: {
-                Permissions: azure.BlobUtilities.SharedAccessPermissions.READ,
-                Expiry: timeout
-            }
-        }
-        const firstBlob = blobsList[0]
-        const token = blobService.generateSharedAccessSignature(firstBlob.container, firstBlob.blobName, sharedAccessPolicy)
-        const sasUrl = blobService.getUrl(firstBlob.container, firstBlob.blobName, token)
-        console.log('sasUrl', sasUrl)
-        dispatch({ type: 'GET_LINKS', url: sasUrl })
     }
 }
