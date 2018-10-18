@@ -5,8 +5,7 @@
     // make 'em scrollable
     overflow: scroll;
     -webkit-overflow-scrolling: touch;
-    max-height: 300px;
-    min-height: 200px;
+    min-height: 50vh;
     border-radius: $border-radius;
     border: 1px solid $brand-pink;
 }
