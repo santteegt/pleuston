@@ -20,7 +20,7 @@ export function getAccounts() {
 
         dispatch({
             type: 'SET_ACCOUNTS',
-            accounts: await ocean.account.list()
+            accounts: await ocean.getAccounts()
         })
     }
 }
@@ -35,11 +35,10 @@ export function getActiveAccount(state) {
 
 function setNetworkName() {
     return async (dispatch, getState) => {
-        const { ocean } = getState().provider
-
         dispatch({
             type: 'SET_NETWORKNAME',
-            networkName: await ocean.helper.getNetworkName()
+            // todo: get this from squid
+            networkName: 'unknown'
         })
     }
 }
