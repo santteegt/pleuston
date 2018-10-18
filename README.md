@@ -89,7 +89,7 @@ As af right now, _pleuston_ requires asset files to be stored in Azure Cloud Sto
 
 App includes an OAuth connection to your Azure account. Once authorized, assets can be chosen from a file list within _pleuston_.
 
-_Note: Current Azure Storage SDK only allows listing containers with OAuth credentials. Listing blobs in containers and operations on blobs can't be done with OAuth credentials until SDK is out of beta. Until then, manually added credentials are required in [`config/cloudStorage.js`](config/cloudStorage.js)_
+_Note: Currently, Azure Storage only allows listing containers with OAuth credentials. Listing blobs in containers and operations on blobs can't be done with OAuth credentials until [that feature is out of preview](https://docs.microsoft.com/en-gb/azure/storage/common/storage-auth-aad). Until then, manually added credentials are required in [`config/cloudStorage.js`](config/cloudStorage.js)_
 
 ## Development
 
