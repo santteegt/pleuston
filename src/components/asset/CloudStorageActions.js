@@ -21,41 +21,54 @@ export default class CloudStorageActions extends PureComponent {
         this.toggleModal = this.toggleModal.bind(this)
     }
 
-    toggleModal(e) {
+    toggleModal() {
+        this.setState({ isModalOpen: !this.state.isModalOpen })
+    }
+
+    toggleOauthPopup(url) {
+        const windowObjectReference = window.open( // eslint-disable-line
+            url,
+            'Connect to Azure',
+            'resizable,scrollbars,status,width=400,height=500'
+        )
+        return windowObjectReference
+    }
+
+    toggleAzure(e, url) {
         if (e !== undefined) {
             e.preventDefault()
         }
-        this.setState({ isModalOpen: !this.state.isModalOpen })
+        const isConnected = window.localStorage.getItem('oauthAccounts') !== null
+
+        if (isConnected) {
+            this.toggleModal()
+        } else {
+            this.toggleOauthPopup(url)
+        }
     }
 
     render() {
         const { linkSetter } = this.props
-        const isConnected = window.localStorage.getItem('oauthAccounts') !== null
 
         return (
             <>
                 <div className={styles.cloudstorage}>
-                    {isConnected ? (
-                        <Button
-                            link="true"
-                            icon={IconAzure}
-                            onClick={(e) => this.toggleModal(e)}
-                        >
-                            Azure
-                        </Button>
-                    ) : (
-                        <OauthSender
-                            authorizeUrl={authorizeUrl}
-                            clientId={appId}
-                            redirectUri={`${redirectHost}/oauth/azure`}
-                            args={{ response_type: 'token', scope }}
-                            render={({ url }) => (
-                                <Button href={url} icon={IconAzure}>
-                                    Connect to Azure
-                                </Button>
-                            )}
-                        />
-                    )}
+                    <OauthSender
+                        authorizeUrl={authorizeUrl}
+                        clientId={appId}
+                        redirectUri={`${redirectHost}/oauth/azure`}
+                        args={{ response_type: 'token', scope }}
+                        state={{ from: '/new' }}
+                        render={({ url }) => (
+                            <Button
+                                link="true"
+                                icon={IconAzure}
+                                onClick={(e) => this.toggleAzure(e, url)}
+                            >
+                                Azure
+                            </Button>
+                        )}
+                    />
                 </div>
 
                 <CloudStorageModal

@@ -1,6 +1,7 @@
 import React, { Fragment, PureComponent } from 'react'
 import PropTypes from 'prop-types'
 import Header from '../components/Header'
+import Footer from '../components/Footer'
 import SidebarLoader from '../containers/SidebarLoader'
 
 import Spinner from './atoms/Spinner'
@@ -47,6 +48,8 @@ class Layout extends PureComponent {
                                 : this.props.children
                     }
                 </main>
+
+                <Footer />
             </Fragment>
         )
     }

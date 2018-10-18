@@ -1,12 +1,17 @@
 import React, { Component } from 'react'
 import Empty from '../atoms/Empty'
+import Button from '../atoms/Button'
+import styles from './OauthResult.module.scss'
 
-class OauthResult extends Component {
+export default class OauthResult extends Component {
     render() {
         return (
-            <Empty title="Authorized" text="You can now see azure blobs in list!" action="+ Add new data set" actionLink="/new" />
+            <div className={styles.screen}>
+                <div>
+                    <Empty title="Success" text="Click the Azure button again to see your blobs." />
+                    <Button link="true" onClick={() => window.close()}>Close window</Button>
+                </div>
+            </div>
         )
     }
 }
-
-export default OauthResult
