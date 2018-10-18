@@ -13,16 +13,16 @@ import styles from './AssetNew.module.scss'
 
 const authorizeUrl = `https://login.microsoftonline.com/${tenantId}/oauth2/v2.0/authorize`
 
-const CloudStorage = () => {
+const CloudStorage = ({ toggleModal }) => {
     const isConnected = window.localStorage.getItem('oauthAccounts') !== null
 
     return (
         <div className={styles.cloudstorage}>
-            {isConnected ? (
+            {!isConnected ? (
                 <Button
                     link="true"
                     icon={IconAzure}
-                    onClick={(e) => this.toggleModal(e)}
+                    onClick={(e) => toggleModal(e)}
                 >
                     Azure
                 </Button>
@@ -47,6 +47,10 @@ const CloudStorage = () => {
             )}
         </div>
     )
+}
+
+CloudStorage.propTypes = {
+    toggleModal: PropTypes.func.isRequired
 }
 
 class AssetNew extends Component {
@@ -89,7 +93,7 @@ class AssetNew extends Component {
 
                         <FormHelp>Add a URL pointing to your data set asset or select it from cloud storage providers.</FormHelp>
 
-                        <CloudStorage />
+                        <CloudStorage toggleModal={this.toggleModal} />
                     </div>
                     <div className="form__group">
                         <FormInput label="Price" name="price" required type="number" component="input" placeholder="0" />

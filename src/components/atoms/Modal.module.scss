@@ -42,14 +42,19 @@
     cursor: pointer;
     background: transparent;
     border: 0;
-    -webkit-appearance: none;
+    appearance: none;
     line-height: 1;
-    font-size: $font-size-h3;
+    font-size: $font-size-h2;
     padding: 3px;
     position: absolute;
-    top: -($spacer / 6);
-    right: $spacer / 8;
-    color: $brand-grey;
+    top: -($spacer / 8);
+    right: $spacer / 4;
+    color: $brand-grey-light;
+
+    &:hover,
+    &:focus {
+        opacity: .7;
+    }
 }
 
 // Prevent background scrolling when modal is open

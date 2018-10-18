@@ -24,8 +24,8 @@ export default class Modal extends PureComponent {
             >
                 {title && <h1 className={styles.modalTitle}>{title}</h1>}
                 {children}
-                <button className={styles.modalClose} onClick={handleCloseModal}>
-          &times;
+                <button className={styles.modalClose} onClick={handleCloseModal} title="Close">
+                    &times;
                 </button>
             </ReactModal>
         )
