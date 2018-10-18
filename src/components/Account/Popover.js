@@ -13,9 +13,9 @@ const Popover = ({ networkName, activeAccount, initMakeItRain }) => {
                             size={10}
                             scale={2}
                             className={styles.avatar}
-                            seed={activeAccount.name}
+                            seed={activeAccount.getId()}
                         />
-                        <span className={styles.address} title={activeAccount.name}>{activeAccount.name}</span>
+                        <span className={styles.address} title={activeAccount.getId()}>{activeAccount.getId()}</span>
                     </Fragment>
                 ) : 'No account selected'}
             </div>
