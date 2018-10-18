@@ -1,14 +1,54 @@
 import React, { Component, Fragment } from 'react'
 import PropTypes from 'prop-types'
 import { reduxForm } from 'redux-form'
-
+import { OauthSender } from 'react-oauth-flow'
 import Button from '../atoms/Button'
 import FormInput from '../atoms/Form/FormInput'
 import FormHelp from '../atoms/Form/FormHelp'
 import AssetNewModal from './AssetNewModal'
 import IconAzure from '../../svg/azure.svg'
+import { appId, tenantId } from '../../../config/cloudStorage'
 
 import styles from './AssetNew.module.scss'
+
+const authorizeUrl = `https://login.microsoftonline.com/${tenantId}/oauth2/v2.0/authorize`
+
+const CloudStorage = () => {
+    const isConnected = window.localStorage.getItem('oauthAccounts') !== null
+
+    return (
+        <div className={styles.cloudstorage}>
+            {isConnected ? (
+                <Button
+                    link="true"
+                    icon={IconAzure}
+                    onClick={(e) => this.toggleModal(e)}
+                >
+                    Azure
+                </Button>
+            ) : (
+                <OauthSender
+                    authorizeUrl={authorizeUrl}
+                    clientId={appId}
+                    redirectUri="http://localhost:3000/oauth/azure"
+                    args={{
+                        response_type: 'token',
+                        scope: 'https://storage.azure.com/user_impersonation'
+                    }}
+                    render={({ url }) => (
+                        <Button
+                            link="true"
+                            icon={IconAzure}
+                            onClick={(e) => window.open(url)}
+                        >
+                            Connect to Azure
+                        </Button>
+                    )}
+                />
+            )}
+        </div>
+    )
+}
 
 class AssetNew extends Component {
     constructor(props) {
@@ -50,15 +90,7 @@ class AssetNew extends Component {
 
                         <FormHelp>Add a URL pointing to your data set asset or select it from cloud storage providers.</FormHelp>
 
-                        <div className={styles.cloudstorage}>
-                            <Button
-                                link="true"
-                                icon={IconAzure}
-                                onClick={(e) => this.toggleModal(e)}
-                            >
-                                Azure
-                            </Button>
-                        </div>
+                        <CloudStorage />
                     </div>
                     <div className="form__group">
                         <FormInput label="Price" name="price" required type="number" component="input" placeholder="0" />

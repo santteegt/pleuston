@@ -35,6 +35,7 @@ $popoverWidth: 18rem;
     border-bottom: .05rem solid $brand-grey;
     padding: $spacer / 3 0;
     display: flex;
+    flex-wrap: wrap;
     align-items: center;
 
     &:first-child {
