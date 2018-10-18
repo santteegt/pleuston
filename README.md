@@ -27,6 +27,8 @@ Main issues right now:
 - [Prerequisites](#prerequisites)
     - [🐋 provider](#provider)
     - [💧 keeper-contracts](#keeper-contracts)
+- [Storage Providers](#storage-providers)
+    - [Azure Storage](#azure-storage)
 - [Development](#development)
     - [MetaMask](#metamask)
     - [Production build](#production-build)
@@ -76,6 +78,18 @@ You now have a locally running _Provider_ backend application exposed under `htt
 ### [💧 keeper-contracts](https://github.com/oceanprotocol/keeper-contracts)
 
 You now have a locally running RPC client with all the contracts from _keeper-contracts_ deployed to it, exposed under `http://localhost:8545`.
+
+## Storage Providers
+
+As af right now, _pleuston_ requires asset files to be stored in Azure Cloud Storage before registering them through the UI. For more convenience we will integrate connections to various cloud storage providers.
+
+<img width="584" alt="screen shot 2018-10-18 at 12 48 53" src="https://user-images.githubusercontent.com/90316/47149555-33472380-d2d4-11e8-982d-7f815c7499e9.png" />
+
+### Azure Storage
+
+App includes an OAuth connection to your Azure account. Once authorized, assets can be chosen from a file list within _pleuston_.
+
+_Note: Current Azure Storage SDK only allows listing containers with OAuth credentials. Listing blobs in containers and operations on blobs can't be done with OAuth credentials until SDK is out of beta. Until then, manually added credentials are required in [`config/cloudStorage.js`](config/cloudStorage.js)_
 
 ## Development
 
