@@ -37,9 +37,8 @@ const CloudStorage = () => {
                     }}
                     render={({ url }) => (
                         <Button
-                            link="true"
+                            href={url}
                             icon={IconAzure}
-                            onClick={(e) => window.open(url)}
                         >
                             Connect to Azure
                         </Button>

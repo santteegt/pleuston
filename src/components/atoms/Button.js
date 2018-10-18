@@ -15,10 +15,18 @@ const Button = ({ icon, children, ...props }) => {
     }
 
     return (
-        <button className={classes} {...props}>
-            {icon && <SVG className={styles.icon} src={icon} />}
-            {children}
-        </button>
+        props.href ? (
+            <a href={props.href} {...props}>
+                {icon && <SVG className={styles.icon} src={icon} />}
+                {children}
+            </a>
+        ) : (
+            <button className={classes} {...props}>
+                {icon && <SVG className={styles.icon} src={icon} />}
+                {children}
+            </button>
+        )
+
     )
 }
 
