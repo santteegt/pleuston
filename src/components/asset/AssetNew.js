@@ -6,7 +6,7 @@ import Button from '../atoms/Button'
 import FormInput from '../atoms/Form/FormInput'
 import FormHelp from '../atoms/Form/FormHelp'
 import AssetNewModal from './AssetNewModal'
-import IconAzure from '../../svg/azure.svg'
+import { ReactComponent as IconAzure } from '../../svg/azure.svg'
 import { appId, tenantId } from '../../../config/cloudStorage'
 
 import styles from './AssetNew.module.scss'

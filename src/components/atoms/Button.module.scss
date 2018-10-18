@@ -70,11 +70,9 @@
 }
 
 .icon {
-    svg {
-        width: $font-size-large;
-        height: $font-size-large;
-        margin-right: $spacer / 8;
-        margin-bottom: -.2rem;
-        fill: currentColor;
-    }
+    width: $font-size-large;
+    height: $font-size-large;
+    margin-right: $spacer / 8;
+    margin-bottom: -.2rem;
+    fill: currentColor;
 }

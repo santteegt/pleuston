@@ -1,7 +1,15 @@
 import React from 'react'
 import PropTypes from 'prop-types'
-import SVG from 'react-inlinesvg'
 import styles from './Button.module.scss'
+
+const ButtonIcon = ({ icon }) => {
+    const TagName = icon
+    return <TagName className={styles.icon} />
+}
+
+ButtonIcon.propTypes = {
+    icon: PropTypes.any
+}
 
 const Button = ({ icon, children, ...props }) => {
     let classes
@@ -17,12 +25,12 @@ const Button = ({ icon, children, ...props }) => {
     return (
         props.href ? (
             <a href={props.href} {...props}>
-                {icon && <SVG className={styles.icon} src={icon} />}
+                {icon && <ButtonIcon icon={icon} />}
                 {children}
             </a>
         ) : (
             <button className={classes} {...props}>
-                {icon && <SVG className={styles.icon} src={icon} />}
+                {icon && <ButtonIcon icon={icon} />}
                 {children}
             </button>
         )
