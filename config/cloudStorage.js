@@ -13,5 +13,6 @@ module.exports = {
     appId: '86351e3e-55f0-4b6e-9eab-d0516846ce19',
     appAuthKey: 'scUi8dyNwLg2Ftl0FgFp7DYKr5LAL2WnGfKM+e9Xs8M=',
     tenantId: '4a4a3787-4e2e-4a32-8006-6e2b5877640e',
-    redirectHost: 'http://localhost:3000'
+    redirectHost: 'http://localhost:3000',
+    scope: 'https://storage.azure.com/user_impersonation'
 }

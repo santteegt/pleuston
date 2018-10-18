@@ -4,7 +4,7 @@ import { OauthSender } from 'react-oauth-flow'
 import Button from '../atoms/Button'
 import CloudStorageModal from './CloudStorageModal'
 import { ReactComponent as IconAzure } from '../../svg/azure.svg'
-import { appId, tenantId, redirectHost } from '../../../config/cloudStorage'
+import { appId, tenantId, redirectHost, scope } from '../../../config/cloudStorage'
 
 import styles from './CloudStorageActions.module.scss'
 
@@ -48,15 +48,9 @@ export default class CloudStorageActions extends PureComponent {
                             authorizeUrl={authorizeUrl}
                             clientId={appId}
                             redirectUri={`${redirectHost}/oauth/azure`}
-                            args={{
-                                response_type: 'token',
-                                scope: 'https://storage.azure.com/user_impersonation'
-                            }}
+                            args={{ response_type: 'token', scope }}
                             render={({ url }) => (
-                                <Button
-                                    href={url}
-                                    icon={IconAzure}
-                                >
+                                <Button href={url} icon={IconAzure}>
                                     Connect to Azure
                                 </Button>
                             )}
