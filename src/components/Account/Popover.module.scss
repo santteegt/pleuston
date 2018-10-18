@@ -46,6 +46,11 @@ $popoverWidth: 18rem;
         padding-bottom: 0;
         border-bottom: 0;
     }
+}
+
+.accountName {
+    composes: popoverInfoline;
+    flex-wrap: nowrap;
 
     // blockies avatar
     canvas {
