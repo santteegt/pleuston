@@ -48,7 +48,7 @@ export default class CloudStoragePicker extends PureComponent {
     render() {
         const { blobs } = this.props
         return (
-            <div>
+            <>
                 <div className={styles.files}>
                     {
                         blobs === undefined || blobs.length === 0 ? (
@@ -76,7 +76,7 @@ export default class CloudStoragePicker extends PureComponent {
                         Submit
                     </Button>
                 </div>
-            </div>
+            </>
         )
     }
 }

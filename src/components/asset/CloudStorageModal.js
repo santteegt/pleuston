@@ -3,7 +3,7 @@ import Modal from '../atoms/Modal'
 import styles from './AssetNewModal.module.scss'
 import CloudStorageLoader from '../../containers/CloudStorageLoader'
 
-const AssetNewModal = ({ ...props }) => (
+const CloudStorageModal = ({ ...props }) => (
     <Modal
         {...props}
         contentLabel="Select one or more files for publishing"
@@ -20,4 +20,4 @@ const AssetNewModal = ({ ...props }) => (
     </Modal>
 )
 
-export default AssetNewModal
+export default CloudStorageModal
