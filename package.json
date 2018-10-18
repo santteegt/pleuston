@@ -64,7 +64,7 @@
     "babel-jest": "^23.4.2",
     "babel-loader": "^8.0.4",
     "babel-plugin-named-asset-import": "^0.2.2",
-    "babel-preset-react-app": "^5.0.3",
+    "babel-preset-react-app": "^5.0.4",
     "bfj": "6.1.1",
     "bignumber.js": "^7.2.1",
     "browserslist": "^4.1.1",
