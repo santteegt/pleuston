@@ -1,6 +1,6 @@
 import React from 'react'
 import Modal from '../atoms/Modal'
-import styles from './AssetNewModal.module.scss'
+import styles from './CloudStorageModal.module.scss'
 import CloudStorageLoader from '../../containers/CloudStorageLoader'
 
 const CloudStorageModal = ({ ...props }) => (
