@@ -7,7 +7,7 @@ import FormInput from '../atoms/Form/FormInput'
 import FormHelp from '../atoms/Form/FormHelp'
 import AssetNewModal from './AssetNewModal'
 import { ReactComponent as IconAzure } from '../../svg/azure.svg'
-import { appId, tenantId } from '../../../config/cloudStorage'
+import { appId, tenantId, redirectHost } from '../../../config/cloudStorage'
 
 import styles from './AssetNew.module.scss'
 
@@ -18,7 +18,7 @@ const CloudStorage = ({ toggleModal }) => {
 
     return (
         <div className={styles.cloudstorage}>
-            {!isConnected ? (
+            {isConnected ? (
                 <Button
                     link="true"
                     icon={IconAzure}
@@ -30,7 +30,7 @@ const CloudStorage = ({ toggleModal }) => {
                 <OauthSender
                     authorizeUrl={authorizeUrl}
                     clientId={appId}
-                    redirectUri="http://localhost:3000/oauth/azure"
+                    redirectUri={`${redirectHost}/oauth/azure`}
                     args={{
                         response_type: 'token',
                         scope: 'https://storage.azure.com/user_impersonation'
