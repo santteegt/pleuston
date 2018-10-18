@@ -28,7 +28,7 @@ import {
 } from './actions/index'
 
 import App from './App'
-import registerServiceWorker from './registerServiceWorker'
+import * as serviceWorker from './serviceWorker'
 
 const history = createBrowserHistory()
 
@@ -40,7 +40,7 @@ const store = createStore(
     )
 )
 
-registerServiceWorker()
+serviceWorker.register()
 
 function boot() {
     Logger.log('booting up pleuston')
