@@ -40,11 +40,11 @@ export default class CloudStorageActions extends PureComponent {
         }
 
         //
-        // TODO: use Redux' global state to check if user is connected
+        // TODO: use Redux' global state to check if user is connected here
         // Won't work right now, cause popup and OAuthResult need to dispatch more
         // https://stackoverflow.com/questions/43514537/maintain-redux-state-from-popup-to-main-window
         //
-        // const isConnected = this.props.oauthAccounts.azure
+        // const isConnected = this.props.oauthAccounts.azure && this.props.oauthAccounts.azure.expires_on < Date.now()
         const isConnected = window.localStorage.getItem('oauthAccounts') !== null
 
         if (isConnected) {
@@ -74,6 +74,8 @@ export default class CloudStorageActions extends PureComponent {
                             >
                                 Azure
                             </Button>
+                            // TODO: add some feedback for connected state
+                            // TODO: add signout/disconnect action
                         )}
                     />
                 </div>
