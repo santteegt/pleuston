@@ -4,7 +4,7 @@ import { reduxForm } from 'redux-form'
 import Button from '../atoms/Button'
 import FormInput from '../atoms/Form/FormInput'
 import FormHelp from '../atoms/Form/FormHelp'
-import CloudStorageActions from './CloudStorageActions'
+import CloudStorageActionsLoader from '../../containers/CloudStorageActionsLoader'
 
 const AssetNew = ({ handleSubmit, linkSetter }) => (
     <form className="form" onSubmit={handleSubmit}>
@@ -21,7 +21,7 @@ const AssetNew = ({ handleSubmit, linkSetter }) => (
 
             <FormHelp>Add a URL pointing to your data set asset or select it from cloud storage providers.</FormHelp>
 
-            <CloudStorageActions linkSetter={linkSetter} />
+            <CloudStorageActionsLoader linkSetter={linkSetter} />
         </div>
         <div className="form__group">
             <FormInput label="Price" name="price" required type="number" component="input" placeholder="0" />
