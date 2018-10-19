@@ -4,11 +4,11 @@ import { OauthSender } from 'react-oauth-flow'
 import Button from '../atoms/Button'
 import CloudStorageModal from './CloudStorageModal'
 import { ReactComponent as IconAzure } from '../../svg/azure.svg'
-import { appId, tenantId, redirectHost, scope } from '../../../config/cloudStorage'
+import { appId, redirectHost, scope } from '../../../config/cloudStorage'
 
 import styles from './CloudStorageActions.module.scss'
 
-const authorizeUrl = `https://login.microsoftonline.com/${tenantId}/oauth2/v2.0/authorize`
+const authorizeUrl = `https://login.microsoftonline.com/common/oauth2/v2.0/authorize`
 
 export default class CloudStorageActions extends PureComponent {
     static propTypes = {
