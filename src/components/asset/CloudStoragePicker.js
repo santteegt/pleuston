@@ -7,12 +7,15 @@ import { storageAccount, accessKey } from '../../../config/cloudStorage'
 import styles from './CloudStoragePicker.module.scss'
 
 export default class CloudStoragePicker extends PureComponent {
-    constructor(props) {
-        super(props)
+    static propTypes = {
+        linkSetter: PropTypes.func.isRequired,
+        handleCloseModal: PropTypes.func.isRequired,
+        blobs: PropTypes.array.isRequired,
+        error: PropTypes.string
+    }
 
-        this.state = {
-            selection: []
-        }
+    state = {
+        selection: []
     }
 
     handleSelection(blobId) {
@@ -83,11 +86,4 @@ export default class CloudStoragePicker extends PureComponent {
             </>
         )
     }
-}
-
-CloudStoragePicker.propTypes = {
-    linkSetter: PropTypes.func.isRequired,
-    handleCloseModal: PropTypes.func.isRequired,
-    blobs: PropTypes.array.isRequired,
-    error: PropTypes.string
 }

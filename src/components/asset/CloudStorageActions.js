@@ -11,17 +11,15 @@ import styles from './CloudStorageActions.module.scss'
 const authorizeUrl = `https://login.microsoftonline.com/${tenantId}/oauth2/v2.0/authorize`
 
 export default class CloudStorageActions extends PureComponent {
-    constructor(props) {
-        super(props)
-
-        this.state = {
-            isModalOpen: false
-        }
-
-        this.toggleModal = this.toggleModal.bind(this)
+    static propTypes = {
+        linkSetter: PropTypes.func.isRequired
     }
 
-    toggleModal() {
+    state = {
+        isModalOpen: false
+    }
+
+    toggleModal = () => {
         this.setState({ isModalOpen: !this.state.isModalOpen })
     }
 
@@ -88,8 +86,4 @@ export default class CloudStorageActions extends PureComponent {
             </>
         )
     }
-}
-
-CloudStorageActions.propTypes = {
-    linkSetter: PropTypes.func.isRequired
 }

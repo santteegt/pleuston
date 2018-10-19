@@ -4,15 +4,9 @@ import Button from '../atoms/Button'
 import styles from './OauthResult.module.scss'
 
 export default class OauthResult extends Component {
-    constructor(props) {
-        super(props)
+    state = { count: 3 }
 
-        this.counterInterval = null
-        this.startTimer = this.startTimer.bind(this)
-        this.countDown = this.countDown.bind(this)
-
-        this.state = { count: 3 }
-    }
+    counterInterval = null
 
     componentDidMount() {
         this.startTimer()
@@ -22,13 +16,13 @@ export default class OauthResult extends Component {
         clearInterval(this.counterInterval)
     }
 
-    startTimer() {
+    startTimer = () => {
         if (!this.counterInterval && this.state.count > 0) {
             this.counterInterval = setInterval(this.countDown, 1000)
         }
     }
 
-    countDown() {
+    countDown = () => {
         let count = this.state.count - 1
         this.setState({ count })
 
