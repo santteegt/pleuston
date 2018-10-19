@@ -3,11 +3,7 @@ import { Field } from 'redux-form'
 import './FormInput.scss'
 
 class FormInput extends PureComponent {
-    constructor(props) {
-        super(props)
-
-        this.state = { isFocused: false }
-    }
+    state = { isFocused: false }
 
     render() {
         const { name, label, required } = this.props
