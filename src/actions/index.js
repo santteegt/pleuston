@@ -253,7 +253,7 @@ export function getCloudFiles() {
         const state = getState()
         if (state.oauthAccounts.azure !== undefined) {
             const tokenCredential = new azure.TokenCredential(state.oauthAccounts.azure.access_token)
-            const blobService = azure.createBlobServiceWithTokenCredential('https://testocnfiles.blob.core.windows.net', tokenCredential)
+            const blobService = azure.createBlobServiceWithTokenCredential(`https://${storageAccount}.blob.core.windows.net`, tokenCredential)
             blobService.listContainersSegmented(null, function(error, results) {
                 if (error) {
                     console.log('listing container errors', error)
