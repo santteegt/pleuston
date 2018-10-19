@@ -1,5 +1,3 @@
-/* eslint-disable no-console */
-
 import azure from 'azure-storage'
 import * as ocean from './ocean'
 import * as asset from './asset'
@@ -251,23 +249,30 @@ export function getCloudFiles() {
     /* Get list of blobs in cloud storage if cloud access is defined in the config file */
     return (dispatch, getState) => {
         const state = getState()
+
         if (state.oauthAccounts.azure !== undefined) {
             const tokenCredential = new azure.TokenCredential(state.oauthAccounts.azure.access_token)
             const blobService = azure.createBlobServiceWithTokenCredential(`https://${storageAccount}.blob.core.windows.net`, tokenCredential)
+
             blobService.listContainersSegmented(null, function(error, results) {
                 if (error) {
-                    console.log('listing container errors', error)
+                    Logger.error('Error listing containers', error)
+                    dispatch({
+                        type: 'CLOUD_ERROR',
+                        error: `Error listing containers: ${error.message}`
+                    })
                 } else {
-                    console.log('CONTAINERS', results)
+                    Logger.log('CONTAINERS', results)
                     const cloudBlobs = []
+
                     for (const con of results.entries) {
                         /*
                         // FOLLOWING FUNCTIONS ARE NOT WORKING DUE AZURE PREVIEW
                         blobService.listBlobsSegmented(containr.name, null, (error, results) => {
                             if (!error) {
-                                console.error('blobs in azure storage.', results)
+                                Logger.log('Blobs in Azure Storage.', results)
                             } else {
-                                console.error('error listing blobs in azure storage.', error)
+                                Logger.error('Error listing Blobs in Azure Storage.', error)
                             }
                         })
                         */
@@ -280,11 +285,16 @@ export function getCloudFiles() {
                                     cloudBlobs.push({ container: con.name, blobName: blob.name })
                                 }
                             } else {
-                                console.error('error listing blobs in azure storage.', error)
+                                Logger.error('Error listing Blobs in Azure Storage.', error)
+                                dispatch({
+                                    type: 'CLOUD_ERROR',
+                                    error: `Error listing Blobs in Azure Storage: ${error.message}`
+                                })
                             }
                         })
                     }
-                    console.log('blobs from azure storage: ', cloudBlobs)
+
+                    Logger.log('Blobs from azure storage: ', cloudBlobs)
                     dispatch({
                         type: 'CLOUD_BLOBS',
                         blobs: cloudBlobs

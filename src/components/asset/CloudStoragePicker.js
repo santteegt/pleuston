@@ -46,14 +46,18 @@ export default class CloudStoragePicker extends PureComponent {
     }
 
     render() {
-        const { blobs } = this.props
+        const { blobs, error } = this.props
         return (
             <>
                 <div className={styles.files}>
                     {
                         blobs === undefined || blobs.length === 0 ? (
                             <div className={styles.empty}>
-                                <span>No files found</span>
+                                {
+                                    error
+                                        ? <span className={styles.error}>{error}</span>
+                                        : <span>No files found</span>
+                                }
                             </div>
                         ) : (
                             blobs.map(blob => (
@@ -84,5 +88,6 @@ export default class CloudStoragePicker extends PureComponent {
 CloudStoragePicker.propTypes = {
     linkSetter: PropTypes.func.isRequired,
     handleCloseModal: PropTypes.func.isRequired,
-    blobs: PropTypes.array.isRequired
+    blobs: PropTypes.array.isRequired,
+    error: PropTypes.string
 }

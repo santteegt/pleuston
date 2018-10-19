@@ -8,6 +8,10 @@ const cloudStorage = (state = initialState, action) => {
             return Object.assign({}, state, {
                 blobs: action.blobs
             })
+        case 'CLOUD_ERROR':
+            return Object.assign({}, state, {
+                error: action.error
+            })
         default:
             return state
     }

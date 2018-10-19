@@ -7,5 +7,6 @@ export default connect(state => ({
         container: fileObject.container,
         blobName: fileObject.blobName,
         value: false
-    }))
+    })),
+    error: state.cloudStorage.error
 }))(CloudStoragePicker)

@@ -6,6 +6,7 @@
     overflow: scroll;
     -webkit-overflow-scrolling: touch;
     min-height: 50vh;
+    max-height: 700px;
     border-radius: $border-radius;
     border: 1px solid $brand-pink;
 }
@@ -46,13 +47,23 @@
     display: flex;
     align-items: center;
     justify-content: center;
+    text-align: center;
     flex-wrap: wrap;
-    max-height: 300px;
-    min-height: 200px;
+    min-height: 50vh;
+    max-height: 700px;
     color: $brand-grey-light;
 }
 
+.error {
+    font-size: $font-size-small;
+    font-family: $font-family-button;
+    color: $brand-white;
+    background: $red;
+    padding: $spacer / 4 $spacer / 3;
+    border-radius: $border-radius;
+}
+
 .listSubmit {
-    margin-top: 17px;
-    text-align: right;
+    margin-top: $spacer;
+    text-align: center;
 }
