@@ -4,10 +4,9 @@ import { reduxForm } from 'redux-form'
 import Button from '../atoms/Button'
 import FormInput from '../atoms/Form/FormInput'
 import FormHelp from '../atoms/Form/FormHelp'
+import CloudStorageActionsLoader from '../../containers/CloudStorageActionsLoader'
 
-const AssetNew = ({
-    handleSubmit
-}) => (
+const AssetNew = ({ handleSubmit, linkSetter }) => (
     <form className="form" onSubmit={handleSubmit}>
         <div className="form__group">
             <FormInput label="Title" name="name" required component="input" type="text" placeholder="" />
@@ -19,7 +18,10 @@ const AssetNew = ({
         </div>
         <div className="form__group">
             <FormInput label="Url" name="contentUrls" required component="input" type="url" placeholder="e.g. https://url.com/dataset.zip" />
-            <FormHelp>Add a URL pointing to your asset.</FormHelp>
+
+            <FormHelp>Add a URL pointing to your data set asset or select it from cloud storage providers.</FormHelp>
+
+            <CloudStorageActionsLoader linkSetter={linkSetter} />
         </div>
         <div className="form__group">
             <FormInput label="Price" name="price" required type="number" component="input" placeholder="0" />
@@ -79,11 +81,13 @@ const AssetNew = ({
 )
 
 AssetNew.propTypes = {
-    handleSubmit: PropTypes.func.isRequired
+    handleSubmit: PropTypes.func.isRequired,
+    linkSetter: PropTypes.func.isRequired
 }
 
 const AssetNewForm = reduxForm({
-    form: 'new_asset'
+    form: 'newAsset',
+    fields: ['name']
 })(AssetNew)
 
 export default AssetNewForm

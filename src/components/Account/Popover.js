@@ -6,7 +6,7 @@ import styles from './Popover.module.scss'
 const Popover = ({ networkName, activeAccount, initMakeItRain }) => {
     return (
         <div className={styles.popover}>
-            <div key={'accountName'} className={styles.popoverInfoline}>
+            <div key={'accountName'} className={styles.accountName}>
                 {activeAccount ? (
                     <Fragment>
                         <Blockies
@@ -21,9 +21,10 @@ const Popover = ({ networkName, activeAccount, initMakeItRain }) => {
             </div>
             <div key={'network'} className={styles.popoverInfoline}>
                 Network: &nbsp;<strong>{networkName}</strong>
+                {networkName !== 'Kovan' && <div>Please connect to Kovan</div>}
             </div>
             <div key={'makeItRain'} className={styles.popoverInfoline}>
-                <button className={styles.action} onClick={initMakeItRain}>Make it rain</button>
+                <button className={styles.action} onClick={initMakeItRain}>Make it rain Ọ</button>
             </div>
         </div>
     )
