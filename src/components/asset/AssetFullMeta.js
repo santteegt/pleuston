@@ -4,14 +4,11 @@ import Truncate from 'react-truncate'
 
 import styles from './AssetFullMeta.module.scss'
 
-const AssetFullMeta = ({ label, item, truncate, link }) => (
+const AssetFullMeta = ({ label, item, truncate }) => (
     <div className={styles.metaLine}>
         <div className={styles.metaLabel}>{label}</div>
         <div className={styles.metaValue}>
-            {
-                truncate ? <Truncate>{item}</Truncate>
-                    : link ? <a href={link}>{item}</a> : item
-            }
+            {truncate ? <Truncate>{item}</Truncate> : item}
         </div>
     </div>
 )
@@ -19,7 +16,6 @@ const AssetFullMeta = ({ label, item, truncate, link }) => (
 AssetFullMeta.propTypes = {
     label: PropTypes.string.isRequired,
     item: PropTypes.any,
-    link: PropTypes.string,
     truncate: PropTypes.bool
 }
 
