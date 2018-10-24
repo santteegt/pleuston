@@ -25,7 +25,7 @@ Main issues right now:
 
 - [Features](#features)
 - [Prerequisites](#prerequisites)
-    - [🐋 provider](#provider)
+    - [🐋 aquarius](#aquarius)
     - [💧 keeper-contracts](#keeper-contracts)
 - [Storage Providers](#storage-providers)
     - [Azure Storage](#azure-storage)
@@ -43,7 +43,7 @@ Main issues right now:
 
 This repository houses _Pleuston_, the reference web app for consumers to explore, download, and publish data assets within the Ocean Protocol network.
 
-- Connect to all required Ocean Protocol components: _Keeper_ & _Provider_
+- Connect to all required Ocean Protocol components: _Keeper_ & _Aquarius_
 - Register and publish data assets
 - Explore, buy, and download data assets
 
@@ -71,9 +71,9 @@ cd docker-images/
 
 This will start up all required components:
 
-### [🐋 provider](https://github.com/oceanprotocol/provider)
+### [🐋 aquarius](https://github.com/oceanprotocol/aquarius)
 
-You now have a locally running _Provider_ backend application exposed under `http://localhost:5000`.
+You now have a locally running _Aquarius_ backend application exposed under `http://localhost:5000`.
 
 ### [💧 keeper-contracts](https://github.com/oceanprotocol/keeper-contracts)
 
@@ -145,7 +145,7 @@ To run your application over SSL, set the scheme values in [`config/ocean.js`](.
 ```js
 module.exports = {
     keeperScheme: 'https',
-    oceanScheme: 'https'
+    aquariusScheme: 'https'
 }
 ```
 

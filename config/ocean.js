@@ -6,7 +6,7 @@ module.exports = {
     keeperHost: 'localhost',
     keeperPort: 8545,
 
-    providerScheme: 'http',
-    providerHost: 'localhost',
-    providerPort: 5000
+    aquariusScheme: 'http',
+    aquariusHost: 'localhost',
+    aquariusPort: 5000
 }
