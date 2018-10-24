@@ -26,7 +26,8 @@ import {
     setProviders,
     getOrders,
     getCloudFiles,
-    getOauthAccounts
+    getOauthAccounts,
+    setNetworkName
 } from './actions/index'
 
 import App from './App'
@@ -44,10 +45,22 @@ const store = createStore(
 
 serviceWorker.register()
 
-window.addEventListener('load', () => {
+window.addEventListener('load', async () => {
     Logger.log('booting up pleuston')
+
+    await store.dispatch(setProviders())
+    await store.dispatch(setNetworkName())
+    await store.dispatch(getAccounts())
+    await store.dispatch(getAssets())
+    await store.dispatch(getOrders())
+    await store.dispatch(getOauthAccounts())
+    await store.dispatch(getCloudFiles())
+    /*
     store.dispatch(setProviders())
         .then(() => {
+            store.dispatch(getAccounts())
+            console.log('KRAAAA')
+            /*
             store.dispatch(getAssets())
             store.dispatch(getOauthAccounts())
             store.dispatch(getAccounts())
@@ -56,6 +69,7 @@ window.addEventListener('load', () => {
                     store.dispatch(getCloudFiles())
                 })
         })
+    */
 })
 
 ReactDOM.render(

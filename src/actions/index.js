@@ -11,8 +11,6 @@ export function setProviders() {
             type: 'SET_PROVIDERS',
             ...(await ocean.provideOcean())
         })
-
-        dispatch(setNetworkName())
     }
 }
 
@@ -20,7 +18,6 @@ export function getAccounts() {
     return async (dispatch, getState) => {
         const state = getState()
         const { ocean } = state.provider
-
         dispatch({
             type: 'SET_ACCOUNTS',
             accounts: await ocean.getAccounts()
@@ -36,12 +33,13 @@ export function getActiveAccount(state) {
     return accounts[activeAccount]
 }
 
-function setNetworkName() {
+export function setNetworkName() {
     return async (dispatch, getState) => {
+        const state = getState()
+        const { ocean } = state.provider
         dispatch({
             type: 'SET_NETWORKNAME',
-            // todo: get this from squid
-            networkName: 'unknown'
+            networkName: await ocean.keeper.getNetworkName()
         })
     }
 }
@@ -86,7 +84,6 @@ export function getAssets() {
     /* Get list of assets for the current selected account */
     return async (dispatch, getState) => {
         const state = getState()
-
         const assets = (await asset
             .list(
                 getActiveAccount(state),
