@@ -1,3 +1,4 @@
+/* eslint-disable no-console */
 import fetchDownload from 'fetch-download'
 import AssetModel from '../models/asset'
 import { Logger } from '@oceanprotocol/squid'
@@ -105,3 +106,13 @@ export async function purchase(asset, account, providers) {
     }
     Logger.log('purchase completed, new order is: ', order)
 }
+
+// export async function listCloudFiles() {
+//     if (cloudName === 'azure') {
+//         const fileService = azure.createFileService(storageAccount, accessKey)
+//         fileService.listFilesAndDirectoriesSegmented(shareName, folderName, null, null, (error, result, response) => {
+//             console.log('files: ', result, response)
+//             return (error, result)
+//         })
+//     }
+// }

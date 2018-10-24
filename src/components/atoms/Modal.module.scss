@@ -1,0 +1,91 @@
+@import 'variables';
+
+.modal {
+    position: fixed;
+    overflow: auto;
+    -webkit-overflow-scrolling: touch;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    z-index: 10;
+    background: rgba($brand-black, .7);
+    backdrop-filter: blur(5px);
+    animation: fadein .2s;
+    padding: $spacer / 2;
+
+    @media (min-width: $break-point--small) {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }
+}
+
+.modalContent {
+    outline: 0;
+    background: $brand-white;
+    position: relative;
+    border-radius: $border-radius;
+    box-shadow: 0 5px 30px rgba($brand-black, .5);
+    padding: $spacer / 2;
+    width: 100%;
+    max-width: 100%;
+
+    @media (min-width: $break-point--small) {
+        max-width: $break-point--small;
+        padding: $spacer * 1.5;
+    }
+}
+
+.modalClose {
+    display: block;
+    cursor: pointer;
+    background: transparent;
+    border: 0;
+    appearance: none;
+    line-height: 1;
+    font-size: $font-size-h2;
+    padding: 3px;
+    position: absolute;
+    top: -($spacer / 8);
+    right: $spacer / 4;
+    color: $brand-grey-light;
+
+    &:hover,
+    &:focus {
+        opacity: .7;
+    }
+}
+
+// Prevent background scrolling when modal is open
+.isModalOpen {
+    overflow: hidden;
+}
+
+.modalTitle {
+    font-size: $font-size-h4;
+    margin-top: 0;
+}
+
+//
+// Overlay/content animations
+//
+@keyframes fadein {
+    0% {
+        opacity: 0;
+    }
+
+    100% {
+        opacity: 1;
+    }
+}
+
+@keyframes fadeout {
+    0% {
+        opacity: 1;
+    }
+
+    100% {
+        opacity: 0;
+    }
+}

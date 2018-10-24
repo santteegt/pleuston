@@ -6,12 +6,14 @@ import Popover from './Popover'
 import styles from './Account.module.scss'
 
 export default class Account extends PureComponent {
-    constructor(props) {
-        super(props)
+    static propTypes = {
+        networkName: PropTypes.string,
+        activeAccount: PropTypes.object,
+        initMakeItRain: PropTypes.func
+    }
 
-        this.state = {
-            popoverOpen: false
-        }
+    state = {
+        popoverOpen: false
     }
 
     togglePopover() {
@@ -50,10 +52,4 @@ export default class Account extends PureComponent {
             </div>
         )
     }
-}
-
-Account.propTypes = {
-    networkName: PropTypes.string,
-    activeAccount: PropTypes.object,
-    initMakeItRain: PropTypes.func
 }

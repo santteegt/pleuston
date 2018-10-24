@@ -24,7 +24,9 @@ import {
     getAccounts,
     getAssets,
     setProviders,
-    getOrders
+    getOrders,
+    getCloudFiles,
+    getOauthAccounts
 } from './actions/index'
 
 import App from './App'
@@ -47,9 +49,11 @@ window.addEventListener('load', () => {
     store.dispatch(setProviders())
         .then(() => {
             store.dispatch(getAssets())
+            store.dispatch(getOauthAccounts())
             store.dispatch(getAccounts())
                 .then(() => {
                     store.dispatch(getOrders())
+                    store.dispatch(getCloudFiles())
                 })
         })
 })
