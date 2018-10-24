@@ -100,7 +100,7 @@ export default class PurchaseHandler {
         // id, expire, discovery, permissions, accessAgreementRef
         // Once the purchase agreement is fetched, display to the user to get confirmation to proceed with purchase
         let continuePurchase = window.confirm(
-            `Provider committed access consent for resource ${order.assetId}.\n ` +
+            `Aquarius committed access consent for resource ${order.assetId}.\n ` +
             `Click \n  [Ok] to submit payment ` +
             `and complete the purchase transaction or \n  [Cancel] to withdraw the access request.`
         )
