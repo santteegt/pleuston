@@ -26,3 +26,11 @@
         flex: 1 1 70%;
     }
 }
+
+.link {
+    margin-bottom: $spacer / 4;
+
+    span {
+        color: $brand-grey-light;
+    }
+}
