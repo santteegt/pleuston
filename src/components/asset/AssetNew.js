@@ -5,6 +5,7 @@ import Button from '../atoms/Button'
 import FormInput from '../atoms/Form/FormInput'
 import FormHelp from '../atoms/Form/FormHelp'
 import CloudStorageActionsLoader from '../../containers/CloudStorageActionsLoader'
+import AssetNewLinks from './AssetNewLinks'
 
 const AssetNew = ({ handleSubmit, linkSetter }) => (
     <form className="form" onSubmit={handleSubmit}>
@@ -17,12 +18,13 @@ const AssetNew = ({ handleSubmit, linkSetter }) => (
             <FormHelp>Describe your asset, explaining what the data represents and what it can be used for.</FormHelp>
         </div>
         <div className="form__group">
-            <FormInput label="Url" name="contentUrls" required component="input" type="url" placeholder="e.g. https://url.com/dataset.zip" />
+            <FormInput label="Asset file" name="contentUrls" required component="input" type="url" placeholder="e.g. https://url.com/dataset.zip" />
 
             <FormHelp>Add a URL pointing to your data set asset or select it from cloud storage providers.</FormHelp>
 
             <CloudStorageActionsLoader linkSetter={linkSetter} />
         </div>
+
         <div className="form__group">
             <FormInput label="Price" name="price" required type="number" component="input" placeholder="0" />
             <FormHelp>Price of your asset in Ocean Tokens.</FormHelp>
@@ -55,6 +57,15 @@ const AssetNew = ({ handleSubmit, linkSetter }) => (
                 <option value="CC BY-NC-ND">CC BY-NC-ND: Attribution-NonCommercial-NoDerivs</option>
             </FormInput>
         </div>
+
+        <div className="form__group">
+            <h3 className="form__group__title">Links</h3>
+
+            <FormHelp>Provide one or multiple links (e.g. samples, format definitions, web links) to give supplementary information about an Asset.</FormHelp>
+
+            <AssetNewLinks />
+        </div>
+
         <div className="form__group">
             <FormInput label="Copyright holder" name="copyrightHolder" component="input" type="text" placeholder="" />
             <FormHelp>The party holding the legal copyright.</FormHelp>

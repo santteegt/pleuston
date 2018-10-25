@@ -12,8 +12,17 @@
     font-size: $font-size-h4;
 }
 
+.form__group__title {
+    color: $brand-grey;
+    font-size: $font-size-base;
+    font-family: $font-family-title;
+    line-height: 1.2;
+    display: block;
+    margin-bottom: $spacer / 4;
+}
+
 .form__group {
-    margin-bottom: $spacer / 1.5;
+    margin-bottom: $spacer * 1.5;
 }
 
 .input-group {

@@ -21,7 +21,11 @@ export async function publish(formValues, account, providers) {
         description,
         license,
         contentUrls,
-        links,
+        // links, // use once we get the full array of link objects passed from the form
+        linkTitle,
+        linkType,
+        linkUrl,
+
         author,
         copyrightHolder,
         tags,
@@ -55,7 +59,13 @@ export async function publish(formValues, account, providers) {
             // contentType: ,
             // workExample: ,
             contentUrls: [contentUrls],
-            links: [links],
+            links: [
+                {
+                    title: linkTitle,
+                    type: linkType,
+                    url: linkUrl
+                }
+            ],
             // inLanguage: ,
             tags: tags ? [tags.split(',')] : [],
             price: parseFloat(price),

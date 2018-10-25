@@ -1,0 +1,27 @@
+@import 'variables';
+
+.newLinks {
+    margin-top: $spacer / 2;
+}
+
+.link {
+    margin-top: $spacer / 2;
+
+    label,
+    input,
+    select,
+    textarea,
+    input::placeholder {
+        font-size: $font-size-small;
+    }
+
+    label {
+        margin-bottom: $spacer / 8;
+    }
+
+    input,
+    select {
+        height: 37px;
+        min-height: 37px;
+    }
+}

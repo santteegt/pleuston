@@ -1,4 +1,4 @@
-import React, { Fragment, PureComponent } from 'react'
+import React, { PureComponent } from 'react'
 import { Field } from 'redux-form'
 import './FormInput.scss'
 
@@ -9,7 +9,7 @@ class FormInput extends PureComponent {
         const { name, label, required } = this.props
 
         return (
-            <Fragment>
+            <div>
                 <label
                     htmlFor={name}
                     className={required ? 'form__label is-required' : 'form__label'}
@@ -26,7 +26,7 @@ class FormInput extends PureComponent {
                         onBlur={() => this.setState({ isFocused: false })}
                     />
                 </div>
-            </Fragment>
+            </div>
         )
     }
 }
