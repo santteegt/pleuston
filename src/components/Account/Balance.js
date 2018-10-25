@@ -8,7 +8,7 @@ const Balance = ({ eth, ocn }) => {
     return (
         <Fragment>
             <span className={styles.balance} title={ethFromWei.toFixed(10)}>
-                <strong>{ethFromWei.toFixed(2)}</strong> Ξ
+                <strong>{ethFromWei.toFixed(3).slice(0, -1)}</strong> Ξ
             </span>
             <span className={styles.balance}>
                 <strong>{ocn}</strong> Ọ
