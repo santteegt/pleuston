@@ -1,7 +1,9 @@
 @import 'variables';
 
 .newLinks {
-    margin-top: $spacer / 2;
+    margin-top: $spacer / 3;
+    padding-top: $spacer / 3;
+    border-top: 1px solid $brand-grey-lighter;
 }
 
 .link {
