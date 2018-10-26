@@ -11,13 +11,13 @@ export default class LinkForm extends PureComponent {
     }
 
     state = {
-        title: null,
+        name: null,
         type: null,
         url: null
     }
 
-    onChangeTitle = (e) => {
-        this.setState({ title: e.target.value })
+    onChangeName = (e) => {
+        this.setState({ name: e.target.value })
     }
 
     onChangeType = (e) => {
@@ -29,25 +29,25 @@ export default class LinkForm extends PureComponent {
     }
 
     componentWillUnmount() {
-        this.setState({ title: null, type: null, url: null })
+        this.setState({ name: null, type: null, url: null })
     }
 
     render() {
-        const { title, type, url } = this.state
+        const { name, type, url } = this.state
         const { addLink } = this.props
 
         return (
             <fieldset className={styles.linkForm}>
                 <FormInputGroup>
                     <FormInput
-                        label="Title"
-                        name="linkTitle"
+                        label="Name"
+                        name="linkName"
                         required
                         component="input"
                         type="text"
                         placeholder="e.g. My sample"
-                        value={title}
-                        onChange={this.onChangeTitle}
+                        value={name}
+                        onChange={this.onChangeName}
                     />
 
                     <FormInput
@@ -74,7 +74,7 @@ export default class LinkForm extends PureComponent {
                         onChange={this.onChangeUrl}
                     />
                 </FormInputGroup>
-                <Button onClick={(e) => addLink(e, title, type, url)}>Add Link</Button>
+                <Button onClick={(e) => addLink(e, name, type, url)}>Add Link</Button>
             </fieldset>
         )
     }

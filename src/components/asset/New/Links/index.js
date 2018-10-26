@@ -28,7 +28,7 @@ export default class Links extends PureComponent {
         this.setState({ isFormShown: !this.state.isFormShown })
     }
 
-    addLink = (e, title, type, url) => {
+    addLink = (e, name, type, url) => {
         e.preventDefault()
 
         // TODO: return when required fields are empty, and url value is no url
@@ -41,7 +41,7 @@ export default class Links extends PureComponent {
             links: [
                 ...links,
                 {
-                    title,
+                    name,
                     type,
                     url
                 }
@@ -59,7 +59,6 @@ export default class Links extends PureComponent {
 
     render() {
         const { isFormShown, links } = this.state
-        console.log(links) // eslint-disable-line
 
         return (
             <div className={styles.newLinks}>
