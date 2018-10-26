@@ -1,49 +1,9 @@
 import React, { PureComponent } from 'react'
-import PropTypes from 'prop-types'
-import {
-    CSSTransition,
-    TransitionGroup
-} from 'react-transition-group'
-import FormInputGroup from '../../atoms/Form/FormInputGroup'
-import FormInput from '../../atoms/Form/FormInput'
-import Button from '../../atoms/Button'
-
-import styles from './Links.module.scss'
-
-const Link = ({ link, removeLink }) => (
-    <li>
-        <a href={link.url}>{link.title}</a>
-        <span className={styles.linkType}>{link.type}</span>
-        <span className={styles.linkUrl}>{link.url}</span>
-        <button className={styles.remove} title="Remove link" onClick={removeLink}>&times;</button>
-    </li>
-)
-
-Link.propTypes = {
-    link: PropTypes.object.isRequired,
-    removeLink: PropTypes.func.isRequired
-}
-
-const LinkForm = ({ addLink }) => (
-    <fieldset className={styles.linkForm}>
-        <FormInputGroup>
-            <FormInput label="Title" name="linkTitle" required component="input" type="text" placeholder="e.g. My sample" onChange={this.handleChange} />
-
-            <FormInput label="Type" required name="linkType" component="select" onChange={this.handleChange} >
-                <option />
-                <option value="sample">Sample</option>
-                <option value="format">Data Format Definition</option>
-            </FormInput>
-
-            <FormInput label="Url" name="linkUrl" required component="input" type="url" placeholder="e.g. https://url.com/info" onChange={this.handleChange} />
-        </FormInputGroup>
-        <Button onClick={addLink}>Add Link</Button>
-    </fieldset>
-)
-
-LinkForm.propTypes = {
-    addLink: PropTypes.func.isRequired
-}
+import { CSSTransition, TransitionGroup } from 'react-transition-group'
+import Button from '../../../atoms/Button'
+import LinkForm from './LinkForm'
+import Link from './Link'
+import styles from './index.module.scss'
 
 export default class Links extends PureComponent {
     state = {
@@ -68,7 +28,7 @@ export default class Links extends PureComponent {
         this.setState({ isFormShown: !this.state.isFormShown })
     }
 
-    addLink = (e) => {
+    addLink = (e, title, type, url) => {
         e.preventDefault()
 
         // TODO: return when required fields are empty, and url value is no url
@@ -81,9 +41,9 @@ export default class Links extends PureComponent {
             links: [
                 ...links,
                 {
-                    title: e.target.linkTitle.value,
-                    type: e.target.linkType.value,
-                    url: e.target.linkUrl.value
+                    title,
+                    type,
+                    url
                 }
             ]
         })

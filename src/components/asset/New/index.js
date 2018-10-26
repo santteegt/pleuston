@@ -5,7 +5,7 @@ import Button from '../../atoms/Button'
 import FormInput from '../../atoms/Form/FormInput'
 import FormHelp from '../../atoms/Form/FormHelp'
 import CloudStorageLoader from '../../../containers/CloudStorageLoader'
-import Links from './Links'
+import Links from './Links/'
 
 const AssetNew = ({ handleSubmit, linkSetter }) => (
     <form className="form" onSubmit={handleSubmit}>
