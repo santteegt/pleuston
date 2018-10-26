@@ -1,5 +1,5 @@
 import React, { PureComponent } from 'react'
-// import PropTypes from 'prop-types'
+import PropTypes from 'prop-types'
 import {
     CSSTransition,
     TransitionGroup
@@ -10,11 +10,42 @@ import Button from '../../atoms/Button'
 
 import styles from './Links.module.scss'
 
+const Link = ({ link, removeLink }) => (
+    <li>
+        <a href={link.url}>{link.title}</a>
+        <span className={styles.linkType}>{link.type}</span>
+        <span className={styles.linkUrl}>{link.url}</span>
+        <button className={styles.remove} title="Remove link" onClick={removeLink}>&times;</button>
+    </li>
+)
+
+Link.propTypes = {
+    link: PropTypes.object.isRequired,
+    removeLink: PropTypes.func.isRequired
+}
+
+const LinkForm = ({ addLink }) => (
+    <fieldset className={styles.linkForm}>
+        <FormInputGroup>
+            <FormInput label="Title" name="linkTitle" required component="input" type="text" placeholder="e.g. My sample" onChange={this.handleChange} />
+
+            <FormInput label="Type" required name="linkType" component="select" onChange={this.handleChange} >
+                <option />
+                <option value="sample">Sample</option>
+                <option value="format">Data Format Definition</option>
+            </FormInput>
+
+            <FormInput label="Url" name="linkUrl" required component="input" type="url" placeholder="e.g. https://url.com/info" onChange={this.handleChange} />
+        </FormInputGroup>
+        <Button onClick={addLink}>Add Link</Button>
+    </fieldset>
+)
+
+LinkForm.propTypes = {
+    addLink: PropTypes.func.isRequired
+}
+
 export default class Links extends PureComponent {
-    static propTypes = {
-
-    }
-
     state = {
         isFormShown: false,
         links: [
@@ -50,9 +81,9 @@ export default class Links extends PureComponent {
             links: [
                 ...links,
                 {
-                    title: 'hello', // e.target.value
-                    type: 'sample',
-                    url: 'hello'
+                    title: e.target.linkTitle.value,
+                    type: e.target.linkType.value,
+                    url: e.target.linkUrl.value
                 }
             ]
         })
@@ -80,12 +111,7 @@ export default class Links extends PureComponent {
                                 timeout={400}
                                 classNames="fade"
                             >
-                                <li>
-                                    <a href={link.url}>{link.title}</a>
-                                    <span className={styles.linkType}>{link.type}</span>
-                                    <span className={styles.linkUrl}>{link.url}</span>
-                                    <button className={styles.remove} title="Remove link" onClick={this.removeLink}>&times;</button>
-                                </li>
+                                <Link link={link} removeLink={this.removeLink} />
                             </CSSTransition>
                         ))}
                     </TransitionGroup>
@@ -102,20 +128,7 @@ export default class Links extends PureComponent {
                     unmountOnExit
                     onExit={() => this.setState({ isFormShown: false })}
                 >
-                    <fieldset className={styles.linkForm}>
-                        <FormInputGroup>
-                            <FormInput label="Title" name="linkTitle" required component="input" type="text" placeholder="e.g. My sample" />
-
-                            <FormInput label="Type" required name="linkType" component="select">
-                                <option />
-                                <option value="sample">Sample</option>
-                                <option value="format">Data Format Definition</option>
-                            </FormInput>
-
-                            <FormInput label="Url" name="linkUrl" required component="input" type="url" placeholder="e.g. https://url.com/info" />
-                        </FormInputGroup>
-                        <Button onClick={this.addLink}>Add Link</Button>
-                    </fieldset>
+                    <LinkForm addLink={this.addLink} />
                 </CSSTransition>
 
                 <input type="hidden" name="links" value={links} />
