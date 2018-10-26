@@ -2,8 +2,9 @@
 
 .newLinks {
     margin-top: $spacer / 2;
-    margin-left: $spacer / 2;
     border-top: 1px solid $brand-grey-lighter;
+    padding-bottom: $spacer / 2;
+    border-bottom: 1px solid $brand-grey-lighter;
 }
 
 .linkList {
@@ -16,7 +17,7 @@
 
     li {
         border-bottom: 1px solid $brand-grey-lighter;
-        padding: $spacer / 3 $spacer / 2 $spacer / 3 0;
+        padding: $spacer / 3 $spacer / 2 $spacer / 3 $spacer / 2;
         position: relative;
         display: block;
     }
@@ -66,6 +67,8 @@
 
 .linkForm {
     margin-top: $spacer / 2;
+    margin-bottom: $spacer / 1.5;
+    padding-left: $spacer / 2;
 
     label,
     input,

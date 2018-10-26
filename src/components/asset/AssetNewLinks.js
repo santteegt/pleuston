@@ -1,5 +1,9 @@
 import React, { PureComponent } from 'react'
 // import PropTypes from 'prop-types'
+import {
+    CSSTransition,
+    TransitionGroup
+} from 'react-transition-group'
 import FormInputGroup from '../atoms/Form/FormInputGroup'
 import FormInput from '../atoms/Form/FormInput'
 import Button from '../atoms/Button'
@@ -47,7 +51,7 @@ export default class AssetNewLinks extends PureComponent {
                 ...links,
                 {
                     title: 'hello', // e.target.value
-                    type: 'hello',
+                    type: 'sample',
                     url: 'hello'
                 }
             ]
@@ -69,23 +73,35 @@ export default class AssetNewLinks extends PureComponent {
         return (
             <div className={styles.newLinks}>
                 {links && (
-                    <ul className={styles.linkList}>
+                    <TransitionGroup component="ul" className={styles.linkList}>
                         {links.map((link, index) => (
-                            <li key={index}>
-                                <a href={link.url}>{link.title}</a>
-                                <span className={styles.linkType}>{link.type}</span>
-                                <span className={styles.linkUrl}>{link.url}</span>
-                                <button className={styles.remove} title="Remove link" onClick={this.removeLink}>&times;</button>
-                            </li>
+                            <CSSTransition
+                                key={index}
+                                timeout={400}
+                                classNames="fade"
+                            >
+                                <li>
+                                    <a href={link.url}>{link.title}</a>
+                                    <span className={styles.linkType}>{link.type}</span>
+                                    <span className={styles.linkUrl}>{link.url}</span>
+                                    <button className={styles.remove} title="Remove link" onClick={this.removeLink}>&times;</button>
+                                </li>
+                            </CSSTransition>
                         ))}
-                    </ul>
+                    </TransitionGroup>
                 )}
 
                 <Button link onClick={this.toggleForm}>
                     {isFormShown ? '- Cancel' : '+ Add a link'}
                 </Button>
 
-                {isFormShown && (
+                <CSSTransition
+                    classNames="grow"
+                    in={isFormShown}
+                    timeout={200}
+                    unmountOnExit
+                    onExit={() => this.setState({ isFormShown: false })}
+                >
                     <fieldset className={styles.linkForm}>
                         <FormInputGroup>
                             <FormInput label="Title" name="linkTitle" required component="input" type="text" placeholder="e.g. My sample" />
@@ -100,16 +116,9 @@ export default class AssetNewLinks extends PureComponent {
                         </FormInputGroup>
                         <Button onClick={this.addLink}>Add Link</Button>
                     </fieldset>
-                )}
-
-                {/*
-
-                TODO: construct and collect all link objects in local state
-                and pass them to actions/asset.js with this
+                </CSSTransition>
 
                 <input type="hidden" name="links" value={links} />
-
-                */}
             </div>
         )
     }

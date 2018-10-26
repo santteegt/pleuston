@@ -44,6 +44,7 @@
     "react-router": "^4.3.1",
     "react-router-dom": "^4.3.1",
     "react-select": "^2.0.0",
+    "react-transition-group": "^2.5.0",
     "react-truncate": "^2.4.0",
     "react-vis": "^1.11.2",
     "react-web3": "^0.4.5",
