@@ -1,11 +1,11 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 import { reduxForm } from 'redux-form'
-import Button from '../atoms/Button'
-import FormInput from '../atoms/Form/FormInput'
-import FormHelp from '../atoms/Form/FormHelp'
-import CloudStorageActionsLoader from '../../containers/CloudStorageActionsLoader'
-import AssetNewLinks from './AssetNewLinks'
+import Button from '../../atoms/Button'
+import FormInput from '../../atoms/Form/FormInput'
+import FormHelp from '../../atoms/Form/FormHelp'
+import CloudStorageLoader from '../../../containers/CloudStorageLoader'
+import Links from './Links'
 
 const AssetNew = ({ handleSubmit, linkSetter }) => (
     <form className="form" onSubmit={handleSubmit}>
@@ -21,7 +21,7 @@ const AssetNew = ({ handleSubmit, linkSetter }) => (
         <div className="form__group">
             <FormInput label="Asset file" name="contentUrls" required component="input" type="url" placeholder="e.g. https://url.com/dataset.zip" help="Add a URL pointing to your data set asset or select it from cloud storage providers." />
 
-            <CloudStorageActionsLoader linkSetter={linkSetter} />
+            <CloudStorageLoader linkSetter={linkSetter} />
         </div>
 
         <div className="form__group">
@@ -61,7 +61,7 @@ const AssetNew = ({ handleSubmit, linkSetter }) => (
 
             <FormHelp>Provide one or multiple links (e.g. samples, format definitions, web links) to give supplementary information about an Asset.</FormHelp>
 
-            <AssetNewLinks />
+            <Links />
         </div>
 
         <div className="form__group">

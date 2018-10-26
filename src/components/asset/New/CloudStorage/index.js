@@ -1,16 +1,16 @@
 import React, { PureComponent } from 'react'
 import PropTypes from 'prop-types'
 import { OauthSender } from 'react-oauth-flow'
-import Button from '../atoms/Button'
-import CloudStorageModal from './CloudStorageModal'
-import { ReactComponent as IconAzure } from '../../svg/azure.svg'
-import { appId, redirectHost, scope } from '../../../config/cloudStorage'
+import Button from '../../../atoms/Button'
+import CloudStorageModal from './Modal'
+import { ReactComponent as IconAzure } from '../../../../svg/azure.svg'
+import { appId, redirectHost, scope } from '../../../../../config/cloudStorage'
 
-import styles from './CloudStorageActions.module.scss'
+import styles from './index.module.scss'
 
 const authorizeUrl = `https://login.microsoftonline.com/common/oauth2/v2.0/authorize`
 
-export default class CloudStorageActions extends PureComponent {
+export default class CloudStorage extends PureComponent {
     static propTypes = {
         linkSetter: PropTypes.func.isRequired
     }

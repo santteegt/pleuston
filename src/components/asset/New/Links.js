@@ -4,13 +4,13 @@ import {
     CSSTransition,
     TransitionGroup
 } from 'react-transition-group'
-import FormInputGroup from '../atoms/Form/FormInputGroup'
-import FormInput from '../atoms/Form/FormInput'
-import Button from '../atoms/Button'
+import FormInputGroup from '../../atoms/Form/FormInputGroup'
+import FormInput from '../../atoms/Form/FormInput'
+import Button from '../../atoms/Button'
 
-import styles from './AssetNewLinks.module.scss'
+import styles from './Links.module.scss'
 
-export default class AssetNewLinks extends PureComponent {
+export default class Links extends PureComponent {
     static propTypes = {
 
     }

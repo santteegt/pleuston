@@ -2,7 +2,7 @@
 import { connect } from 'react-redux'
 import { push } from 'connected-react-router'
 import { change, reset } from 'redux-form'
-import AssetNewForm from '../components/asset/AssetNew'
+import AssetNewForm from '../components/asset/New'
 import {
     putAsset
 } from '../actions/index'
