@@ -1,5 +1,10 @@
 @import 'variables';
 
+fieldset {
+    border: 0;
+    padding: 0;
+}
+
 .form {
     background: $brand-white;
     color: $brand-grey;

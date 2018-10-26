@@ -12,27 +12,81 @@ export default class AssetNewLinks extends PureComponent {
     }
 
     state = {
-        isLinkShown: false,
-        links: []
+        isFormShown: false,
+        links: [
+            {
+                title: 'Sample of Asset Data',
+                type: 'sample',
+                url: 'https://foo.com/sample.csv'
+            },
+            {
+                title: 'Another Sample of Asset Data',
+                type: 'sample',
+                url: 'https://foo.com/fqhuifhwnuigbrwfebwjflnwlk/fbenjwkfbenwjkbfnewjlk/sample.csv'
+            }
+        ]
     }
 
-    toggleLink = (e) => {
+    toggleForm = (e) => {
         e.preventDefault()
 
-        this.setState({ isLinkShown: !this.state.isLinkShown })
+        this.setState({ isFormShown: !this.state.isFormShown })
+    }
+
+    addLink = (e) => {
+        e.preventDefault()
+
+        // TODO: return when required fields are empty, and url value is no url
+        // Can't use browser validation cause we are in a form within a form
+        // if () return
+
+        const { links } = this.state
+
+        this.setState({
+            links: [
+                ...links,
+                {
+                    title: 'hello', // e.target.value
+                    type: 'hello',
+                    url: 'hello'
+                }
+            ]
+        })
+
+        this.setState({ isFormShown: false })
+    }
+
+    removeLink = (e) => {
+        e.preventDefault()
+
+        // TODO: remove respective link from local state
     }
 
     render() {
-        const { isLinkShown } = this.state
+        const { isFormShown, links } = this.state
+        console.log(links) // eslint-disable-line
 
         return (
             <div className={styles.newLinks}>
-                <Button link onClick={this.toggleLink}>
-                    {isLinkShown ? '- Remove link' : '+ Add a link'}
+                {links && (
+                    <ul className={styles.linkList}>
+                        {links.map((link, index) => (
+                            <li key={index}>
+                                <a href={link.url}>{link.title}</a>
+                                <span className={styles.linkType}>{link.type}</span>
+                                <span className={styles.linkUrl}>{link.url}</span>
+                                <button className={styles.remove} title="Remove link" onClick={this.removeLink}>&times;</button>
+                            </li>
+                        ))}
+                    </ul>
+                )}
+
+                <Button link onClick={this.toggleForm}>
+                    {isFormShown ? '- Cancel' : '+ Add a link'}
                 </Button>
 
-                {isLinkShown && (
-                    <div className={styles.link}>
+                {isFormShown && (
+                    <fieldset className={styles.linkForm}>
                         <FormInputGroup>
                             <FormInput label="Title" name="linkTitle" required component="input" type="text" placeholder="e.g. My sample" />
 
@@ -44,7 +98,8 @@ export default class AssetNewLinks extends PureComponent {
 
                             <FormInput label="Url" name="linkUrl" required component="input" type="url" placeholder="e.g. https://url.com/info" />
                         </FormInputGroup>
-                    </div>
+                        <Button onClick={this.addLink}>Add Link</Button>
+                    </fieldset>
                 )}
 
                 {/*
