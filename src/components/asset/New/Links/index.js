@@ -1,5 +1,6 @@
 import React, { PureComponent } from 'react'
 import { CSSTransition, TransitionGroup } from 'react-transition-group'
+import { Field } from 'redux-form'
 import Button from '../../../atoms/Button'
 import LinkForm from './LinkForm'
 import Link from './Link'
@@ -90,7 +91,14 @@ export default class Links extends PureComponent {
                     <LinkForm addLink={this.addLink} />
                 </CSSTransition>
 
-                <input type="hidden" name="links" value={links} />
+                {/* Used to capture and pass the links array data on form submit */}
+                <Field
+                    component="input"
+                    type="hidden"
+                    id="links"
+                    name="links"
+                    value={JSON.stringify(links)}
+                />
             </div>
         )
     }
