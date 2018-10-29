@@ -11,12 +11,12 @@ export default class Links extends PureComponent {
         isFormShown: false,
         links: [
             {
-                title: 'Sample of Asset Data',
+                name: 'Sample of Asset Data',
                 type: 'sample',
                 url: 'https://foo.com/sample.csv'
             },
             {
-                title: 'Another Sample of Asset Data',
+                name: 'Another Sample of Asset Data',
                 type: 'sample',
                 url: 'https://foo.com/fqhuifhwnuigbrwfebwjflnwlk/fbenjwkfbenwjkbfnewjlk/sample.csv'
             }
@@ -29,13 +29,7 @@ export default class Links extends PureComponent {
         this.setState({ isFormShown: !this.state.isFormShown })
     }
 
-    addLink = (e, name, type, url) => {
-        e.preventDefault()
-
-        // TODO: return when required fields are empty, and url value is no url
-        // Can't use browser validation cause we are in a form within a form
-        // if () return
-
+    addLink = (name, type, url) => {
         const { links } = this.state
 
         this.setState({
@@ -46,10 +40,9 @@ export default class Links extends PureComponent {
                     type,
                     url
                 }
-            ]
+            ],
+            isFormShown: false
         })
-
-        this.setState({ isFormShown: false })
     }
 
     removeLink = (e) => {

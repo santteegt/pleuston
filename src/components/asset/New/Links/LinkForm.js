@@ -1,5 +1,6 @@
 import React, { PureComponent } from 'react'
 import PropTypes from 'prop-types'
+import isUrl from 'is-url'
 import FormInputGroup from '../../../atoms/Form/FormInputGroup'
 import FormInput from '../../../atoms/Form/FormInput'
 import Button from '../../../atoms/Button'
@@ -16,6 +17,26 @@ export default class LinkForm extends PureComponent {
         url: null
     }
 
+    componentDidMount() {
+        this.setState({ name: null, type: null, url: null })
+    }
+
+    componentWillUnmount() {
+        this.setState({ name: null, type: null, url: null })
+    }
+
+    handleSubmit = (e) => {
+        e.preventDefault()
+
+        const { name, type, url } = this.state
+
+        // return when required fields are empty, and url value is no url
+        // Can't use browser validation cause we are in a form within a form
+        if (!name || !type || !url || !isUrl(url)) return
+
+        this.props.addLink(name, type, url)
+    }
+
     onChangeName = (e) => {
         this.setState({ name: e.target.value })
     }
@@ -28,13 +49,8 @@ export default class LinkForm extends PureComponent {
         this.setState({ url: e.target.value })
     }
 
-    componentWillUnmount() {
-        this.setState({ name: null, type: null, url: null })
-    }
-
     render() {
         const { name, type, url } = this.state
-        const { addLink } = this.props
 
         return (
             <fieldset className={styles.linkForm}>
@@ -74,7 +90,7 @@ export default class LinkForm extends PureComponent {
                         onChange={this.onChangeUrl}
                     />
                 </FormInputGroup>
-                <Button onClick={(e) => addLink(e, name, type, url)}>Add Link</Button>
+                <Button onClick={(e) => this.handleSubmit(e)}>Add Link</Button>
             </fieldset>
         )
     }
