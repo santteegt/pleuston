@@ -1,6 +1,6 @@
 import React from 'react'
 import PropTypes from 'prop-types'
-import { reduxForm } from 'redux-form'
+import { Form, reduxForm } from 'redux-form'
 import Button from '../../atoms/Button'
 import FormInput from '../../atoms/Form/FormInput'
 import FormHelp from '../../atoms/Form/FormHelp'
@@ -8,7 +8,7 @@ import CloudStorageLoader from '../../../containers/CloudStorageLoader'
 import Links from './Links/'
 
 const AssetNew = ({ handleSubmit, linkSetter }) => (
-    <form className="form" onSubmit={handleSubmit}>
+    <Form className="form" onSubmit={handleSubmit}>
 
         <div className="form__group">
             <FormInput label="Title" name="name" required component="input" type="text" help="The title of your asset." />
@@ -85,7 +85,7 @@ const AssetNew = ({ handleSubmit, linkSetter }) => (
         <div className="form__group">
             <Button primary="true" type="submit">Publish</Button>
         </div>
-    </form>
+    </Form>
 )
 
 AssetNew.propTypes = {
