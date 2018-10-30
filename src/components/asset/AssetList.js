@@ -3,23 +3,20 @@ import PropTypes from 'prop-types'
 
 import Empty from '../atoms/Empty'
 import Asset from './Asset'
-import './AssetList.scss'
+
+import styles from './AssetList.module.scss'
 
 class AssetList extends PureComponent {
     constructor(props) {
         super(props)
         this.state = {
             text: '',
-            offset: 12,
+            offset: 30,
             page: 0,
             order: {
                 value: 1
             }
         }
-        this.handleTextChange = this.handleTextChange.bind(this)
-        this.handleTextSearch = this.handleTextSearch.bind(this)
-        this.handleNextPage = this.handleNextPage.bind(this)
-        this.handlePrevPage = this.handlePrevPage.bind(this)
     }
     componentDidMount() {
         this.setState({
@@ -35,12 +32,8 @@ class AssetList extends PureComponent {
         event.preventDefault()
         this.props.handleSearch(this.state)
     }
-    async handleNextPage() {
-        await this.setState({ page: this.state.page + 1 })
-        this.props.handleSearch(this.state)
-    }
-    async handlePrevPage() {
-        await this.setState({ page: this.state.page - 1 })
+    async handlePageChange(pageChange) {
+        await this.setState({ page: this.state.page + pageChange })
         this.props.handleSearch(this.state)
     }
     render() {
@@ -50,19 +43,18 @@ class AssetList extends PureComponent {
         } = this.props
         return (
             <Fragment>
-                <form onSubmit={this.handleTextSearch}>
-                    <label>
-                        Text query
-                        <input type="text" value={this.state.text} onChange={this.handleTextChange} />
-                    </label>
-                    <input type="submit" value="Search" />
-                </form>
+                <div className={styles.search}>
+                    <form onSubmit={(e) => this.handleTextSearch(e)}>
+                        <input type="text" value={this.state.text} onChange={(e) => this.handleTextChange(e)} />
+                        <input type="submit" value="Search" />
+                    </form>
+                </div>
                 {assets.length ? (
                     <Fragment>
-                        <div className="assets">
+                        <div className={styles.assets}>
                             {assets.map(asset => (
                                 <div
-                                    className="assets__tile assets_count"
+                                    className={styles.tile}
                                     key={asset.assetId}
                                     onClick={() => handleClick(asset)}
                                     onKeyPress={() => handleClick(asset)}
@@ -72,14 +64,15 @@ class AssetList extends PureComponent {
                                 </div>
                             ))}
                         </div>
+                        <div className={styles.pagination}>
+                            {this.state.page > 0 ? (<a href="#" className={styles.pageItem} onClick={() => this.handlePageChange(-1)}>&laquo; Prev page</a>) : null}
+                            <span className={styles.pageItem}>{this.state.page}</span>
+                            {assets.length < this.state.offset ? (<a href="#" className={styles.pageItem} onClick={() => this.handlePageChange(1)}>Next page &raquo;</a>) : null}
+                        </div>
                     </Fragment>
                 ) : (
                     <Empty title="No data sets found" text="Why not add some of yours?" action="+ Add new data set" actionLink="/new" />
                 )}
-                <Fragment>
-                    {this.state.page > 0 ? (<a href="#" onClick={this.handlePrevPage}>Prev page</a>) : null}
-                    {assets.length < this.state.offset ? (<a href="#" onClick={this.handleNextPage}>Next page</a>) : null}
-                </Fragment>
             </Fragment>
         )
     }
