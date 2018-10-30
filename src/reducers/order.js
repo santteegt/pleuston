@@ -1,7 +1,6 @@
 const initialState = {
     orders: {},
-    activeOrder: null,
-    filter: {}
+    activeOrder: null
 }
 
 const order = (state = initialState, action) => {
@@ -10,7 +9,7 @@ const order = (state = initialState, action) => {
             return Object.assign({}, state, {
                 orders: action.orders
             })
-        case '':
+        case 'SET_ACTIVE_ORDER':
             return Object.assign({}, state, {
                 activeOrder: action.activeOrder
             })

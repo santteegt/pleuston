@@ -47,29 +47,17 @@ serviceWorker.register()
 
 window.addEventListener('load', async () => {
     Logger.log('booting up pleuston')
-
-    await store.dispatch(setProviders())
-    await store.dispatch(setNetworkName())
-    await store.dispatch(getAccounts())
-    await store.dispatch(getAssets())
-    await store.dispatch(getOrders())
-    await store.dispatch(getOauthAccounts())
-    await store.dispatch(getCloudFiles())
-    /*
+    store.dispatch(getOauthAccounts())
     store.dispatch(setProviders())
         .then(() => {
-            store.dispatch(getAccounts())
-            console.log('KRAAAA')
-            /*
-            store.dispatch(getAssets())
-            store.dispatch(getOauthAccounts())
+            store.dispatch(setNetworkName())
             store.dispatch(getAccounts())
                 .then(() => {
                     store.dispatch(getOrders())
+                    store.dispatch(getAssets())
                     store.dispatch(getCloudFiles())
                 })
         })
-    */
 })
 
 ReactDOM.render(

@@ -1,7 +1,14 @@
 const initialState = {
     assets: {},
     activeAsset: null,
-    filter: {}
+    query: {
+        offset: 10,
+        page: 0,
+        sort: {
+            value: 1
+        },
+        text: ''
+    }
 }
 
 const asset = (state = initialState, action) => {
@@ -14,9 +21,9 @@ const asset = (state = initialState, action) => {
             return Object.assign({}, state, {
                 activeAsset: action.activeAsset
             })
-        case 'SET_ASSET_FILTER':
+        case 'SET_ASSETS_QUERY':
             return Object.assign({}, state, {
-                filter: action.filter
+                query: action.query
             })
         default:
             return state

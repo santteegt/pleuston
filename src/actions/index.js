@@ -54,9 +54,9 @@ export function makeItRain(amount) {
         const state = getState()
         const { ocean } = state.provider
         try {
-            await ocean.account.requestTokens(
+            await ocean.keeper.market.requestTokens(
                 amount,
-                getActiveAccount(state).name
+                getActiveAccount(state).id
             )
             dispatch(getAccounts())
         } catch (e) {
@@ -81,8 +81,12 @@ export function putAsset(formValues) {
 }
 
 export function getAssets() {
-    /* Get list of assets for the current selected account */
     return async (dispatch, getState) => {
+        const state = getState()
+        const { ocean } = state.provider
+        Logger.log('QUERY:', state.asset.query)
+        Logger.log('SEARCH:', await ocean.searchAssets())
+        /*
         const state = getState()
         const assets = (await asset
             .list(
@@ -93,7 +97,8 @@ export function getAssets() {
                 map[obj.assetId] = obj
                 return map
             }, {})
-
+        */
+        const assets = []
         dispatch({
             type: 'GET_ASSETS',
             assets
@@ -106,6 +111,15 @@ export function setActiveAsset(assetId) {
         dispatch({
             type: 'SET_ACTIVE_ASSET',
             activeAsset: assetId
+        })
+    }
+}
+
+export function updateAssetsQuery(query) {
+    return (dispatch) => {
+        dispatch({
+            type: 'SET_ASSETS_QUERY',
+            query: query
         })
     }
 }
@@ -145,15 +159,6 @@ export function purchaseAsset(assetId) {
     }
 }
 
-export function setAssetFilter(filter) {
-    return (dispatch) => {
-        dispatch({
-            type: 'SET_ASSET_FILTER',
-            filter
-        })
-    }
-}
-
 export function getActiveOrder(state) {
     const { activeOrder, orders } = state.order
 
@@ -182,7 +187,9 @@ export function getOrders() {
             return []
         }
         const { ocean } = state.provider
-        let orders = await ocean.order.getOrdersByConsumer(account.name)
+        // Logger.log('ORDERS: ', await ocean.getOrdersByAccount(account))
+        // let orders = await ocean.order.getOrdersByConsumer(account.name)
+        let orders = await ocean.getOrdersByAccount(account)
         // Logger.log('ORDERS: ', orders, Object.values(state.asset.assets))
         let assets = null
         // do we have assets in the state?ß

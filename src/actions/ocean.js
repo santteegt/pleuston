@@ -13,7 +13,7 @@ import {
 
 export async function provideOcean() {
     const nodeUri = `${keeperScheme}://${keeperHost}:${keeperPort}`
-    const aquariusUri = `${aquariusScheme}://${aquariusHost}:${aquariusPort}/api/v1/provider`
+    const aquariusUri = `${aquariusScheme}://${aquariusHost}:${aquariusPort}`
 
     const config = {
         // todo: change this when the new interface of metmask is released

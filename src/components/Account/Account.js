@@ -54,7 +54,7 @@ export default class Account extends PureComponent {
                 onTouchStart={() => this.togglePopover()}
             >
                 {balance && (
-                    <Balance eth={balance.eth} ocn={balance.ocn} />
+                    <Balance eth={balance.eth.toString()} ocn={balance.ocn.toString()} />
                 )}
                 <Status
                     networkName={networkName}

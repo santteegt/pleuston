@@ -3,17 +3,9 @@ import fetchDownload from 'fetch-download'
 import AssetModel from '../models/asset'
 import { Logger } from '@oceanprotocol/squid'
 
-const MINIMUM_REQUIRED_TOKENS = 10
-
 export async function publish(formValues, account, providers) {
     const { ocean } = providers
-    const publisherId = account.name
-    // check account balance and request tokens if necessary
-    const tokensBalance = await ocean.account.getTokenBalance(publisherId)
-    if (tokensBalance < MINIMUM_REQUIRED_TOKENS) {
-        await ocean.account.requestTokens(MINIMUM_REQUIRED_TOKENS, publisherId)
-    }
-
+    const publisherId = account.getId()
     // Get user entered form values
     const {
         name,
@@ -29,10 +21,10 @@ export async function publish(formValues, account, providers) {
     } = formValues
 
     // Register on the keeper (on-chain) first, then on the OceanDB
-    const assetId = await ocean.asset.registerAsset(
-        name, description, price, publisherId
+    const assetId = await ocean.register(
+        name, description, price, account
     )
-
+    console.log('ASSETID', assetId)
     // Now register in oceandb and publish the metadata
     const newAsset = {
         assetId,
@@ -73,29 +65,29 @@ export async function publish(formValues, account, providers) {
     return newAsset
 }
 
-export async function list(account, providers) {
-    const { ocean } = providers
-    let dbAssets = await ocean.metadata.getAssetsMetadata()
-    // Logger.log('Loaded assets (from provider):', JSON.stringify(dbAssets, null, 2))
-    Logger.log(`Loaded ${Object.keys(dbAssets).length} assets (from provider)`)
-
-    dbAssets = Object.values(dbAssets)
-        .filter(async (asset) => ocean.asset.isAssetActive(asset.assetId))
-    // Logger.log('Loaded assets (that are published on-chain):', JSON.stringify(dbAssets, null, 2))
-    Logger.log(`Loaded ${Object.keys(dbAssets).length} assets (that are published on-chain)`)
-
-    return dbAssets
-}
+// export async function list(account, providers) {
+//     const { ocean } = providers
+//     let dbAssets = await ocean.metadata.getAssetsMetadata()
+//     // Logger.log('Loaded assets (from provider):', JSON.stringify(dbAssets, null, 2))
+//     Logger.log(`Loaded ${Object.keys(dbAssets).length} assets (from provider)`)
+//
+//     dbAssets = Object.values(dbAssets)
+//         .filter(async (asset) => ocean.asset.isAssetActive(asset.assetId))
+//     // Logger.log('Loaded assets (that are published on-chain):', JSON.stringify(dbAssets, null, 2))
+//     Logger.log(`Loaded ${Object.keys(dbAssets).length} assets (that are published on-chain)`)
+//
+//     return dbAssets
+// }
 
 export async function purchase(asset, account, providers) {
-    const { ocean } = providers
+    // const { ocean } = providers
 
     Logger.log('Purchasing asset by consumer:', account.name, 'assetid: ', asset.assetId)
-
+    const serviceAgreementId = 1
     // TODO: allow user to set timeout through the UI.
     const timeout = new Date().setHours(new Date().getHours() + 12)
-    Logger.log(timeout)
-    const order = await ocean.order.purchaseAsset(asset, timeout, account.name)
+    // const order = await ocean.order.purchaseAsset(asset, timeout, account.name)
+    const order = await asset.purchase(asset.assetId, serviceAgreementId, timeout)
     Logger.log('order', order)
     if (order.accessUrl) {
         Logger.log('begin downloading asset data.')
