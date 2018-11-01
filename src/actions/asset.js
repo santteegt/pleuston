@@ -21,11 +21,9 @@ export async function publish(formValues, account, providers) {
         description,
         license,
         contentUrls,
-        // links, // use once we get the full array of link objects passed from the form
         linkTitle,
         linkType,
         linkUrl,
-
         author,
         copyrightHolder,
         tags,

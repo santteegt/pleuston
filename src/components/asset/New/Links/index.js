@@ -1,18 +1,19 @@
 import React, { PureComponent } from 'react'
-import { CSSTransition, TransitionGroup } from 'react-transition-group'
 import PropTypes from 'prop-types'
+import { CSSTransition, TransitionGroup } from 'react-transition-group'
 import Button from '../../../atoms/Button'
 import LinkForm from './LinkForm'
 import Link from './Link'
 import styles from './index.module.scss'
 
 export default class Links extends PureComponent {
-    constructor(props) {
-        super(props)
+    static propTypes = {
+        fields: PropTypes.object.isRequired,
+        resetLinksForm: PropTypes.func.isRequired
+    }
 
-        this.state = {
-            isFormShown: false
-        }
+    state = {
+        isFormShown: false
     }
 
     toggleForm = (e) => {
@@ -23,8 +24,8 @@ export default class Links extends PureComponent {
 
     addLink = (name, type, url) => {
         this.props.fields.push({ name: name, type: type, url: url })
-        this.setState({ isFormShown: !this.state.isFormShown })
         this.props.resetLinksForm()
+        this.setState({ isFormShown: !this.state.isFormShown })
     }
 
     removeLink = (index) => {
@@ -66,9 +67,4 @@ export default class Links extends PureComponent {
             </div>
         )
     }
-}
-
-Links.propTypes = {
-    fields: PropTypes.object.isRequired,
-    resetLinksForm: PropTypes.func.isRequired
 }
