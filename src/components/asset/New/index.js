@@ -1,13 +1,13 @@
 import React from 'react'
 import PropTypes from 'prop-types'
-import { Form, reduxForm } from 'redux-form'
+import { Form, reduxForm, FieldArray } from 'redux-form'
 import Button from '../../atoms/Button'
 import FormInput from '../../atoms/Form/FormInput'
 import FormHelp from '../../atoms/Form/FormHelp'
 import CloudStorageLoader from '../../../containers/CloudStorageLoader'
 import Links from './Links/'
 
-const AssetNew = ({ handleSubmit, linkSetter }) => (
+const AssetNew = ({ handleSubmit, linkSetter, resetLinksForm }) => (
     <Form className="form" onSubmit={handleSubmit}>
 
         <div className="form__group">
@@ -61,7 +61,7 @@ const AssetNew = ({ handleSubmit, linkSetter }) => (
 
             <FormHelp>Provide one or multiple links (e.g. samples, format definitions, web links) to give supplementary information about an Asset.</FormHelp>
 
-            <Links />
+            <FieldArray name="links" resetLinksForm={resetLinksForm} component={Links} />
         </div>
 
         <div className="form__group">
@@ -90,7 +90,8 @@ const AssetNew = ({ handleSubmit, linkSetter }) => (
 
 AssetNew.propTypes = {
     handleSubmit: PropTypes.func.isRequired,
-    linkSetter: PropTypes.func.isRequired
+    linkSetter: PropTypes.func.isRequired,
+    resetLinksForm: PropTypes.func.isRequired
 }
 
 const AssetNewForm = reduxForm({

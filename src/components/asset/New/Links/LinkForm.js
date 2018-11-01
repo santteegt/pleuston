@@ -17,14 +17,6 @@ export default class LinkForm extends PureComponent {
         url: null
     }
 
-    componentDidMount() {
-        this.setState({ name: null, type: null, url: null })
-    }
-
-    componentWillUnmount() {
-        this.setState({ name: null, type: null, url: null })
-    }
-
     handleSubmit = (e) => {
         e.preventDefault()
 

@@ -18,6 +18,11 @@ export default connect(
         },
         linkSetter: (newValue) => {
             dispatch(change('newAsset', 'contentUrls', newValue))
+        },
+        resetLinksForm: () => {
+            dispatch(change('newAsset', 'linkName', ''))
+            dispatch(change('newAsset', 'linkType', ''))
+            dispatch(change('newAsset', 'linkUrl', ''))
         }
     })
 )(AssetNewForm)

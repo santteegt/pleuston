@@ -1,26 +1,18 @@
 import React, { PureComponent } from 'react'
 import { CSSTransition, TransitionGroup } from 'react-transition-group'
-import { Field } from 'redux-form'
+import PropTypes from 'prop-types'
 import Button from '../../../atoms/Button'
 import LinkForm from './LinkForm'
 import Link from './Link'
 import styles from './index.module.scss'
 
 export default class Links extends PureComponent {
-    state = {
-        isFormShown: false,
-        links: [
-            {
-                name: 'Sample of Asset Data',
-                type: 'sample',
-                url: 'https://foo.com/sample.csv'
-            },
-            {
-                name: 'Another Sample of Asset Data',
-                type: 'sample',
-                url: 'https://foo.com/fqhuifhwnuigbrwfebwjflnwlk/fbenjwkfbenwjkbfnewjlk/sample.csv'
-            }
-        ]
+    constructor(props) {
+        super(props)
+
+        this.state = {
+            isFormShown: false
+        }
     }
 
     toggleForm = (e) => {
@@ -30,41 +22,28 @@ export default class Links extends PureComponent {
     }
 
     addLink = (name, type, url) => {
-        const { links } = this.state
-
-        this.setState({
-            links: [
-                ...links,
-                {
-                    name,
-                    type,
-                    url
-                }
-            ],
-            isFormShown: false
-        })
+        this.props.fields.push({ name: name, type: type, url: url })
+        this.setState({ isFormShown: !this.state.isFormShown })
+        this.props.resetLinksForm()
     }
 
-    removeLink = (e) => {
-        e.preventDefault()
-
-        // TODO: remove respective link from local state
+    removeLink = (index) => {
+        this.props.fields.remove(index)
     }
 
     render() {
-        const { isFormShown, links } = this.state
-
+        const { isFormShown } = this.state
         return (
             <div className={styles.newLinks}>
-                {links && (
+                {this.props.fields && (
                     <TransitionGroup component="ul" className={styles.linkList}>
-                        {links.map((link, index) => (
+                        {this.props.fields.map((link, index) => (
                             <CSSTransition
                                 key={index}
                                 timeout={400}
                                 classNames="fade"
                             >
-                                <Link link={link} removeLink={this.removeLink} />
+                                <Link link={this.props.fields.get(index)} removeLink={() => this.removeLink(index)} />
                             </CSSTransition>
                         ))}
                     </TransitionGroup>
@@ -84,15 +63,12 @@ export default class Links extends PureComponent {
                     <LinkForm addLink={this.addLink} />
                 </CSSTransition>
 
-                {/* Used to capture and pass the links array data on form submit */}
-                <Field
-                    component="input"
-                    type="hidden"
-                    id="links"
-                    name="links"
-                    value={JSON.stringify(links)}
-                />
             </div>
         )
     }
+}
+
+Links.propTypes = {
+    fields: PropTypes.object.isRequired,
+    resetLinksForm: PropTypes.func.isRequired
 }
