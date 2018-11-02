@@ -1,13 +1,9 @@
 const initialState = {
     assets: {},
     activeAsset: null,
-    query: {
-        offset: 10,
-        page: 0,
-        sort: {
-            value: 1
-        },
-        text: ''
+    search: {
+        text: '',
+        page: 0
     }
 }
 
@@ -21,9 +17,19 @@ const asset = (state = initialState, action) => {
             return Object.assign({}, state, {
                 activeAsset: action.activeAsset
             })
-        case 'SET_ASSETS_QUERY':
+        case 'SET_ASSET_SEARCH':
             return Object.assign({}, state, {
-                query: action.query
+                search: {
+                    text: action.text,
+                    page: state.search.page
+                }
+            })
+        case 'SET_ASSET_SEARCH_PAGE':
+            return Object.assign({}, state, {
+                search: {
+                    text: state.search.text,
+                    page: action.page
+                }
             })
         default:
             return state

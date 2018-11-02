@@ -1,6 +1,7 @@
 import azure from 'azure-storage'
 import * as ocean from './ocean'
 import * as asset from './asset'
+import * as mockAssets from '../mock/assets'
 import { Logger } from '@oceanprotocol/squid'
 import { storageAccount, accessKey } from '../../config/cloudStorage'
 import queryString from 'query-string'
@@ -84,7 +85,7 @@ export function getAssets() {
     return async (dispatch, getState) => {
         const state = getState()
         const { ocean } = state.provider
-        Logger.log('QUERY:', state.asset.query)
+        Logger.log('QUERY:', state)
         Logger.log('SEARCH:', await ocean.searchAssets())
         /*
         const state = getState()
@@ -98,10 +99,31 @@ export function getAssets() {
                 return map
             }, {})
         */
-        const assets = []
+        const assets = mockAssets.default.reduce((map, obj) => {
+            map[obj.assetId] = obj
+            return map
+        }, {})
         dispatch({
             type: 'GET_ASSETS',
             assets
+        })
+    }
+}
+
+export function setAssetSearch(values) {
+    return (dispatch) => {
+        dispatch({
+            type: 'SET_ASSET_SEARCH',
+            text: values.text
+        })
+    }
+}
+
+export function setAssetSearchPage(page) {
+    return (dispatch) => {
+        dispatch({
+            type: 'SET_ASSET_SEARCH_PAGE',
+            page: page
         })
     }
 }
@@ -111,15 +133,6 @@ export function setActiveAsset(assetId) {
         dispatch({
             type: 'SET_ACTIVE_ASSET',
             activeAsset: assetId
-        })
-    }
-}
-
-export function updateAssetsQuery(query) {
-    return (dispatch) => {
-        dispatch({
-            type: 'SET_ASSETS_QUERY',
-            query: query
         })
     }
 }

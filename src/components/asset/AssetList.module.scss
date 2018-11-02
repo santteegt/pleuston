@@ -1,10 +1,5 @@
 @import 'variables';
 
-.search {
-  width: 100%;
-  text-align: center;
-}
-
 .assets {
     @media (min-width: $break-point--small) {
         display: grid;
@@ -21,13 +16,4 @@
     @media (min-width: $break-point--small) {
         margin: $spacer / 2;
     }
-}
-
-.pagination {
-    text-align: center;
-    width: 100%;
-}
-
-.pageItem {
-    margin: 10px;
 }
