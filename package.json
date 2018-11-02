@@ -14,7 +14,7 @@
     "preinstall": "npm run requirements-check"
   },
   "engines": {
-    "node": ">=8 <10"
+    "node": ">=8"
   },
   "dependencies": {
     "@oceanprotocol/art": "^1.0.2",

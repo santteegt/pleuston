@@ -51,7 +51,7 @@ _Pleuston_ is a single page React app, initially bootstrapped with [`create-reac
 
 ## Prerequisites
 
-- Node.js >=8 <v10 (`ursa` won't compile on `npm install` with newer versions, see https://github.com/JoshKaufman/ursa/issues/175)
+- Node.js >=8
 - npm
 - Ocean Protocol components
 - [MetaMask](https://metamask.io)
