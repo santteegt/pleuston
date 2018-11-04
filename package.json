@@ -70,7 +70,7 @@
     "babel-plugin-named-asset-import": "^0.2.2",
     "babel-preset-react-app": "^6.0.0",
     "bfj": "6.1.1",
-    "bignumber.js": "8.0.1",
+    "bignumber.js": "^8.0.1",
     "browserslist": "^4.1.1",
     "canvas": "^2.0.1",
     "chalk": "^2.4.1",
