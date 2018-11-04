@@ -9,7 +9,8 @@
     "lint:js": "eslint ./src/",
     "lint:css": "stylelint ./src/**/*.scss",
     "lint": "run-p --continue-on-error lint:js lint:css",
-    "test": "npm run lint && node scripts/test.js --env=jsdom --coverage && cat ./coverage/lcov.info | codacy-coverage",
+    "test": "npm run lint && node scripts/test.js --env=jsdom --coverage",
+    "test:ci": "npm run test && cat ./coverage/lcov.info | codacy-coverage",
     "requirements-check": "./scripts/check-node-version.sh",
     "preinstall": "npm run requirements-check"
   },
