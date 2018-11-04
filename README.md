@@ -161,7 +161,7 @@ npm run lint
 
 ## Testing
 
-Automatic tests are setup via Travis, executing `npm test`.
+Automatic tests are setup via Travis, executing `npm test:ci`. If you want to execute these tests locally, please use `npm test`. Otherwise, setup an account with [Codacy](https://www.codacy.com/) and provide an API Token as described in their [documentation](https://support.codacy.com/hc/en-us/articles/115000255385).
 
 At the moment, besides linting tests, there's only one test checking if the whole app can be rendered.
 
