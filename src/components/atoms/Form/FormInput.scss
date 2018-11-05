@@ -7,9 +7,26 @@
     width: 100%;
     padding: 2px;
     display: flex;
+    position: relative;
 
     &.is-focused {
         background: $brand-black;
+    }
+}
+
+.input-wrap-search {
+    .input {
+        padding-left: $spacer * 1.25;
+    }
+
+    svg {
+        position: absolute;
+        left: $spacer / 3;
+        width: 1.25rem;
+        height: 1.25rem;
+        top: 50%;
+        margin-top: -.75rem;
+        fill: rgba($brand-grey-light, .7);
     }
 }
 
@@ -40,6 +57,7 @@
         color: $brand-grey-light;
         font-weight: $font-weight-base;
         transition: .2s ease-out;
+        opacity: .7;
     }
 
     &[readonly],
