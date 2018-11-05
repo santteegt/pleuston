@@ -1,0 +1,21 @@
+@import 'variables';
+
+.pagination {
+    width: 100%;
+    text-align: center;
+    padding-top: 30px;
+    padding-bottom: 10px;
+}
+
+.item {
+    padding-left: 20px;
+    padding-left: 20px;
+}
+.search {
+    display: grid;
+    grid-template-columns: 20rem 1fr 9rem;
+    width: 100%;
+}
+.searchHolder{
+  width: 100%;
+}
