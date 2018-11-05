@@ -10,7 +10,6 @@ import { composeWithDevTools } from 'redux-devtools-extension'
 import { createBrowserHistory } from 'history'
 import {
     ConnectedRouter as Router,
-    connectRouter,
     routerMiddleware
 } from 'connected-react-router'
 
@@ -26,10 +25,12 @@ import Web3AccountUnavailable from './components/Account/Web3AccountUnavailable'
 const history = createBrowserHistory()
 
 const store = createStore(
-    connectRouter(history)(appReducer),
+    appReducer(history),
     composeWithDevTools(
-        applyMiddleware(thunk),
-        applyMiddleware(routerMiddleware(history))
+        applyMiddleware(
+            routerMiddleware(history), // for dispatching history actions
+            thunk
+        )
     )
 )
 

@@ -6,7 +6,6 @@ import { createStore, applyMiddleware } from 'redux'
 import { composeWithDevTools } from 'redux-devtools-extension'
 import {
     ConnectedRouter as Router,
-    connectRouter,
     routerMiddleware
 } from 'connected-react-router'
 import { createBrowserHistory } from 'history'
@@ -15,11 +14,14 @@ import appReducer from '../../reducers'
 import OauthResult from './OauthResult'
 
 const history = createBrowserHistory()
+
 const store = createStore(
-    connectRouter(history)(appReducer),
+    appReducer(history),
     composeWithDevTools(
-        applyMiddleware(thunk),
-        applyMiddleware(routerMiddleware(history))
+        applyMiddleware(
+            routerMiddleware(history),
+            thunk
+        )
     )
 )
 
