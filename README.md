@@ -23,19 +23,21 @@ Main issues right now:
 
 ## Table of Contents
 
-- [Features](#features)
-- [Prerequisites](#prerequisites)
-    - [🐋 aquarius](#aquarius)
-    - [💧 keeper-contracts](#keeper-contracts)
-- [Storage Providers](#storage-providers)
-    - [Azure Storage](#azure-storage)
-- [Development](#development)
-    - [MetaMask](#metamask)
-    - [Production build](#production-build)
-- [Configuration](#configuration)
-- [Code style](#code-style)
-- [Testing](#testing)
-- [License](#license)
+- [Pleuston](#pleuston)
+    - [Table of Contents](#table-of-contents)
+    - [Features](#features)
+    - [Prerequisites](#prerequisites)
+        - [🐋 aquarius](#-aquarius)
+        - [💧 keeper-contracts](#-keeper-contracts)
+    - [Storage Providers](#storage-providers)
+        - [Azure Storage](#azure-storage)
+    - [Development](#development)
+        - [MetaMask](#metamask)
+        - [Production build](#production-build)
+    - [Configuration](#configuration)
+    - [Testing](#testing)
+    - [Code style](#code-style)
+    - [License](#license)
 
 ---
 
@@ -149,21 +151,26 @@ module.exports = {
 }
 ```
 
+## Testing
+
+Automatic tests are setup via Travis, executing `npm test`.
+
+The tests run:
+
+- linting checks with ESLint and Stylelint
+- basic rendering tests for components with Jest
+
+While code coverage status will be reported in the console and on Travis, coverage information won't be uploaded to Codacy for any Pull Request from a forked repo. That is because of a [security restriction in Travis](https://docs.travis-ci.com/user/pull-requests/#pull-requests-and-security-restrictions).
+
 ## Code style
 
 Code linting is setup with [ESLint](https://eslint.org) and [stylelint](https://stylelint.io) following [eslint-config-oceanprotocol](https://github.com/oceanprotocol/eslint-config-oceanprotocol) and [stylelint-config-bigchaindb](https://github.com/bigchaindb/stylelint-config-bigchaindb).
 
-There's a npm script setup which runs all linting tests:
+There's a npm script setup which runs only linting tests:
 
 ```bash
 npm run lint
 ```
-
-## Testing
-
-Automatic tests are setup via Travis, executing `npm test:ci`. If you want to execute these tests locally, please use `npm test`. Otherwise, setup an account with [Codacy](https://www.codacy.com/) and provide an API Token as described in their [documentation](https://support.codacy.com/hc/en-us/articles/115000255385).
-
-At the moment, besides linting tests, there's only one test checking if the whole app can be rendered.
 
 ## License
 
