@@ -1,27 +1,23 @@
-import React, { Fragment } from 'react'
+import React from 'react'
 import PropTypes from 'prop-types'
 import { reduxForm } from 'redux-form'
 import Button from '../atoms/Button'
 import FormInput from '../atoms/Form/FormInput'
 import AssetList from '../../components/asset/AssetList'
-import ScreenHeader from '../../components/ScreenHeader'
 
 import styles from './AssetSearch.module.scss'
 
 const AssetSearch = ({ page, handleSubmit, assets, handleClick, handleSetPage }) => (
-    <Fragment>
-        <div className={styles.searchHolder}>
-            <form onSubmit={handleSubmit} className={styles.search}>
-                <ScreenHeader title="Data Sets" subtitle="Explore all data sets" />
-                <div className="form__group">
-                    <FormInput label="Search" name="text" component="input" type="text" placeholder="Search for keyword in the name or description." />
-                </div>
-                <div className="form__group">
-                    <Button primary="true" type="submit">Search</Button>
-                </div>
-            </form>
-        </div>
+    <>
+        <form onSubmit={handleSubmit} className={styles.searchForm}>
+            <div className="input-group">
+                <FormInput label="Search" name="text" component="input" type="search" placeholder="Search for keyword in the name or description." />
+                <Button type="submit">Search</Button>
+            </div>
+        </form>
+
         <AssetList assets={assets} handleClick={handleClick} />
+
         {assets && assets.length && (
             <div className={styles.pagination}>
                 <a href="#" className={styles.item} onClick={() => handleSetPage(page - 1)}>&lt; Prev page</a>
@@ -29,7 +25,7 @@ const AssetSearch = ({ page, handleSubmit, assets, handleClick, handleSetPage })
                 <a href="#" className={styles.item} onClick={() => handleSetPage(page + 1)}>Next page &gt;</a>
             </div>
         )}
-    </Fragment>
+    </>
 )
 
 AssetSearch.propTypes = {

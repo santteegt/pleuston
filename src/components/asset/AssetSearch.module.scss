@@ -1,21 +1,43 @@
 @import 'variables';
 
+.searchForm {
+    width: 100%;
+
+    label {
+        // hide visually, but expose to screen readers
+        position: absolute;
+        overflow: hidden;
+        clip: rect(0 0 0 0);
+        height: 1px;
+        width: 1px;
+        margin: -1px;
+        padding: 0;
+        border: 0;
+    }
+
+    button {
+        @media screen and (min-width: $break-point--small) {
+            width: 20%;
+        }
+    }
+
+    :global(.input-wrap) {
+        background: $brand-grey-lighter;
+
+        &:global(.is-focused) {
+            background: $brand-grey-light;
+        }
+    }
+}
+
 .pagination {
     width: 100%;
     text-align: center;
-    padding-top: 30px;
-    padding-bottom: 10px;
+    padding-top: $spacer * 2;
+    padding-bottom: $spacer;
 }
 
 .item {
-    padding-left: 20px;
-    padding-left: 20px;
-}
-.search {
-    display: grid;
-    grid-template-columns: 20rem 1fr 9rem;
-    width: 100%;
-}
-.searchHolder{
-  width: 100%;
+    padding-left: $spacer;
+    padding-right: $spacer;
 }
