@@ -51,7 +51,7 @@ _Pleuston_ is a single page React app, initially bootstrapped with [`create-reac
 
 ## Prerequisites
 
-- Node.js >=8 <v10 (`ursa` won't compile on `npm install` with newer versions, see https://github.com/JoshKaufman/ursa/issues/175)
+- Node.js >=8
 - npm
 - Ocean Protocol components
 - [MetaMask](https://metamask.io)
@@ -161,7 +161,7 @@ npm run lint
 
 ## Testing
 
-Automatic tests are setup via Travis, executing `npm test`.
+Automatic tests are setup via Travis, executing `npm test:ci`. If you want to execute these tests locally, please use `npm test`. Otherwise, setup an account with [Codacy](https://www.codacy.com/) and provide an API Token as described in their [documentation](https://support.codacy.com/hc/en-us/articles/115000255385).
 
 At the moment, besides linting tests, there's only one test checking if the whole app can be rendered.
 

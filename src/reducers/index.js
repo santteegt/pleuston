@@ -1,4 +1,5 @@
 import { combineReducers } from 'redux'
+import { connectRouter } from 'connected-react-router'
 import { reducer as formReducer } from 'redux-form'
 
 import account from './account'
@@ -8,7 +9,8 @@ import order from './order'
 import cloudStorage from './cloudStorage'
 import oauthAccounts from './oauthaccounts'
 
-const appReducer = combineReducers({
+const appReducer = history => combineReducers({
+    router: connectRouter(history),
     form: formReducer,
     account,
     asset,
