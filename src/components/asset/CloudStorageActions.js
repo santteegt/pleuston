@@ -74,6 +74,13 @@ export default class CloudStorageActions extends PureComponent {
         }
     }
 
+    clearOauthAccounts = () => {
+        if (typeof window !== 'undefined') {
+            window.localStorage.removeItem('oauthAccounts')
+        }
+        this.setState({ isConnected: false })
+    }
+
     render() {
         const { linkSetter } = this.props
 
@@ -87,15 +94,23 @@ export default class CloudStorageActions extends PureComponent {
                         args={{ response_type: 'token', scope }}
                         state={{ from: '/new' }}
                         render={({ url }) => (
-                            <Button
-                                link="true"
-                                icon={IconAzure}
-                                onClick={(e) => this.toggleAzure(e, url)}
-                            >
+                            <>
+                                <Button
+                                    link="true"
+                                    icon={IconAzure}
+                                    onClick={(e) => this.toggleAzure(e, url)}
+                                >
                                 Azure
-                            </Button>
-                            // TODO: add some feedback for connected state
-                            // TODO: add signout/disconnect action
+                                </Button>
+                                {this.state.isConnected && (
+                                    <Button
+                                        className={styles.logout}
+                                        onClick={this.clearOauthAccounts}
+                                    >
+                                    logout
+                                    </Button>
+                                )}
+                            </>
                         )}
                     />
                 </div>
