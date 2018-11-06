@@ -16,7 +16,30 @@ export default class CloudStorageActions extends PureComponent {
     }
 
     state = {
-        isModalOpen: false
+        isModalOpen: false,
+        isConnected: false
+    }
+
+    componentDidMount() {
+        if (typeof window !== 'undefined') {
+            this.setState({ isConnected: !!window.localStorage.getItem('oauthAccounts') })
+
+            window.addEventListener('storage', this.localStorageUpdated)
+        }
+    }
+
+    componentWillUnmount() {
+        if (typeof window !== 'undefined') {
+            window.removeEventListener('storage', this.localStorageUpdated)
+        }
+    }
+
+    localStorageUpdated = () => {
+        if (!window.localStorage.getItem('oauthAccounts')) {
+            this.setState({ isConnected: false })
+        } else if (!this.state.isConnected) {
+            this.setState({ isConnected: true })
+        }
     }
 
     toggleModal = () => {
@@ -43,9 +66,8 @@ export default class CloudStorageActions extends PureComponent {
         // https://stackoverflow.com/questions/43514537/maintain-redux-state-from-popup-to-main-window
         //
         // const isConnected = this.props.oauthAccounts.azure && this.props.oauthAccounts.azure.expires_on < Date.now()
-        const isConnected = window.localStorage.getItem('oauthAccounts') !== null
 
-        if (isConnected) {
+        if (this.state.isConnected) {
             this.toggleModal()
         } else {
             this.toggleOauthPopup(url)
