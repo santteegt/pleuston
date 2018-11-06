@@ -14,7 +14,9 @@ export default class LinkForm extends PureComponent {
     state = {
         name: null,
         type: null,
-        url: null
+        url: null,
+        hasError: null,
+        noUrl: null
     }
 
     handleSubmit = (e) => {
@@ -24,25 +26,41 @@ export default class LinkForm extends PureComponent {
 
         // return when required fields are empty, and url value is no url
         // Can't use browser validation cause we are in a form within a form
-        if (!name || !type || !url || !isUrl(url)) return
+        if (!name || !type || !url) {
+            this.setState({ hasError: true })
+            return
+        }
+
+        if (url && !isUrl(url)) {
+            this.setState({ noUrl: true })
+            return
+        }
 
         this.props.addLink(name, type, url)
     }
 
     onChangeName = (e) => {
         this.setState({ name: e.target.value })
+        this.clearErrors()
     }
 
     onChangeType = (e) => {
         this.setState({ type: e.target.value })
+        this.clearErrors()
     }
 
     onChangeUrl = (e) => {
         this.setState({ url: e.target.value })
+        this.clearErrors()
+    }
+
+    clearErrors() {
+        if (this.state.hasError) this.setState({ hasError: null })
+        if (this.state.noUrl) this.setState({ noUrl: null })
     }
 
     render() {
-        const { name, type, url } = this.state
+        const { name, type, url, hasError, noUrl } = this.state
 
         return (
             <fieldset className={styles.linkForm}>
@@ -82,7 +100,11 @@ export default class LinkForm extends PureComponent {
                         onChange={this.onChangeUrl}
                     />
                 </FormInputGroup>
+
                 <Button onClick={(e) => this.handleSubmit(e)}>Add Link</Button>
+
+                {hasError && <span className={styles.error}>Please fill in all required fields.</span>}
+                {noUrl && <span className={styles.error}>Please enter a valid URL.</span>}
             </fieldset>
         )
     }

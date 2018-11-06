@@ -30,3 +30,9 @@
         margin-top: $spacer / 8;
     }
 }
+
+.error {
+    font-size: $font-size-small;
+    color: $red;
+    margin-left: $spacer / 4;
+}
