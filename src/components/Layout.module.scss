@@ -17,7 +17,7 @@ body {
 .narrow {
     margin: auto;
     margin-bottom: $spacer * 2;
-    max-width: $break-point--small;
+    max-width: $narrowWidth;
 }
 
 .layoutSidebar {

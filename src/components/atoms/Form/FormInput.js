@@ -7,30 +7,30 @@ class FormInput extends PureComponent {
     state = { isFocused: false }
 
     render() {
-        const { name, label, required, help } = this.props
+        const { name, label, required, help, additionalComponent } = this.props
 
         return (
-            <>
-                <div>
-                    <label
-                        htmlFor={name}
-                        className={required ? 'form__label is-required' : 'form__label'}
-                        title={required ? 'Required' : null}
-                    >
-                        {label}
-                    </label>
-                    <div className={this.state.isFocused ? 'input-wrap is-focused' : 'input-wrap'}>
-                        <Field
-                            className="input"
-                            id={name}
-                            {...this.props}
-                            onFocus={() => this.setState({ isFocused: true })}
-                            onBlur={() => this.setState({ isFocused: false })}
-                        />
-                    </div>
+            <div className="form__group">
+                <label
+                    htmlFor={name}
+                    className={required ? 'form__label is-required' : 'form__label'}
+                    title={required ? 'Required' : null}
+                >
+                    {label}
+                </label>
+                <div className={this.state.isFocused ? 'input-wrap is-focused' : 'input-wrap'}>
+                    <Field
+                        className="input"
+                        id={name}
+                        {...this.props}
+                        onFocus={() => this.setState({ isFocused: true })}
+                        onBlur={() => this.setState({ isFocused: false })}
+                    />
                 </div>
                 {help && <FormHelp>{help}</FormHelp>}
-            </>
+
+                {additionalComponent && additionalComponent}
+            </div>
         )
     }
 }

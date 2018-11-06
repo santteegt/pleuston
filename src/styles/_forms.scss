@@ -8,7 +8,8 @@ fieldset {
 .form {
     background: $brand-white;
     color: $brand-grey;
-    max-width: 35rem;
+    max-width: $narrowWidth;
+    margin: auto;
 }
 
 .form__title {

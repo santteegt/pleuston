@@ -10,51 +10,35 @@ import Links from './Links/'
 const AssetNew = ({ handleSubmit, linkSetter, resetLinksForm }) => (
     <Form className="form" onSubmit={handleSubmit}>
 
-        <div className="form__group">
-            <FormInput label="Title" name="name" required component="input" type="text" help="The title of your asset." />
-        </div>
+        <FormInput label="Title" name="name" required component="input" type="text" help="The title of your asset." />
 
-        <div className="form__group">
-            <FormInput label="Description" name="description" required component="textarea" rows="5" help="Describe your asset, explaining what the data represents and what it can be used for." />
-        </div>
+        <FormInput label="Description" name="description" required component="textarea" rows="5" help="Describe your asset, explaining what the data represents and what it can be used for." />
 
-        <div className="form__group">
-            <FormInput label="Asset file" name="contentUrls" required component="input" type="url" placeholder="e.g. https://url.com/dataset.zip" help="Add a URL pointing to your data set asset or select it from cloud storage providers." />
+        <FormInput label="Asset file" name="contentUrls" required component="input" type="url" placeholder="e.g. https://url.com/dataset.zip" help="Add a URL pointing to your data set asset or select it from cloud storage providers." additionalComponent={<CloudStorageLoader linkSetter={linkSetter} />} />
 
-            <CloudStorageLoader linkSetter={linkSetter} />
-        </div>
+        <FormInput label="Price" name="price" required type="number" component="input" placeholder="0" help="Price of your asset in Ocean Tokens." />
 
-        <div className="form__group">
-            <FormInput label="Price" name="price" required type="number" component="input" placeholder="0" help="Price of your asset in Ocean Tokens." />
-        </div>
+        <FormInput label="Author" name="author" required component="input" type="text" placeholder="e.g. Tfl, Disney Corp." help="The name of the entity generating this data." />
 
-        <div className="form__group">
-            <FormInput label="Author" name="author" required component="input" type="text" placeholder="e.g. Tfl, Disney Corp." help="The name of the entity generating this data." />
-        </div>
+        <FormInput label="Type" required name="type" component="select" help="The type of your asset.">
+            <option />
+            <option value="dataset">Data set</option>
+            <option value="algorithm">Algorithm</option>
+            <option value="container">Container</option>
+            <option value="workflow">Workflow</option>
+            <option value="other">Other</option>
+        </FormInput>
 
-        <div className="form__group">
-            <FormInput label="Type" required name="type" component="select" help="The type of your asset.">
-                <option />
-                <option value="dataset">Data set</option>
-                <option value="algorithm">Algorithm</option>
-                <option value="container">Container</option>
-                <option value="workflow">Workflow</option>
-                <option value="other">Other</option>
-            </FormInput>
-        </div>
-
-        <div className="form__group">
-            <FormInput label="License" required name="license" component="select">
-                <option value="none">No License Specified</option>
-                <option value="Public Domain">Public Domain</option>
-                <option value="CC BY">CC BY: Attribution</option>
-                <option value="CC BY-SA">CC BY-SA: Attribution ShareAlike</option>
-                <option value="CC BY-ND">CC BY-ND: Attribution-NoDerivs</option>
-                <option value="CC BY-NC">CC BY-NC: Attribution-NonCommercial</option>
-                <option value="CC BY-NC-SA">CC BY-NC-SA: Attribution-NonCommercial-ShareAlike</option>
-                <option value="CC BY-NC-ND">CC BY-NC-ND: Attribution-NonCommercial-NoDerivs</option>
-            </FormInput>
-        </div>
+        <FormInput label="License" required name="license" component="select">
+            <option value="none">No License Specified</option>
+            <option value="Public Domain">Public Domain</option>
+            <option value="CC BY">CC BY: Attribution</option>
+            <option value="CC BY-SA">CC BY-SA: Attribution ShareAlike</option>
+            <option value="CC BY-ND">CC BY-ND: Attribution-NoDerivs</option>
+            <option value="CC BY-NC">CC BY-NC: Attribution-NonCommercial</option>
+            <option value="CC BY-NC-SA">CC BY-NC-SA: Attribution-NonCommercial-ShareAlike</option>
+            <option value="CC BY-NC-ND">CC BY-NC-ND: Attribution-NonCommercial-NoDerivs</option>
+        </FormInput>
 
         <div className="form__group">
             <h3 className="form__group__title">Links</h3>
@@ -64,23 +48,17 @@ const AssetNew = ({ handleSubmit, linkSetter, resetLinksForm }) => (
             <FieldArray name="links" resetLinksForm={resetLinksForm} component={Links} />
         </div>
 
-        <div className="form__group">
-            <FormInput label="Copyright holder" name="copyrightHolder" component="input" type="text" placeholder="" help="The party holding the legal copyright." />
-        </div>
+        <FormInput label="Copyright holder" name="copyrightHolder" component="input" type="text" placeholder="" help="The party holding the legal copyright." />
 
-        <div className="form__group">
-            <FormInput label="Tags" name="tags" component="input" placeholder="e.g. climate, ocean, atmosphere, temperature, earth-science, public" help="Categorize your asset by one or more tags, separated by comma." />
-        </div>
+        <FormInput label="Tags" name="tags" component="input" placeholder="e.g. climate, ocean, atmosphere, temperature, earth-science, public" help="Categorize your asset by one or more tags, separated by comma." />
 
-        <div className="form__group">
-            <FormInput label="Update Frequency" name="updateFrequency" component="select" help="How often are updates expected, or is the resource static?">
-                <option />
-                <option value="seldom">Seldom</option>
-                <option value="annually">Annually</option>
-                <option value="quarterly">Quarterly</option>
-                <option value="never">Never expected to get updated</option>
-            </FormInput>
-        </div>
+        <FormInput label="Update Frequency" name="updateFrequency" component="select" help="How often are updates expected, or is the resource static?">
+            <option />
+            <option value="seldom">Seldom</option>
+            <option value="annually">Annually</option>
+            <option value="quarterly">Quarterly</option>
+            <option value="never">Never expected to get updated</option>
+        </FormInput>
 
         <div className="form__group">
             <Button primary="true" type="submit">Publish</Button>
