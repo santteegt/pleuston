@@ -12,11 +12,39 @@ const authorizeUrl = `https://login.microsoftonline.com/common/oauth2/v2.0/autho
 
 export default class CloudStorageActions extends PureComponent {
     static propTypes = {
-        linkSetter: PropTypes.func.isRequired
+        oauthAccounts: PropTypes.object.isRequired,
+        reloadOauthAccounts: PropTypes.func.isRequired
     }
 
     state = {
-        isModalOpen: false
+        isModalOpen: false,
+        isConnected: false
+    }
+
+    componentDidMount() {
+        if (typeof window !== 'undefined') {
+            this.setState({ isConnected: !!window.localStorage.getItem('oauthAccounts') })
+
+            window.addEventListener('storage', this.localStorageUpdated)
+        }
+    }
+
+    componentWillUnmount() {
+        if (typeof window !== 'undefined') {
+            window.removeEventListener('storage', this.localStorageUpdated)
+        }
+    }
+
+    localStorageUpdated = () => {
+        if (!window.localStorage.getItem('oauthAccounts')) {
+            this.setState({ isConnected: false })
+        } else {
+            this.props.reloadOauthAccounts()
+        }
+    }
+
+    isConnected = () => {
+        return this.props.oauthAccounts.azure && this.props.oauthAccounts.azure.expires_on < Date.now()
     }
 
     toggleModal = () => {
@@ -36,25 +64,22 @@ export default class CloudStorageActions extends PureComponent {
         if (e !== undefined) {
             e.preventDefault()
         }
-
-        //
-        // TODO: use Redux' global state to check if user is connected here
-        // Won't work right now, cause popup and OAuthResult need to dispatch more
-        // https://stackoverflow.com/questions/43514537/maintain-redux-state-from-popup-to-main-window
-        //
-        // const isConnected = this.props.oauthAccounts.azure && this.props.oauthAccounts.azure.expires_on < Date.now()
-        const isConnected = window.localStorage.getItem('oauthAccounts') !== null
-
-        if (isConnected) {
+        this.setState({ isConnected: this.isConnected })
+        if (this.state.isConnected) {
             this.toggleModal()
         } else {
             this.toggleOauthPopup(url)
         }
     }
 
-    render() {
-        const { linkSetter } = this.props
+    clearOauthAccounts = () => {
+        if (typeof window !== 'undefined') {
+            window.localStorage.removeItem('oauthAccounts')
+        }
+        this.setState({ isConnected: false })
+    }
 
+    render() {
         return (
             <>
                 <div className={styles.cloudstorage}>
@@ -65,15 +90,23 @@ export default class CloudStorageActions extends PureComponent {
                         args={{ response_type: 'token', scope }}
                         state={{ from: '/new' }}
                         render={({ url }) => (
-                            <Button
-                                link="true"
-                                icon={IconAzure}
-                                onClick={(e) => this.toggleAzure(e, url)}
-                            >
+                            <>
+                                <Button
+                                    link="true"
+                                    icon={IconAzure}
+                                    onClick={(e) => this.toggleAzure(e, url)}
+                                >
                                 Azure
-                            </Button>
-                            // TODO: add some feedback for connected state
-                            // TODO: add signout/disconnect action
+                                </Button>
+                                {this.state.isConnected && (
+                                    <Button
+                                        className={styles.logout}
+                                        onClick={this.clearOauthAccounts}
+                                    >
+                                    logout
+                                    </Button>
+                                )}
+                            </>
                         )}
                     />
                 </div>
@@ -81,7 +114,6 @@ export default class CloudStorageActions extends PureComponent {
                 <CloudStorageModal
                     isOpen={this.state.isModalOpen}
                     handleCloseModal={this.toggleModal}
-                    linkSetter={linkSetter}
                 />
             </>
         )
