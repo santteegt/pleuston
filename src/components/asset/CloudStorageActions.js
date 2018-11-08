@@ -12,7 +12,8 @@ const authorizeUrl = `https://login.microsoftonline.com/common/oauth2/v2.0/autho
 
 export default class CloudStorageActions extends PureComponent {
     static propTypes = {
-        linkSetter: PropTypes.func.isRequired
+        oauthAccounts: PropTypes.object.isRequired,
+        reloadOauthAccounts: PropTypes.func.isRequired
     }
 
     state = {
@@ -37,9 +38,13 @@ export default class CloudStorageActions extends PureComponent {
     localStorageUpdated = () => {
         if (!window.localStorage.getItem('oauthAccounts')) {
             this.setState({ isConnected: false })
-        } else if (!this.state.isConnected) {
-            this.setState({ isConnected: true })
+        } else {
+            this.props.reloadOauthAccounts()
         }
+    }
+
+    isConnected = () => {
+        return this.props.oauthAccounts.azure && this.props.oauthAccounts.azure.expires_on < Date.now()
     }
 
     toggleModal = () => {
@@ -59,14 +64,7 @@ export default class CloudStorageActions extends PureComponent {
         if (e !== undefined) {
             e.preventDefault()
         }
-
-        //
-        // TODO: use Redux' global state to check if user is connected here
-        // Won't work right now, cause popup and OAuthResult need to dispatch more
-        // https://stackoverflow.com/questions/43514537/maintain-redux-state-from-popup-to-main-window
-        //
-        // const isConnected = this.props.oauthAccounts.azure && this.props.oauthAccounts.azure.expires_on < Date.now()
-
+        this.setState({ isConnected: this.isConnected })
         if (this.state.isConnected) {
             this.toggleModal()
         } else {
@@ -82,8 +80,6 @@ export default class CloudStorageActions extends PureComponent {
     }
 
     render() {
-        const { linkSetter } = this.props
-
         return (
             <>
                 <div className={styles.cloudstorage}>
@@ -118,7 +114,6 @@ export default class CloudStorageActions extends PureComponent {
                 <CloudStorageModal
                     isOpen={this.state.isModalOpen}
                     handleCloseModal={this.toggleModal}
-                    linkSetter={linkSetter}
                 />
             </>
         )

@@ -24,7 +24,6 @@ import {
     getAssets,
     setProviders,
     getOrders,
-    getCloudFiles,
     getOauthAccounts
 } from './actions/index'
 
@@ -54,7 +53,6 @@ function boot() {
             store.dispatch(getAccounts())
                 .then(() => {
                     store.dispatch(getOrders())
-                    store.dispatch(getCloudFiles())
                 })
         })
 }

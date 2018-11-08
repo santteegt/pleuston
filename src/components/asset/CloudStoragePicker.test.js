@@ -11,6 +11,8 @@ it('CloudStoragePicker renders without crashing', () => {
             handleCloseModal={() => null}
             blobs={[]}
             error={null}
+            loadCloudFiles={() => null}
+            resetCloudFiles={() => null}
         />,
         div
     )
