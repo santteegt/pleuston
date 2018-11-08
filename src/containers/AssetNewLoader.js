@@ -1,7 +1,7 @@
 /* eslint-disable no-console */
 import { connect } from 'react-redux'
 import { push } from 'connected-react-router'
-import { change, reset } from 'redux-form'
+import { reset } from 'redux-form'
 import AssetNewForm from '../components/asset/AssetNew'
 import {
     putAsset
@@ -15,9 +15,6 @@ export default connect(
             dispatch(putAsset(values))
             dispatch(reset('newAsset'))
             dispatch(push('/'))
-        },
-        linkSetter: (newValue) => {
-            dispatch(change('newAsset', 'contentUrls', newValue))
         }
     })
 )(AssetNewForm)

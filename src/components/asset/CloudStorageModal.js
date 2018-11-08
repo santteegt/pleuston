@@ -13,7 +13,6 @@ const CloudStorageModal = ({ ...props }) => (
 
             <CloudStorageLoader
                 handleCloseModal={props.handleCloseModal}
-                linkSetter={props.linkSetter}
             />
 
         </div>
