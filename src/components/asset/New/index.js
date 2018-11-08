@@ -14,7 +14,16 @@ const AssetNew = ({ handleSubmit, linkSetter, resetLinksForm }) => (
 
         <FormInput label="Description" name="description" required component="textarea" rows="5" help="Describe your asset, explaining what the data represents and what it can be used for." />
 
-        <FormInput label="Asset file" name="contentUrls" required component="input" type="url" placeholder="e.g. https://url.com/dataset.zip" help="Add a URL pointing to your data set asset or select it from cloud storage providers." additionalComponent={<CloudStorageLoader linkSetter={linkSetter} />} />
+        <FormInput
+            label="Asset file"
+            name="contentUrls"
+            required
+            component="input"
+            type="url"
+            placeholder="e.g. https://url.com/dataset.zip"
+            help="Add a URL pointing to your data set asset or select it from cloud storage providers."
+            additionalComponent={<CloudStorageLoader linkSetter={linkSetter} />}
+        />
 
         <FormInput label="Price" name="price" required type="number" component="input" placeholder="0" help="Price of your asset in Ocean Tokens." />
 

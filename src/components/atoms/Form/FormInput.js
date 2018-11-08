@@ -1,9 +1,21 @@
 import React, { PureComponent } from 'react'
+import PropTypes from 'prop-types'
 import { Field } from 'redux-form'
 import FormHelp from './FormHelp'
 import './FormInput.scss'
 
 class FormInput extends PureComponent {
+    static propTypes = {
+        name: PropTypes.string.isRequired,
+        label: PropTypes.string.isRequired,
+        required: PropTypes.bool,
+        help: PropTypes.string,
+        component: PropTypes.string.isRequired,
+        type: PropTypes.string,
+        placeholder: PropTypes.string,
+        additionalComponent: PropTypes.element
+    }
+
     state = { isFocused: false }
 
     render() {
