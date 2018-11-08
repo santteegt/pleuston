@@ -11,11 +11,21 @@ export default class CloudStoragePicker extends PureComponent {
         linkSetter: PropTypes.func.isRequired,
         handleCloseModal: PropTypes.func.isRequired,
         blobs: PropTypes.array.isRequired,
-        error: PropTypes.string
+        error: PropTypes.string,
+        loadCloudFiles: PropTypes.func.isRequired,
+        resetCloudFiles: PropTypes.func.isRequired
     }
 
     state = {
         selection: []
+    }
+
+    componentDidMount() {
+        this.props.loadCloudFiles()
+    }
+
+    componentWillUnmount() {
+        this.props.resetCloudFiles()
     }
 
     handleSelection(blobId) {

@@ -235,12 +235,21 @@ export function updateOauthAccounts(state) {
     if (state.router.location.pathname === '/oauth/azure') {
         const query = queryString.parse(state.router.location.hash)
         state.oauthAccounts['azure'] = query
+        state.oauthAccounts['azure'].expires_on = new Date(new Date().getTime() + parseInt(query['expires_in'])).getTime()
     }
     window.localStorage.setItem('oauthAccounts', JSON.stringify(state.oauthAccounts))
     return (dispatch) => {
         dispatch({
             type: 'SET_OAUTH_ACCOUNTS',
             oauthAccounts: state.oauthAccounts
+        })
+    }
+}
+
+export function clearCloudFiles() {
+    return (dispatch) => {
+        dispatch({
+            type: 'CLEAR_CLOUD_BLOBS'
         })
     }
 }
@@ -253,54 +262,48 @@ export function getCloudFiles() {
         if (state.oauthAccounts.azure !== undefined) {
             const tokenCredential = new azure.TokenCredential(state.oauthAccounts.azure.access_token)
             const blobService = azure.createBlobServiceWithTokenCredential(`https://${storageAccount}.blob.core.windows.net`, tokenCredential)
-
-            blobService.listContainersSegmented(null, function(error, results) {
-                if (error) {
-                    Logger.error('Error listing containers', error)
-                    dispatch({
-                        type: 'CLOUD_ERROR',
-                        error: `Error listing containers: ${error.message}`
-                    })
-                } else {
-                    Logger.log('CONTAINERS', results)
-                    const cloudBlobs = []
-
-                    for (const con of results.entries) {
-                        /*
-                        // FOLLOWING FUNCTIONS ARE NOT WORKING DUE AZURE PREVIEW
-                        blobService.listBlobsSegmented(containr.name, null, (error, results) => {
-                            if (!error) {
-                                Logger.log('Blobs in Azure Storage.', results)
-                            } else {
-                                Logger.error('Error listing Blobs in Azure Storage.', error)
-                            }
+            try {
+                blobService.listContainersSegmented(null, async function(error, results) {
+                    if (error) {
+                        Logger.error('Error listing containers', error)
+                        dispatch({
+                            type: 'CLOUD_ERROR',
+                            error: `Error listing containers: ${error.message}`
                         })
-                        */
-                        const blobservice = azure.createBlobService(storageAccount, accessKey)
-                        blobservice.listBlobsSegmented(con.name, null, (error, result) => {
-                            if (!error) {
-                                // Just process blobs,ignoring directories for now
-                                for (let blob of result.entries) {
-                                    // Deal with blob object
-                                    cloudBlobs.push({ container: con.name, blobName: blob.name })
-                                }
-                            } else {
-                                Logger.error('Error listing Blobs in Azure Storage.', error)
-                                dispatch({
-                                    type: 'CLOUD_ERROR',
-                                    error: `Error listing Blobs in Azure Storage: ${error.message}`
-                                })
+                    } else {
+                        const cloudBlobs = []
+                        for (const con of results.entries) {
+                            const files = await getContainerFiles(con.name)
+                            for (const file of files) {
+                                cloudBlobs.push({ container: con.name, blobName: file.name })
                             }
+                        }
+                        Logger.log('Blobs from azure storage: ', cloudBlobs)
+                        dispatch({
+                            type: 'CLOUD_BLOBS',
+                            blobs: cloudBlobs
                         })
                     }
-
-                    Logger.log('Blobs from azure storage: ', cloudBlobs)
-                    dispatch({
-                        type: 'CLOUD_BLOBS',
-                        blobs: cloudBlobs
-                    })
-                }
-            })
+                })
+            } catch (error) {
+                dispatch({
+                    type: 'CLOUD_ERROR',
+                    error: `Error: ${error.message}`
+                })
+            }
         }
     }
+}
+
+export function getContainerFiles(container) {
+    return new Promise((resolve, reject) => {
+        const blobservice = azure.createBlobService(storageAccount, accessKey)
+        blobservice.listBlobsSegmented(container, null, (error, result) => {
+            if (!error) {
+                resolve(result.entries)
+            } else {
+                reject(error.message)
+            }
+        })
+    })
 }
