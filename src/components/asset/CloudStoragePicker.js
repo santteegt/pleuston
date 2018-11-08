@@ -1,7 +1,8 @@
 import React, { PureComponent } from 'react'
 import PropTypes from 'prop-types'
-import Button from '../atoms/Button'
 import azure from 'azure-storage'
+import Button from '../atoms/Button'
+import Spinner from '../atoms/Spinner'
 import { storageAccount, accessKey } from '../../../config/cloudStorage'
 
 import styles from './CloudStoragePicker.module.scss'
@@ -11,11 +12,36 @@ export default class CloudStoragePicker extends PureComponent {
         linkSetter: PropTypes.func.isRequired,
         handleCloseModal: PropTypes.func.isRequired,
         blobs: PropTypes.array.isRequired,
-        error: PropTypes.string
+        error: PropTypes.string,
+        loadCloudFiles: PropTypes.func.isRequired,
+        resetCloudFiles: PropTypes.func.isRequired
     }
 
     state = {
-        selection: []
+        selection: [],
+        loading: false
+    }
+
+    componentDidMount() {
+        this.setState({ loading: true })
+        this.props.loadCloudFiles()
+    }
+
+    componentDidUpdate(prevProps) {
+        if (
+            prevProps.blobs !== this.props.blobs ||
+            prevProps.error !== this.props.error
+        ) {
+            // disabling ESLint check here cause we know it's safe in this case
+            // see e.g. https://github.com/airbnb/javascript/issues/1875
+            // eslint-disable-next-line react/no-did-update-set-state
+            this.setState({ loading: false })
+        }
+    }
+
+    componentWillUnmount() {
+        this.props.resetCloudFiles()
+        this.setState({ loading: false })
     }
 
     handleSelection(blobId) {
@@ -56,8 +82,8 @@ export default class CloudStoragePicker extends PureComponent {
                     {
                         blobs === undefined || blobs.length === 0 ? (
                             <div className={styles.empty}>
-                                {
-                                    error
+                                {this.state.loading ? <Spinner />
+                                    : error
                                         ? <span className={styles.error}>{error}</span>
                                         : <span>No files found</span>
                                 }

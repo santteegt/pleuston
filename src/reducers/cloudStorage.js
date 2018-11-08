@@ -1,5 +1,5 @@
 const initialState = {
-    blobs: {}
+    blobs: []
 }
 
 const cloudStorage = (state = initialState, action) => {
@@ -7,6 +7,10 @@ const cloudStorage = (state = initialState, action) => {
         case 'CLOUD_BLOBS':
             return Object.assign({}, state, {
                 blobs: action.blobs
+            })
+        case 'CLEAR_CLOUD_BLOBS':
+            return Object.assign({}, state, {
+                blobs: []
             })
         case 'CLOUD_ERROR':
             return Object.assign({}, state, {
