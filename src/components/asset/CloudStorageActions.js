@@ -12,7 +12,7 @@ const authorizeUrl = `https://login.microsoftonline.com/common/oauth2/v2.0/autho
 
 export default class CloudStorageActions extends PureComponent {
     static propTypes = {
-        oauthAccounts: PropTypes.any.isRequired,
+        oauthAccounts: PropTypes.object.isRequired,
         reloadOauthAccounts: PropTypes.func.isRequired
     }
 
