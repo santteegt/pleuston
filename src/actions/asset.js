@@ -5,7 +5,6 @@ import { Logger } from '@oceanprotocol/squid'
 
 export async function publish(formValues, account, providers) {
     const { ocean } = providers
-    const publisherId = account.getId()
     // Get user entered form values
     const {
         name,
@@ -19,17 +18,8 @@ export async function publish(formValues, account, providers) {
         type,
         updateFrequency
     } = formValues
-
-    // Register on the keeper (on-chain) first, then on the OceanDB
-    const assetId = await ocean.register(
-        name, description, price, account
-    )
-    console.log('ASSETID', assetId)
     // Now register in oceandb and publish the metadata
     const newAsset = {
-        assetId,
-        publisherId,
-
         // OEP-08 Attributes
         // https://github.com/oceanprotocol/OEPs/tree/master/8
         base: Object.assign(AssetModel.base, {
@@ -60,7 +50,7 @@ export async function publish(formValues, account, providers) {
             updateFrequency
         })
     }
-    const res = await ocean.metadata.publishDataAsset(newAsset)
+    const res = await ocean.registerAsset(newAsset, account)
     Logger.debug('res: ', res)
     return newAsset
 }
