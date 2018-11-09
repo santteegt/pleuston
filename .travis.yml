@@ -12,7 +12,8 @@ install:
 - npm install
 
 script:
-- npm run test:ci
+- npm test
+- 'if [ "$TRAVIS_SECURE_ENV_VARS" = "true" ]; then npm run coverage; fi'
 - npm run build
 
 notifications:
