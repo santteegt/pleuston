@@ -1,5 +1,5 @@
 /* eslint-disable no-console */
-import fetchDownload from 'fetch-download'
+// import fetchDownload from 'fetch-download'
 import AssetModel from '../models/asset'
 import { Logger } from '@oceanprotocol/squid'
 
@@ -50,8 +50,8 @@ export async function publish(formValues, account, providers) {
             updateFrequency
         })
     }
-    const res = await ocean.registerAsset(newAsset, account)
-    Logger.debug('res: ', res)
+    const ddo = await ocean.registerAsset(newAsset, account)
+    Logger.debug('res: ', ddo)
     return newAsset
 }
 
@@ -72,6 +72,14 @@ export async function publish(formValues, account, providers) {
 export async function purchase(asset, account, providers) {
     // const { ocean } = providers
 
+    /*
+    const serviceAgreementId: string = IdGenerator.generateId()
+    const serviceAgreementSignature: string = await ocean.signServiceAgreement(ddo.id, serviceAgreementId, consumer)
+    const serviceAgreement: ServiceAgreement = await ocean.executeServiceAgreement(ddo.id, serviceAgreementId,
+        serviceAgreementSignature, consumer, publisher)
+    */
+
+    /*
     Logger.log('Purchasing asset by consumer:', account.name, 'assetid: ', asset.assetId)
     const serviceAgreementId = 1
     // TODO: allow user to set timeout through the UI.
@@ -87,6 +95,7 @@ export async function purchase(asset, account, providers) {
         Logger.debug('res: ', res)
     }
     Logger.log('purchase completed, new order is: ', order)
+    */
 }
 
 // export async function listCloudFiles() {
