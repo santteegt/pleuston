@@ -19,7 +19,7 @@
   },
   "dependencies": {
     "@oceanprotocol/art": "^1.0.2",
-    "@oceanprotocol/squid": "^0.1.8",
+    "@oceanprotocol/squid": "^0.1.10",
     "azure-storage": "^2.10.2",
     "connected-react-router": "^5.0.0",
     "copy": "^0.3.2",
