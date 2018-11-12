@@ -17,7 +17,6 @@ import {
     parityPort,
     secretStoreScheme,
     secretStoreHost,
-    secretStorePort,
     threshold,
     password,
     address
@@ -28,7 +27,7 @@ export async function provideOcean() {
     const aquariusUri = `${aquariusScheme}://${aquariusHost}:${aquariusPort}`
     const brizoUri = `${brizoScheme}://${brizoHost}:${brizoPort}`
     const parityUri = `${parityScheme}://${parityHost}:${parityPort}`
-    const secretStoreUri = `${secretStoreScheme}://${secretStoreHost}:${secretStorePort}`
+    const secretStoreUri = `${secretStoreScheme}://${secretStoreHost}`
 
     const config = {
         // todo: change this when the new interface of metmask is released

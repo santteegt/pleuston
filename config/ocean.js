@@ -16,11 +16,10 @@ module.exports = {
 
     parityScheme: 'http',
     parityHost: 'localhost',
-    parityPort: 8545,
+    parityPort: 9545,
 
     secretStoreScheme: 'https',
     secretStoreHost: 'secret-store.dev-ocean.com',
-    secretStorePort: 80,
 
     threshold: 2,
     password: 'unittest',
