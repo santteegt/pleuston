@@ -2,9 +2,9 @@ module.exports = {
     // -----
     // Setup with local services
     // -----
-    keeperScheme: 'http',
-    keeperHost: 'localhost',
-    keeperPort: 8545,
+    nodeScheme: 'http',
+    nodeHost: 'localhost',
+    nodePort: 8545,
 
     aquariusScheme: 'http',
     aquariusHost: 'localhost',
@@ -12,11 +12,11 @@ module.exports = {
 
     brizoScheme: 'https',
     brizoHost: 'localhost',
-    brizoPort: '8030',
+    brizoPort: 8030,
 
     parityScheme: 'http',
     parityHost: 'localhost',
-    parityPort: 9545,
+    parityPort: 8545,
 
     secretStoreScheme: 'https',
     secretStoreHost: 'secret-store.dev-ocean.com',

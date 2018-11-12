@@ -3,9 +3,9 @@ import {
 } from '@oceanprotocol/squid'
 
 import {
-    keeperScheme,
-    keeperHost,
-    keeperPort,
+    nodeScheme,
+    nodeHost,
+    nodePort,
     aquariusScheme,
     aquariusHost,
     aquariusPort,
@@ -24,7 +24,7 @@ import {
 } from '../../config/ocean'
 
 export async function provideOcean() {
-    const nodeUri = `${keeperScheme}://${keeperHost}:${keeperPort}`
+    const nodeUri = `${nodeScheme}://${nodeHost}:${nodePort}`
     const aquariusUri = `${aquariusScheme}://${aquariusHost}:${aquariusPort}`
     const brizoUri = `${brizoScheme}://${brizoHost}:${brizoPort}`
     const parityUri = `${parityScheme}://${parityHost}:${parityPort}`
