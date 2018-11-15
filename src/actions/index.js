@@ -85,8 +85,8 @@ export function getAssets() {
     return async (dispatch, getState) => {
         const state = getState()
         const { ocean } = state.provider
-        Logger.log('QUERY:', state)
-        Logger.log('SEARCH:', await ocean.searchAssets())
+        const dbAssets = await ocean.searchAssets(state.asset.search)
+        Logger.log('SEARCH:', dbAssets)
         /*
         const state = getState()
         const assets = (await asset
