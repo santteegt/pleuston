@@ -34,10 +34,10 @@ class AssetFull extends PureComponent {
     }
 
     render() {
-        if (!this.props.assetId) return null
+        if (!this.props.id) return null
 
         const {
-            assetId,
+            id,
             publisherId,
             handlePurchase,
             token,
@@ -93,7 +93,7 @@ class AssetFull extends PureComponent {
 
                 <AssetFullMeta label="Published" item={dateCreated} />
 
-                <AssetFullMeta label="ID" item={assetId} truncate />
+                <AssetFullMeta label="ID" item={id} truncate />
 
                 {description && <AssetFullMeta label="Description" item={description} />}
 
@@ -121,7 +121,7 @@ class AssetFull extends PureComponent {
                 )}
 
                 <div className={styles.assetFullActions}>
-                    <Button primary="true" onClick={() => handlePurchase(assetId)}>Purchase</Button>
+                    <Button primary="true" onClick={() => handlePurchase(id)}>Purchase</Button>
                 </div>
             </div>
         )
@@ -129,7 +129,7 @@ class AssetFull extends PureComponent {
 }
 
 AssetFull.propTypes = {
-    assetId: PropTypes.string,
+    id: PropTypes.string,
     handlePurchase: PropTypes.func,
     publisherId: PropTypes.string,
     token: PropTypes.string,

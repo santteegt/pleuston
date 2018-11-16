@@ -2,7 +2,7 @@ import { connect } from 'react-redux'
 import { push } from 'connected-react-router'
 
 import AssetSearch from '../components/asset/AssetSearch'
-import { getAssets, setAssetSearch, setActiveAsset, setAssetSearchPage } from '../actions'
+import { getAssets, setActiveAsset, setAssetSearchPage } from '../actions'
 
 export default connect(
     state => ({
@@ -13,12 +13,12 @@ export default connect(
 
     dispatch => ({
         onSubmit: values => {
-            dispatch(setAssetSearch(values))
+            dispatch(setAssetSearchPage(0))
             dispatch(getAssets())
         },
         handleClick: asset => {
-            dispatch(setActiveAsset(asset.assetId))
-            dispatch(push(`/${asset.assetId}`))
+            dispatch(setActiveAsset(asset.id))
+            dispatch(push(`/${asset.id}`))
         },
         handleSetPage: page => {
             dispatch(setAssetSearchPage(page))

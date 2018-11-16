@@ -1,9 +1,13 @@
 import azure from 'azure-storage'
 import * as ocean from './ocean'
 import * as asset from './asset'
-import * as mockAssets from '../mock/assets'
-import { Logger } from '@oceanprotocol/squid'
-import { storageAccount, accessKey } from '../../config/cloudStorage'
+import {
+    Logger
+} from '@oceanprotocol/squid'
+import {
+    storageAccount,
+    accessKey
+} from '../../config/cloudStorage'
 import queryString from 'query-string'
 
 export function setProviders() {
@@ -18,7 +22,9 @@ export function setProviders() {
 export function getAccounts() {
     return async (dispatch, getState) => {
         const state = getState()
-        const { ocean } = state.provider
+        const {
+            ocean
+        } = state.provider
         dispatch({
             type: 'SET_ACCOUNTS',
             accounts: await ocean.getAccounts()
@@ -27,7 +33,10 @@ export function getAccounts() {
 }
 
 export function getActiveAccount(state) {
-    let { activeAccount, accounts } = state.account
+    let {
+        activeAccount,
+        accounts
+    } = state.account
     if (accounts.length === 0) {
         return null
     }
@@ -37,7 +46,9 @@ export function getActiveAccount(state) {
 export function setNetworkName() {
     return async (dispatch, getState) => {
         const state = getState()
-        const { ocean } = state.provider
+        const {
+            ocean
+        } = state.provider
         dispatch({
             type: 'SET_NETWORKNAME',
             networkName: await ocean.keeper.getNetworkName()
@@ -46,14 +57,18 @@ export function setNetworkName() {
 }
 
 export function getNetworkName(state) {
-    let { networkName } = state.account
+    let {
+        networkName
+    } = state.account
     return networkName
 }
 
 export function makeItRain(amount) {
     return async (dispatch, getState) => {
         const state = getState()
-        const { ocean } = state.provider
+        const {
+            ocean
+        } = state.provider
         try {
             await ocean.keeper.market.requestTokens(
                 amount,
@@ -84,37 +99,16 @@ export function putAsset(formValues) {
 export function getAssets() {
     return async (dispatch, getState) => {
         const state = getState()
-        const { ocean } = state.provider
-        const dbAssets = await ocean.searchAssets(state.asset.search)
-        Logger.log('SEARCH:', dbAssets)
-        /*
-        const state = getState()
         const assets = (await asset
-            .list(
-                getActiveAccount(state),
-                state.provider
-            ))
+            .list(state))
             .reduce((map, obj) => {
-                map[obj.assetId] = obj
+                map[obj.id] = obj
                 return map
             }, {})
-        */
-        const assets = mockAssets.default.reduce((map, obj) => {
-            map[obj.assetId] = obj
-            return map
-        }, {})
+        Logger.log('assets:', assets)
         dispatch({
             type: 'GET_ASSETS',
             assets
-        })
-    }
-}
-
-export function setAssetSearch(values) {
-    return (dispatch) => {
-        dispatch({
-            type: 'SET_ASSET_SEARCH',
-            text: values.text
         })
     }
 }
@@ -138,11 +132,16 @@ export function setActiveAsset(assetId) {
 }
 
 export function getActiveAsset(state) {
-    const { activeAsset, assets } = state.asset
+    const {
+        activeAsset,
+        assets
+    } = state.asset
 
     if (!activeAsset && state.router.location.pathname) {
         const rgxAssetId = /\/(.*?)/g
-        const { pathname } = state.router.location
+        const {
+            pathname
+        } = state.router.location
         if (rgxAssetId.exec(pathname)) {
             const assetIdFromUrl = pathname.replace(/^.*[\\\/]/, '') // eslint-disable-line
             if (assetIdFromUrl) {
@@ -167,13 +166,18 @@ export function purchaseAsset(assetId) {
         dispatch({
             type: 'UPDATE_ASSET',
             assetId,
-            asset: Object.assign(activeAsset, { token })
+            asset: Object.assign(activeAsset, {
+                token
+            })
         })
     }
 }
 
 export function getActiveOrder(state) {
-    const { activeOrder, orders } = state.order
+    const {
+        activeOrder,
+        orders
+    } = state.order
 
     if (activeOrder) {
         return orders[activeOrder]
@@ -199,7 +203,9 @@ export function getOrders() {
             Logger.error('Active account is not set!')
             return []
         }
-        const { ocean } = state.provider
+        const {
+            ocean
+        } = state.provider
         // Logger.log('ORDERS: ', await ocean.getOrdersByAccount(account))
         // let orders = await ocean.order.getOrdersByConsumer(account.name)
         let orders = await ocean.getOrdersByAccount(account)
@@ -295,7 +301,10 @@ export function getCloudFiles() {
                         for (const con of results.entries) {
                             const files = await getContainerFiles(con.name)
                             for (const file of files) {
-                                cloudBlobs.push({ container: con.name, blobName: file.name })
+                                cloudBlobs.push({
+                                    container: con.name,
+                                    blobName: file.name
+                                })
                             }
                         }
                         Logger.log('Blobs from azure storage: ', cloudBlobs)

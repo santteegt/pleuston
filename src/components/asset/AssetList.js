@@ -13,12 +13,12 @@ const AssetList = ({ assets, handleClick }) => (
                 {assets.map(asset => (
                     <div
                         className={styles.tile}
-                        key={asset.assetId}
+                        key={asset.id}
                         onClick={() => handleClick(asset)}
                         onKeyPress={() => handleClick(asset)}
                         role="link"
                         tabIndex={0}>
-                        <Asset asset={asset} />
+                        <Asset asset={asset} metadata={asset.service.filter(service => service.metadata)[0]} />
                     </div>
                 ))}
             </div>
