@@ -21,7 +21,6 @@ const Popover = ({ networkName, activeAccount, initMakeItRain }) => {
             </div>
             <div key={'network'} className={styles.popoverInfoline}>
                 Network: &nbsp;<strong>{networkName}</strong>
-                {networkName !== 'Kovan' && <div>Please connect to Kovan</div>}
             </div>
             <div key={'makeItRain'} className={styles.popoverInfoline}>
                 <button className={styles.action} onClick={initMakeItRain}>Make it rain Ọ</button>
