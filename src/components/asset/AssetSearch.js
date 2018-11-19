@@ -70,13 +70,11 @@ const AssetSearch = ({ page, handleSubmit, assets, handleClick, handleSetPage })
 
         <AssetList assets={assets} handleClick={handleClick} />
 
-        {assets && assets.length && (
-            <div className={styles.pagination}>
-                <a href="#" className={styles.item} onClick={() => handleSetPage(page - 1)}>&lt; Prev page</a>
-                <span className={styles.item}>{ page }</span>
-                <a href="#" className={styles.item} onClick={() => handleSetPage(page + 1)}>Next page &gt;</a>
-            </div>
-        )}
+        <div className={styles.pagination}>
+            <a href="#" className={styles.item} onClick={() => handleSetPage(page - 1)}>&lt; Prev page</a>
+            <span className={styles.item}>{ page }</span>
+            <a href="#" className={styles.item} onClick={() => handleSetPage(page + 1)}>Next page &gt;</a>
+        </div>
     </>
 )
 
