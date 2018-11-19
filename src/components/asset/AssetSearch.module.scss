@@ -25,6 +25,32 @@
     }
 }
 
+.searchActions {
+    margin-top: -($spacer);
+    margin-bottom: $spacer / 2;
+    text-align: center;
+}
+
+.filters {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+
+    :global(.form__group) {
+        flex: 0 0 48%;
+
+        @media screen and (min-width: $break-point--small) {
+            flex: 0 0 31%;
+            margin-bottom: 2%;
+        }
+    }
+}
+
+.filtersToggle {
+    margin-top: -($spacer * 2);
+    margin-bottom: 0;
+}
+
 .pagination {
     width: 100%;
     text-align: center;
