@@ -1,12 +1,11 @@
 import React from 'react'
 import ReactDOM from 'react-dom'
+import CloudStorage from '.'
 
-import CloudStorageActions from './CloudStorageActions'
-
-it('CloudStorageActions renders without crashing', () => {
+it('CloudStorage renders without crashing', () => {
     const div = document.createElement('div')
     ReactDOM.render(
-        <CloudStorageActions
+        <CloudStorage
             reloadOauthAccounts={() => null}
             oauthAccounts={{}}
         />,

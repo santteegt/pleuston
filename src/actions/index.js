@@ -1,14 +1,9 @@
 import azure from 'azure-storage'
+import queryString from 'query-string'
 import * as ocean from './ocean'
 import * as asset from './asset'
-import {
-    Logger
-} from '@oceanprotocol/squid'
-import {
-    storageAccount,
-    accessKey
-} from '../../config/cloudStorage'
-import queryString from 'query-string'
+import { Logger } from '@oceanprotocol/squid'
+import { storageAccount, accessKey } from '../../config/cloudStorage'
 
 export function setProviders() {
     return async (dispatch) => {

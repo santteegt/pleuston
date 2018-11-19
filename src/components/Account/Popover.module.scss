@@ -46,6 +46,10 @@ $popoverWidth: 18rem;
         padding-bottom: 0;
         border-bottom: 0;
     }
+
+    button {
+        font-size: $font-size-small;
+    }
 }
 
 .accountName {
@@ -67,18 +71,4 @@ $popoverWidth: 18rem;
     white-space: nowrap;
     overflow: hidden;
     text-overflow: ellipsis;
-}
-
-.action {
-    // reset button
-    padding: 0;
-    cursor: pointer;
-    background: transparent;
-    border: 0;
-    appearance: none;
-
-    // style as link
-    font-family: $font-family-base;
-    font-size: $font-size-small;
-    color: $brand-pink;
 }

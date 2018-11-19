@@ -1,11 +1,11 @@
 import React, { PureComponent } from 'react'
 import PropTypes from 'prop-types'
 import azure from 'azure-storage'
-import Button from '../atoms/Button'
-import Spinner from '../atoms/Spinner'
-import { storageAccount, accessKey } from '../../../config/cloudStorage'
+import Button from '../../../atoms/Button'
+import Spinner from '../../../atoms/Spinner'
+import { storageAccount, accessKey } from '../../../../../config/cloudStorage'
 
-import styles from './CloudStoragePicker.module.scss'
+import styles from './Picker.module.scss'
 
 export default class CloudStoragePicker extends PureComponent {
     static propTypes = {

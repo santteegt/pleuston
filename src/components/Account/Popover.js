@@ -1,6 +1,7 @@
 import React, { Fragment } from 'react'
 import PropTypes from 'prop-types'
 import Blockies from 'react-blockies'
+import Button from '../atoms/Button'
 import styles from './Popover.module.scss'
 
 const Popover = ({ networkName, activeAccount, initMakeItRain }) => {
@@ -23,7 +24,7 @@ const Popover = ({ networkName, activeAccount, initMakeItRain }) => {
                 Network: &nbsp;<strong>{networkName}</strong>
             </div>
             <div key={'makeItRain'} className={styles.popoverInfoline}>
-                <button className={styles.action} onClick={initMakeItRain}>Make it rain Ọ</button>
+                <Button link onClick={initMakeItRain}>Make it rain Ọ</Button>
             </div>
         </div>
     )

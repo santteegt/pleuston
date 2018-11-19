@@ -18,7 +18,11 @@ const AssetModel = {
         'contentType': null,
         'workExample': null,
         'contentUrls': [],
-        'links': [],
+        'links': [{
+            'name': null,
+            'type': null,
+            'url': null
+        }],
         'inLanguage': null,
         'tags': [],
         'price': null

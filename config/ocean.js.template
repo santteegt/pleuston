@@ -1,0 +1,12 @@
+module.exports = {
+    // -----
+    // Setup with local services
+    // -----
+    keeperScheme: '${KEEPER_SCHEME}',
+    keeperHost: '${KEEPER_HOST}',
+    keeperPort: ${KEEPER_PORT},
+
+    aquariusScheme: '${AQUARIUS_SCHEME}',
+    aquariusHost: '${AQUARIUS_HOST}',
+    aquariusPort: ${AQUARIUS_PORT}
+}
