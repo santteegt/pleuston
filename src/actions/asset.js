@@ -46,7 +46,7 @@ export async function publish(formValues, account, providers) {
                 }
             ],
             // inLanguage: ,
-            tags: tags ? [tags.split(',')] : [],
+            tags: tags ? tags.split(',') : [],
             price: parseFloat(price),
             type
         }),
@@ -68,7 +68,15 @@ export async function list(state) {
     const {
         ocean
     } = state.provider
-    const searchForm = state.form.assetSearch.values
+    let searchForm
+    if (state.form && state.form.assetSearch) {
+        searchForm = state.form.assetSearch.values
+    } else {
+        searchForm = {
+            page: 0,
+            text: ''
+        }
+    }
     const queryRequest = {
         offset: 100,
         page: state.asset.search.page,
@@ -173,17 +181,7 @@ export async function list(state) {
         }
     }
     let dbAssets = await ocean.searchAssets(queryRequest)
-    // Logger.log('Loaded assets (from provider):', JSON.stringify(dbAssets, null, 2))
     Logger.log(`Loaded ${Object.keys(dbAssets).length} assets (from provider)`)
-
-    console.log('assets loaded', dbAssets)
-    console.log('OCAN', ocean)
-
-    // dbAssets = Object.values(dbAssets)
-    //     .filter(async (asset) => ocean.keeper.market.isAssetActive(asset.id))
-
-    // Logger.log('Loaded assets (that are published on-chain):', JSON.stringify(dbAssets, null, 2))
-    Logger.log(`Loaded ${Object.keys(dbAssets).length} assets (that are published on-chain)`)
     return dbAssets
 }
 

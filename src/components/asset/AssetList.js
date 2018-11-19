@@ -18,7 +18,7 @@ const AssetList = ({ assets, handleClick }) => (
                         onKeyPress={() => handleClick(asset)}
                         role="link"
                         tabIndex={0}>
-                        <Asset asset={asset} metadata={asset.service.filter(service => service.metadata)[0]} />
+                        <Asset asset={asset} />
                     </div>
                 ))}
             </div>

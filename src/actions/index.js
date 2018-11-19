@@ -144,7 +144,6 @@ export function getActiveAsset(state) {
             }
         }
     }
-
     return assets[activeAsset]
 }
 

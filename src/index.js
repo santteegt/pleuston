@@ -23,8 +23,7 @@ import {
     getAccounts,
     getAssets,
     setProviders,
-    getOrders,
-    getCloudFiles,
+    // getOrders,
     getOauthAccounts,
     setNetworkName
 } from './actions/index'
@@ -54,9 +53,8 @@ window.addEventListener('load', async () => {
             store.dispatch(setNetworkName())
             store.dispatch(getAccounts())
                 .then(() => {
-                    store.dispatch(getOrders())
+                    // store.dispatch(getOrders())
                     store.dispatch(getAssets())
-                    store.dispatch(getCloudFiles())
                 })
         })
 })
