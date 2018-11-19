@@ -19,7 +19,7 @@ class FormInput extends PureComponent {
     state = { isFocused: false }
 
     render() {
-        const { name, label, required, help, additionalComponent } = this.props
+        const { name, label, required, type, help, additionalComponent, ...props } = this.props
 
         return (
             <div className="form__group">
@@ -34,7 +34,10 @@ class FormInput extends PureComponent {
                     <Field
                         className="input"
                         id={name}
-                        {...this.props}
+                        name={name}
+                        required={required}
+                        type={type}
+                        {...props}
                         onFocus={() => this.setState({ isFocused: true })}
                         onBlur={() => this.setState({ isFocused: false })}
                     />
