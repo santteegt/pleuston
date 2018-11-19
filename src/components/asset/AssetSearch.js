@@ -104,6 +104,8 @@ class AssetSearch extends PureComponent {
 
                 <AssetList assets={assets} handleClick={handleClick} />
 
+                {/* TODO: WARNING! This doesn't work as intended until we can check 'page'
+                against total number of pages */}
                 {page > 0 && (
                     <div className={styles.pagination}>
                         <a href="#" className={styles.item} onClick={() => handleSetPage(page - 1)}>&lt; Prev page</a>
