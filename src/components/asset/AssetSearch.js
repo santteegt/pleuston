@@ -78,35 +78,39 @@ class AssetSearch extends PureComponent {
 
         return (
             <>
-                <form onSubmit={handleSubmit} className={styles.searchForm}>
-                    <FormInputGroup>
-                        <FormInput label="Search" name="text" component="input" type="search" placeholder="Search for keyword in the name or description." additionalComponent={<Button type="submit">Search</Button>} />
-                    </FormInputGroup>
+                {assets.length > 0 && (
+                    <form onSubmit={handleSubmit} className={styles.searchForm}>
+                        <FormInputGroup>
+                            <FormInput label="Search" name="text" component="input" type="search" placeholder="Search for keyword in the name or description." additionalComponent={<Button type="submit">Search</Button>} />
+                        </FormInputGroup>
 
-                    <aside className={styles.searchActions}>
-                        <Button link onClick={this.toggleFilters}>
-                            {isFiltersShown ? '- Close' : '+ Advanced search'}
-                        </Button>
-                    </aside>
+                        <aside className={styles.searchActions}>
+                            <Button link onClick={this.toggleFilters}>
+                                {isFiltersShown ? '- Close' : '+ Advanced search'}
+                            </Button>
+                        </aside>
 
-                    <CSSTransition
-                        classNames="grow"
-                        in={isFiltersShown}
-                        timeout={200}
-                        unmountOnExit
-                        onExit={() => this.setState({ isFiltersShown: false })}
-                    >
-                        <AssetFilters />
-                    </CSSTransition>
-                </form>
+                        <CSSTransition
+                            classNames="grow"
+                            in={isFiltersShown}
+                            timeout={200}
+                            unmountOnExit
+                            onExit={() => this.setState({ isFiltersShown: false })}
+                        >
+                            <AssetFilters />
+                        </CSSTransition>
+                    </form>
+                )}
 
                 <AssetList assets={assets} handleClick={handleClick} />
 
-                <div className={styles.pagination}>
-                    <a href="#" className={styles.item} onClick={() => handleSetPage(page - 1)}>&lt; Prev page</a>
-                    <span className={styles.item}>{ page }</span>
-                    <a href="#" className={styles.item} onClick={() => handleSetPage(page + 1)}>Next page &gt;</a>
-                </div>
+                {page > 0 && (
+                    <div className={styles.pagination}>
+                        <a href="#" className={styles.item} onClick={() => handleSetPage(page - 1)}>&lt; Prev page</a>
+                        <span className={styles.item}>{ page }</span>
+                        <a href="#" className={styles.item} onClick={() => handleSetPage(page + 1)}>Next page &gt;</a>
+                    </div>
+                )}
             </>
         )
     }
