@@ -69,12 +69,6 @@ class AssetFull extends PureComponent {
             price
         } = base
 
-        const Links = links.map((link) => (
-            Object.keys(link).forEach((key) => (
-                <a href={link[key]}>{key}</a>
-            ))
-        ))
-
         return (
             <div className={styles.assetFull}>
                 <h1 className={styles.assetFullTitle}>{name}</h1>
@@ -101,9 +95,7 @@ class AssetFull extends PureComponent {
                     <AssetFullMeta label="URL" item={contentUrls[0] || 'Please purchase'} link={contentUrls[0]} />
                 )}
 
-                {links.length > 0 && (
-                    <AssetFullMeta label="Links" item={Links} />
-                )}
+                {links.length > 0 && <AssetFullMeta label="Links" links={links} />}
 
                 <AssetFullMeta label="Price" item={`${price} Ọ`} />
                 <AssetFullMeta label="Token" item={token || 'Please purchase'} />

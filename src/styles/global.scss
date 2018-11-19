@@ -15,7 +15,7 @@ body {
     font-size: $font-size-base;
     font-family: $font-family-base;
     font-weight: $font-weight-base;
-    line-height: 1.5;
+    line-height: $line-height;
     background: $brand-white;
     -webkit-tap-highlight-color: rgba(0, 0, 0, 0);
     -webkit-font-smoothing: antialiased;
@@ -88,4 +88,48 @@ h4 {
 
 h5 {
     font-size: $font-size-h5;
+}
+
+.fade {
+    &-enter {
+        opacity: .01;
+    }
+
+    &-enter-active {
+        opacity: 1;
+        transition: opacity 400ms ease-out;
+    }
+
+    &-exit {
+        opacity: 1;
+    }
+
+    &-exit-active {
+        opacity: .01;
+        transition: opacity 400ms ease-in;
+    }
+}
+
+.grow {
+    &-enter {
+        opacity: .01;
+        max-height: 0;
+    }
+
+    &-enter-active {
+        opacity: 1;
+        max-height: 500px;
+        transition: 200ms ease-out;
+    }
+
+    &-exit {
+        opacity: 1;
+        max-height: 500px;
+    }
+
+    &-exit-active {
+        opacity: .01;
+        max-height: 0;
+        transition: 200ms ease-in;
+    }
 }

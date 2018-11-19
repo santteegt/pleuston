@@ -11,12 +11,12 @@ ButtonIcon.propTypes = {
     icon: PropTypes.any
 }
 
-const Button = ({ icon, children, ...props }) => {
+const Button = ({ icon, children, primary, link, ...props }) => {
     let classes
 
-    if (props.primary) {
+    if (primary) {
         classes = styles.buttonPrimary
-    } else if (props.link) {
+    } else if (link) {
         classes = styles.link
     } else {
         classes = styles.button

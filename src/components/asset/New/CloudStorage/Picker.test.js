@@ -1,7 +1,7 @@
 import React from 'react'
 import ReactDOM from 'react-dom'
 
-import CloudStoragePicker from './CloudStoragePicker'
+import CloudStoragePicker from './Picker'
 
 it('CloudStoragePicker renders without crashing', () => {
     const div = document.createElement('div')

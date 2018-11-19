@@ -1,15 +1,28 @@
-import React, { Fragment, PureComponent } from 'react'
+import React, { PureComponent } from 'react'
+import PropTypes from 'prop-types'
 import { Field } from 'redux-form'
+import FormHelp from './FormHelp'
 import './FormInput.scss'
 
 class FormInput extends PureComponent {
+    static propTypes = {
+        name: PropTypes.string.isRequired,
+        label: PropTypes.string.isRequired,
+        required: PropTypes.bool,
+        help: PropTypes.string,
+        component: PropTypes.string.isRequired,
+        type: PropTypes.string,
+        placeholder: PropTypes.string,
+        additionalComponent: PropTypes.element
+    }
+
     state = { isFocused: false }
 
     render() {
-        const { name, label, required } = this.props
+        const { name, label, required, help, additionalComponent } = this.props
 
         return (
-            <Fragment>
+            <div className="form__group">
                 <label
                     htmlFor={name}
                     className={required ? 'form__label is-required' : 'form__label'}
@@ -26,7 +39,10 @@ class FormInput extends PureComponent {
                         onBlur={() => this.setState({ isFocused: false })}
                     />
                 </div>
-            </Fragment>
+                {help && <FormHelp>{help}</FormHelp>}
+
+                {additionalComponent && additionalComponent}
+            </div>
         )
     }
 }
