@@ -44,7 +44,7 @@ const AssetFilters = () => (
 
         <FormInput label="Price to" name="priceTo" component="input" type="number" placeholder="" help="Price to" />
 
-        <FormInput label="Update Frequency" name="addedIn" component="select" help="Added">
+        <FormInput label="Time added" name="addedIn" component="select">
             <option />
             <option value="today">Today</option>
             <option value="thisMonth">This month</option>
