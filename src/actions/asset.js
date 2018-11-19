@@ -11,9 +11,7 @@ export async function publish(formValues, account, providers) {
         description,
         license,
         contentUrls,
-        linkTitle,
-        linkType,
-        linkUrl,
+        links,
         author,
         copyrightHolder,
         tags,
@@ -38,13 +36,7 @@ export async function publish(formValues, account, providers) {
             // contentType: ,
             // workExample: ,
             contentUrls: [contentUrls],
-            links: [
-                {
-                    title: linkTitle,
-                    type: linkType,
-                    url: linkUrl
-                }
-            ],
+            links: links,
             // inLanguage: ,
             tags: tags ? tags.split(',') : [],
             price: parseFloat(price),
