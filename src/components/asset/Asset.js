@@ -8,7 +8,7 @@ import './Asset.scss'
 class Asset extends PureComponent {
     render() {
         const { asset } = this.props
-        const metadata = asset.service.filter(service => service.metadata)[0]
+        const metadata = asset.findServiceByType('Metadata')
 
         return (
             <div className="asset">

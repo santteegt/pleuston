@@ -177,33 +177,14 @@ export async function list(state) {
     return dbAssets
 }
 
-export async function purchase(asset, account, providers) {
-    // const { ocean } = providers
-
-    /*
-    const serviceAgreementId: string = IdGenerator.generateId()
-    const serviceAgreementSignature: string = await ocean.signServiceAgreement(ddo.id, serviceAgreementId, consumer)
-    const serviceAgreement: ServiceAgreement = await ocean.executeServiceAgreement(ddo.id, serviceAgreementId,
-        serviceAgreementSignature, consumer, publisher)
-    */
-
-    /*
-    Logger.log('Purchasing asset by consumer:', account.name, 'assetid: ', asset.assetId)
-    const serviceAgreementId = 1
-    // TODO: allow user to set timeout through the UI.
-    const timeout = new Date().setHours(new Date().getHours() + 12)
-    // const order = await ocean.order.purchaseAsset(asset, timeout, account.name)
-    const order = await asset.purchase(asset.assetId, serviceAgreementId, timeout)
-    Logger.log('order', order)
-    if (order.accessUrl) {
-        Logger.log('begin downloading asset data.')
-        const res = await fetchDownload(order.accessUrl)
-            .then((result) => Logger.log('Asset data downloaded successfully: ', result))
-            .catch((error) => Logger.log('Asset download failed: ', error))
-        Logger.debug('res: ', res)
-    }
-    Logger.log('purchase completed, new order is: ', order)
-    */
+export async function purchase(ddo, consumer, providers) {
+    const { ocean } = providers
+    const accessService = ddo.findServiceByType('Access')
+    const serviceAgreementSignatureResult = await ocean.signServiceAgreement(ddo.id,
+        accessService.serviceDefinitionId, consumer)
+    Logger.log('ServiceAgreement Id:', serviceAgreementSignatureResult.serviceAgreementId)
+    Logger.log('ServiceAgreement Signature:', serviceAgreementSignatureResult.serviceAgreementSignature)
+    /* TODO handle more */
 }
 
 // export async function listCloudFiles() {

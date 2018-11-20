@@ -39,7 +39,7 @@ class AssetFull extends PureComponent {
             handlePurchase
         } = this.props
         if (!asset) return null
-        const metadata = asset.service.filter(service => service.metadata)[0]
+        const metadata = asset.findServiceByType('Metadata')
         const {
             base,
             // curation,
@@ -110,7 +110,7 @@ class AssetFull extends PureComponent {
                 )}
 
                 <div className={styles.assetFullActions}>
-                    <Button primary="true" onClick={() => handlePurchase(asset.id)}>Purchase</Button>
+                    <Button primary="true" onClick={() => handlePurchase(asset)}>Purchase</Button>
                 </div>
             </div>
         )
