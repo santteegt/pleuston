@@ -11,7 +11,7 @@ import styles from './AssetSearch.module.scss'
 
 const AssetFilters = () => (
     <fieldset className={styles.filters}>
-        <FormInput label="Type" name="type" component="select" help="The type of your asset.">
+        <FormInput small dimmed label="Type" name="type" component="select">
             <option />
             <option value="dataset">Data set</option>
             <option value="algorithm">Algorithm</option>
@@ -20,7 +20,7 @@ const AssetFilters = () => (
             <option value="other">Other</option>
         </FormInput>
 
-        <FormInput label="License" name="license" component="select">
+        <FormInput small dimmed label="License" name="license" component="select">
             <option />
             <option value="none">No License Specified</option>
             <option value="Public Domain">Public Domain</option>
@@ -32,7 +32,7 @@ const AssetFilters = () => (
             <option value="CC BY-NC-ND">CC BY-NC-ND: Attribution-NonCommercial-NoDerivs</option>
         </FormInput>
 
-        <FormInput label="Update Frequency" name="updateFrequency" component="select" help="How often are updates expected, or is the resource static?">
+        <FormInput small dimmed label="Update Frequency" name="updateFrequency" component="select">
             <option />
             <option value="seldom">Seldom</option>
             <option value="annually">Annually</option>
@@ -40,11 +40,11 @@ const AssetFilters = () => (
             <option value="never">Never expected to get updated</option>
         </FormInput>
 
-        <FormInput label="Price from" name="priceFrom" component="input" type="number" placeholder="" help="Price from" />
+        <FormInput small dimmed label="Price from" name="priceFrom" component="input" type="number" />
 
-        <FormInput label="Price to" name="priceTo" component="input" type="number" placeholder="" help="Price to" />
+        <FormInput small dimmed label="Price to" name="priceTo" component="input" type="number" />
 
-        <FormInput label="Time added" name="addedIn" component="select">
+        <FormInput small dimmed label="Time added" name="addedIn" component="select">
             <option />
             <option value="today">Today</option>
             <option value="thisMonth">This month</option>
@@ -80,7 +80,7 @@ class AssetSearch extends PureComponent {
             <>
                 <form onSubmit={handleSubmit} className={styles.searchForm}>
                     <FormInputGroup>
-                        <FormInput label="Search" name="text" component="input" type="search" placeholder="Search for keyword in the name or description." additionalComponent={<Button type="submit">Search</Button>} />
+                        <FormInput dimmed label="Search" name="text" component="input" type="search" placeholder="Search for keyword in the name or description." additionalComponent={<Button type="submit">Search</Button>} />
                     </FormInputGroup>
 
                     <aside className={styles.searchActions}>

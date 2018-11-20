@@ -32,10 +32,10 @@ class FormInput extends PureComponent {
     }
 
     render() {
-        const { name, label, required, type, help, additionalComponent, ...props } = this.props
+        const { name, label, required, type, help, small, dimmed, additionalComponent, ...props } = this.props
 
         return (
-            <div className="form__group">
+            <div className={dimmed ? 'form__group is-dimmed' : 'form__group'}>
                 <label
                     htmlFor={name}
                     className={required ? 'form__label is-required' : 'form__label'}
@@ -45,7 +45,7 @@ class FormInput extends PureComponent {
                 </label>
                 <div className={this.inputWrapClasses()}>
                     <Field
-                        className="input"
+                        className={small ? 'input input-sm' : 'input'}
                         id={name}
                         name={name}
                         required={required}
