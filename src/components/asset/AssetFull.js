@@ -92,12 +92,12 @@ class AssetFull extends PureComponent {
                     <AssetFullMeta label="URL" item={contentUrls[0] || 'Please purchase'} link={contentUrls[0]} />
                 )}
 
-                {links.length > 0 && <AssetFullMeta label="Links" links={links} />}
+                {links && links.length > 0 && <AssetFullMeta label="Links" links={links} />}
 
                 <AssetFullMeta label="Price" item={`${price} Ọ`} />
                 {/* <AssetFullMeta label="Token" item={token || 'Please purchase'} /> */}
 
-                {tags.length > 0 && (
+                {tags && tags.length > 0 && (
                     <AssetFullMeta label="Tags" item={tags.map(tag => (tag))} />
                 )}
 
