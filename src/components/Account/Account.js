@@ -13,7 +13,27 @@ export default class Account extends PureComponent {
     }
 
     state = {
-        popoverOpen: false
+        popoverOpen: false,
+        balance: null
+    }
+
+    async getBalances(prevProps) {
+        if (this.props.activeAccount !== null) {
+            const balance = await this.props.activeAccount.getBalance()
+            this.setState(() => ({
+                balance: balance
+            }))
+        }
+    }
+
+    componentDidUpdate(prevProps) {
+        if (prevProps.activeAccount !== this.props.activeAccount) {
+            this.getBalances(prevProps)
+        }
+    }
+
+    componentDidMount() {
+        this.getBalances()
     }
 
     togglePopover() {
@@ -24,10 +44,7 @@ export default class Account extends PureComponent {
 
     render() {
         const { activeAccount, networkName, initMakeItRain } = this.props
-        const { popoverOpen } = this.state
-
-        const balanceEther = activeAccount ? activeAccount.balance.eth.toString() : '0.00'
-        const balanceOcean = activeAccount ? activeAccount.balance.ocn.toString() : '0'
+        const { popoverOpen, balance } = this.state
 
         return (
             <div
@@ -36,7 +53,9 @@ export default class Account extends PureComponent {
                 onMouseLeave={() => this.togglePopover()}
                 onTouchStart={() => this.togglePopover()}
             >
-                <Balance eth={balanceEther} ocn={balanceOcean} />
+                {balance && (
+                    <Balance eth={balance.eth.toString()} ocn={balance.ocn.toString()} />
+                )}
                 <Status
                     networkName={networkName}
                     activeAccount={activeAccount}

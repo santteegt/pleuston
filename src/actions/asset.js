@@ -1,29 +1,17 @@
 /* eslint-disable no-console */
-import fetchDownload from 'fetch-download'
+// import fetchDownload from 'fetch-download'
 import AssetModel from '../models/asset'
-import PurchaseHandler from './purchase'
 import { Logger } from '@oceanprotocol/squid'
-
-const MINIMUM_REQUIRED_TOKENS = 10
 
 export async function publish(formValues, account, providers) {
     const { ocean } = providers
-    const publisherId = account.name
-    // check account balance and request tokens if necessary
-    const tokensBalance = await ocean.token.getTokenBalance(publisherId)
-    if (tokensBalance < MINIMUM_REQUIRED_TOKENS) {
-        await ocean.market.requestTokens(MINIMUM_REQUIRED_TOKENS, publisherId)
-    }
-
     // Get user entered form values
     const {
         name,
         description,
         license,
         contentUrls,
-        linkTitle,
-        linkType,
-        linkUrl,
+        links,
         author,
         copyrightHolder,
         tags,
@@ -31,17 +19,8 @@ export async function publish(formValues, account, providers) {
         type,
         updateFrequency
     } = formValues
-
-    // Register on the keeper (on-chain) first, then on the OceanDB
-    const assetId = await ocean.market.registerAsset(
-        name, description, price, publisherId
-    )
-
     // Now register in oceandb and publish the metadata
     const newAsset = {
-        assetId,
-        publisherId,
-
         // OEP-08 Attributes
         // https://github.com/oceanprotocol/OEPs/tree/master/8
         base: Object.assign(AssetModel.base, {
@@ -57,15 +36,9 @@ export async function publish(formValues, account, providers) {
             // contentType: ,
             // workExample: ,
             contentUrls: [contentUrls],
-            links: [
-                {
-                    title: linkTitle,
-                    type: linkType,
-                    url: linkUrl
-                }
-            ],
+            links: links,
             // inLanguage: ,
-            tags: tags ? [tags.split(',')] : [],
+            tags: tags ? tags.split(',') : [],
             price: parseFloat(price),
             type
         }),
@@ -78,37 +51,140 @@ export async function publish(formValues, account, providers) {
             updateFrequency
         })
     }
-    const res = await ocean.metadata.publishDataAsset(newAsset)
-    Logger.debug('res: ', res)
+    const ddo = await ocean.registerAsset(newAsset, account)
+    Logger.debug('res: ', ddo)
     return newAsset
 }
 
-export async function list(account, providers) {
-    const { ocean } = providers
-    let dbAssets = await ocean.metadata.getAssetsMetadata()
-    Logger.log('assets: ', dbAssets)
-
-    dbAssets = Object.values(dbAssets).filter(async (asset) => { return ocean.market.checkAsset(asset.assetId) })
-    Logger.log('assets (published on-chain): ', dbAssets)
-
+export async function list(state) {
+    const {
+        ocean
+    } = state.provider
+    let searchForm
+    if (state.form && state.form.assetSearch) {
+        searchForm = state.form.assetSearch.values
+    } else {
+        searchForm = {
+            page: 0,
+            text: ''
+        }
+    }
+    const queryRequest = {
+        offset: 100,
+        page: state.asset.search.page,
+        query: {}
+    }
+    Logger.log('searchForm:', queryRequest)
+    if (Object.keys(searchForm).length > 2) {
+        queryRequest.query['$and'] = []
+    }
+    if (searchForm.text !== '') {
+        queryRequest.query['$and'] = [
+            {
+                $text: {
+                    $search: searchForm.text
+                }
+            }
+        ]
+    }
+    if (searchForm.license) {
+        queryRequest.query['$and'].push({
+            service: {
+                '$elemMatch': {
+                    'metadata.base.license': searchForm.license
+                }
+            }
+        })
+    }
+    if (searchForm.type) {
+        queryRequest.query['$and'].push({
+            service: {
+                '$elemMatch': {
+                    'metadata.base.type': searchForm.type
+                }
+            }
+        })
+    }
+    if (searchForm.updateFrequency) {
+        queryRequest.query['$and'].push({
+            service: {
+                '$elemMatch': {
+                    'metadata.additionalInformation.updateFrequency': searchForm.updateFrequency
+                }
+            }
+        })
+    }
+    if (searchForm.priceFrom) {
+        queryRequest.query['$and'].push({
+            service: {
+                '$elemMatch': {
+                    'metadata.base.price': {
+                        '$gte': searchForm.priceFrom
+                    }
+                }
+            }
+        })
+    }
+    if (searchForm.priceTo) {
+        queryRequest.query['$and'].push({
+            service: {
+                '$elemMatch': {
+                    'metadata.base.price': {
+                        '$lte': searchForm.priceTo
+                    }
+                }
+            }
+        })
+    }
+    if (searchForm.addedIn) {
+        const nowDate = new Date()
+        if (searchForm.addedIn === 'today') {
+            queryRequest.query['$and'].push({
+                service: {
+                    '$elemMatch': {
+                        'metadata.base.dateCreated': {
+                            '$gte': new Date(nowDate.getFullYear(), nowDate.getMonth(), nowDate.getDate())
+                        }
+                    }
+                }
+            })
+        }
+        if (searchForm.addedIn === 'thisMonth') {
+            queryRequest.query['$and'].push({
+                service: {
+                    '$elemMatch': {
+                        'metadata.base.dateCreated': {
+                            '$gte': new Date(nowDate.getFullYear(), nowDate.getMonth(), 1)
+                        }
+                    }
+                }
+            })
+        }
+        if (searchForm.addedIn === 'thisYear') {
+            queryRequest.query['$and'].push({
+                service: {
+                    '$elemMatch': {
+                        'metadata.base.dateCreated': {
+                            '$gte': new Date(nowDate.getFullYear(), 0, 1)
+                        }
+                    }
+                }
+            })
+        }
+    }
+    let dbAssets = await ocean.searchAssets(queryRequest)
+    Logger.log(`Loaded ${Object.keys(dbAssets).length} assets (from provider)`)
     return dbAssets
 }
 
-export async function purchase(asset, account, providers) {
+export async function purchase(ddo, consumer, providers) {
     const { ocean } = providers
-
-    Logger.log('Purchasing asset by consumer:  ', account.name, ' assetid: ', asset.assetId)
-
-    let purchaseHandler = new PurchaseHandler(asset, account, ocean)
-    let order = await purchaseHandler.doPurchase()
-    if (order.accessUrl) {
-        Logger.log('begin downloading asset data.')
-        const res = await fetchDownload(order.accessUrl)
-            .then((result) => Logger.log('Asset data downloaded successfully: ', result))
-            .catch((error) => Logger.log('Asset download failed: ', error))
-        Logger.debug('res: ', res)
-    }
-    Logger.log('purchase completed, new order is: ', order)
+    const accessService = ddo.findServiceByType('Access')
+    const serviceAgreementSignatureResult = await ocean.signServiceAgreement(ddo.id,
+        accessService.serviceDefinitionId, consumer)
+    Logger.log('ServiceAgreement Id:', serviceAgreementSignatureResult.serviceAgreementId)
+    Logger.log('ServiceAgreement Signature:', serviceAgreementSignatureResult.serviceAgreementSignature)
+    /* TODO handle more */
 }
 
 // export async function listCloudFiles() {

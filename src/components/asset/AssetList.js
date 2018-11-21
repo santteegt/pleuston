@@ -2,19 +2,18 @@ import React, { Fragment } from 'react'
 import PropTypes from 'prop-types'
 
 import Empty from '../atoms/Empty'
-import AssetFilterLoader from '../../containers/AssetFilterLoader'
 import Asset from './Asset'
-import './AssetList.scss'
+
+import styles from './AssetList.module.scss'
 
 const AssetList = ({ assets, handleClick }) => (
     assets.length ? (
         <Fragment>
-            <AssetFilterLoader />
-            <div className="assets">
+            <div className={styles.assets}>
                 {assets.map(asset => (
                     <div
-                        className="assets__tile assets_count"
-                        key={asset.assetId}
+                        className={styles.tile}
+                        key={asset.id}
                         onClick={() => handleClick(asset)}
                         onKeyPress={() => handleClick(asset)}
                         role="link"

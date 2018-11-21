@@ -23,8 +23,9 @@ import {
     getAccounts,
     getAssets,
     setProviders,
-    getOrders,
-    getOauthAccounts
+    // getOrders,
+    getOauthAccounts,
+    setNetworkName
 } from './actions/index'
 
 import App from './App'
@@ -44,20 +45,19 @@ const store = createStore(
 
 serviceWorker.register()
 
-function boot() {
+window.addEventListener('load', async () => {
     Logger.log('booting up pleuston')
+    store.dispatch(getOauthAccounts())
     store.dispatch(setProviders())
         .then(() => {
-            store.dispatch(getAssets())
-            store.dispatch(getOauthAccounts())
+            store.dispatch(setNetworkName())
             store.dispatch(getAccounts())
                 .then(() => {
-                    store.dispatch(getOrders())
+                    // store.dispatch(getOrders())
+                    store.dispatch(getAssets())
                 })
         })
-}
-
-/* Das */boot()
+})
 
 ReactDOM.render(
     <Provider store={store}>

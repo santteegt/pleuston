@@ -11,16 +11,15 @@ export function setProviders() {
             type: 'SET_PROVIDERS',
             ...(await ocean.provideOcean())
         })
-
-        dispatch(setNetworkName())
     }
 }
 
 export function getAccounts() {
     return async (dispatch, getState) => {
         const state = getState()
-        const { ocean } = state.provider
-
+        const {
+            ocean
+        } = state.provider
         dispatch({
             type: 'SET_ACCOUNTS',
             accounts: await ocean.getAccounts()
@@ -29,37 +28,46 @@ export function getAccounts() {
 }
 
 export function getActiveAccount(state) {
-    let { activeAccount, accounts } = state.account
+    let {
+        activeAccount,
+        accounts
+    } = state.account
     if (accounts.length === 0) {
         return null
     }
     return accounts[activeAccount]
 }
 
-function setNetworkName() {
+export function setNetworkName() {
     return async (dispatch, getState) => {
-        const { ocean } = getState().provider
-
+        const state = getState()
+        const {
+            ocean
+        } = state.provider
         dispatch({
             type: 'SET_NETWORKNAME',
-            networkName: await ocean.helper.getNetworkName()
+            networkName: await ocean.keeper.getNetworkName()
         })
     }
 }
 
 export function getNetworkName(state) {
-    let { networkName } = state.account
+    let {
+        networkName
+    } = state.account
     return networkName
 }
 
 export function makeItRain(amount) {
     return async (dispatch, getState) => {
         const state = getState()
-        const { ocean } = state.provider
+        const {
+            ocean
+        } = state.provider
         try {
-            await ocean.market.requestTokens(
+            await ocean.keeper.market.requestTokens(
                 amount,
-                getActiveAccount(state).name
+                getActiveAccount(state).id
             )
             dispatch(getAccounts())
         } catch (e) {
@@ -84,23 +92,27 @@ export function putAsset(formValues) {
 }
 
 export function getAssets() {
-    /* Get list of assets for the current selected account */
     return async (dispatch, getState) => {
         const state = getState()
-
         const assets = (await asset
-            .list(
-                getActiveAccount(state),
-                state.provider
-            ))
+            .list(state))
             .reduce((map, obj) => {
-                map[obj.assetId] = obj
+                map[obj.id] = obj
                 return map
             }, {})
-
+        Logger.log('assets:', assets)
         dispatch({
             type: 'GET_ASSETS',
             assets
+        })
+    }
+}
+
+export function setAssetSearchPage(page) {
+    return (dispatch) => {
+        dispatch({
+            type: 'SET_ASSET_SEARCH_PAGE',
+            page: page
         })
     }
 }
@@ -115,11 +127,16 @@ export function setActiveAsset(assetId) {
 }
 
 export function getActiveAsset(state) {
-    const { activeAsset, assets } = state.asset
+    const {
+        activeAsset,
+        assets
+    } = state.asset
 
     if (!activeAsset && state.router.location.pathname) {
         const rgxAssetId = /\/(.*?)/g
-        const { pathname } = state.router.location
+        const {
+            pathname
+        } = state.router.location
         if (rgxAssetId.exec(pathname)) {
             const assetIdFromUrl = pathname.replace(/^.*[\\\/]/, '') // eslint-disable-line
             if (assetIdFromUrl) {
@@ -127,7 +144,6 @@ export function getActiveAsset(state) {
             }
         }
     }
-
     return assets[activeAsset]
 }
 
@@ -144,22 +160,18 @@ export function purchaseAsset(assetId) {
         dispatch({
             type: 'UPDATE_ASSET',
             assetId,
-            asset: Object.assign(activeAsset, { token })
-        })
-    }
-}
-
-export function setAssetFilter(filter) {
-    return (dispatch) => {
-        dispatch({
-            type: 'SET_ASSET_FILTER',
-            filter
+            asset: Object.assign(activeAsset, {
+                token
+            })
         })
     }
 }
 
 export function getActiveOrder(state) {
-    const { activeOrder, orders } = state.order
+    const {
+        activeOrder,
+        orders
+    } = state.order
 
     if (activeOrder) {
         return orders[activeOrder]
@@ -182,24 +194,31 @@ export function getOrders() {
         const state = getState()
         const account = getActiveAccount(state)
         if (!account) {
-            Logger.log('active account is not set.')
+            Logger.error('Active account is not set!')
             return []
         }
-
-        const { ocean } = state.provider
-        let orders = await Promise.all(await ocean.getOrdersByConsumer(account.name))
-        Logger.log('ORDERS: ', orders, Object.values(state.asset.assets))
+        const {
+            ocean
+        } = state.provider
+        // Logger.log('ORDERS: ', await ocean.getOrdersByAccount(account))
+        // let orders = await ocean.order.getOrdersByConsumer(account.name)
+        let orders = await ocean.getOrdersByAccount(account)
+        // Logger.log('ORDERS: ', orders, Object.values(state.asset.assets))
         let assets = null
+        // do we have assets in the state?ß
         if (Object.values(state.asset.assets).length !== 0) {
+            // yep, map them to assets
             assets = Object.values(state.asset.assets).reduce((map, obj) => {
                 map[obj.assetId] = obj
                 return map
             })
         }
+        // do we have mapped assets?
         if (assets !== null && Object.values(assets).length !== 0) {
+            // yep, so map the names of the assets to the order
             for (let order of orders) {
-                if (order._resourceId && assets[order._resourceId]) {
-                    order.assetName = assets[order._resourceId].metadata.name
+                if (order._resourceId && assets[order._resourceId] && assets[order._resourceId].base) {
+                    order.assetName = assets[order._resourceId].base.name
                 }
             }
         }
@@ -208,7 +227,8 @@ export function getOrders() {
             map[obj._id] = obj
             return map
         }, {})
-        Logger.log('ORDERS mapped: ', orders)
+        // Logger.log('Mapped orders: ', JSON.stringify(orders, null, 2))
+        Logger.log(`Mapped ${Object.keys(orders).length} orders.`)
 
         dispatch({
             type: 'SET_ORDERS',
@@ -275,7 +295,10 @@ export function getCloudFiles() {
                         for (const con of results.entries) {
                             const files = await getContainerFiles(con.name)
                             for (const file of files) {
-                                cloudBlobs.push({ container: con.name, blobName: file.name })
+                                cloudBlobs.push({
+                                    container: con.name,
+                                    blobName: file.name
+                                })
                             }
                         }
                         Logger.log('Blobs from azure storage: ', cloudBlobs)

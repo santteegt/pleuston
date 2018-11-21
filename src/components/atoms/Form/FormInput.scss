@@ -3,13 +3,38 @@
 
 .input-wrap {
     background: $brand-gradient;
-    border-radius: 2px;
+    border-radius: $border-radius;
     width: 100%;
     padding: 2px;
     display: flex;
+    position: relative;
 
     &.is-focused {
         background: $brand-black;
+    }
+
+    .is-dimmed & {
+        background: $brand-grey-lighter;
+
+        &.is-focused {
+            background: $brand-grey-light;
+        }
+    }
+}
+
+.input-wrap-search {
+    .input {
+        padding-left: $spacer * 1.25;
+    }
+
+    svg {
+        position: absolute;
+        left: $spacer / 3;
+        width: 1.25rem;
+        height: 1.25rem;
+        top: 50%;
+        margin-top: -.75rem;
+        fill: rgba($brand-grey-light, .7);
     }
 }
 
@@ -23,7 +48,7 @@
     background: $brand-white;
     padding: $spacer / 3;
     margin: 0;
-    border-radius: 2px;
+    border-radius: $border-radius;
     transition: .2s ease-out;
     min-height: 43px;
     appearance: none;
@@ -67,16 +92,38 @@
 // stylelint-disable-next-line
 select.input {
     height: 43px;
+    padding-right: 3rem;
+    border: 0;
 
     // custom arrow
-    background-image: linear-gradient(45deg, transparent 50%, $brand-purple 50%), linear-gradient(135deg, $brand-purple 50%, transparent 50%);
-    background-position: calc(100% - 21px) 18px, calc(100% - 16px) 18px;
-    background-size: 5px 5px;
+    // stylelint-disable
+    background-image:
+        linear-gradient(45deg, transparent 50%, $brand-purple 50%),
+        linear-gradient(135deg, $brand-purple 50%, transparent 50%),
+        linear-gradient(to right, $brand-pink 1px, lighten($brand-grey-lighter, 5%) 2px, lighten($brand-grey-lighter, 5%));
+    background-position:
+        calc(100% - 18px) calc(1rem + 5px),
+        calc(100% - 13px) calc(1rem + 5px),
+        100% 0;
+    background-size:
+        5px 5px,
+        5px 5px,
+        2.5rem 3rem;
+    // stylelint-enable
     background-repeat: no-repeat;
 
     &:focus {
+        outline: 0;
         font-family: $font-family-base;
     }
+    // stylelint-disable
+    .is-dimmed & {
+        background-image:
+            linear-gradient(45deg, transparent 50%, $brand-grey-light 50%),
+            linear-gradient(135deg, $brand-grey-light 50%, transparent 50%),
+            linear-gradient(to right, $brand-grey-lighter 1px, lighten($brand-grey-lighter, 5%) 2px, lighten($brand-grey-lighter, 5%));
+    }
+    // stylelint-enable
 }
 
 .form__label {
@@ -85,7 +132,7 @@ select.input {
     font-family: $font-family-title;
     line-height: 1.2;
     display: block;
-    margin-bottom: $spacer / 4;
+    margin-bottom: $spacer / 6;
 
     &.is-required {
         &:after {
@@ -96,4 +143,25 @@ select.input {
             margin-left: .1rem;
         }
     }
+}
+
+// Size modifiers
+.input-sm {
+    font-size: $font-size-small;
+    min-height: 32px;
+    padding: $spacer / 4;
+
+    &::placeholder {
+        font-size: $font-size-small;
+    }
+}
+
+// stylelint-disable-next-line
+select.input-sm {
+    height: 32px;
+    padding-right: 2rem;
+
+    // custom arrow
+    background-position: calc(100% - 14px) 1rem, calc(100% - 9px) 1rem, 100% 0;
+    background-size: 5px 5px, 5px 5px, 2rem 3rem;
 }

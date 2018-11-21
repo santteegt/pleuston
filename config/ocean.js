@@ -2,11 +2,27 @@ module.exports = {
     // -----
     // Setup with local services
     // -----
-    keeperScheme: 'http',
-    keeperHost: 'localhost',
-    keeperPort: 8545,
+    nodeScheme: 'http',
+    nodeHost: 'localhost',
+    nodePort: 8545,
 
     aquariusScheme: 'http',
     aquariusHost: 'localhost',
-    aquariusPort: 5000
+    aquariusPort: 5000,
+
+    brizoScheme: 'https',
+    brizoHost: 'localhost',
+    brizoPort: 8030,
+
+    parityScheme: 'http',
+    parityHost: 'localhost',
+    parityPort: 8545,
+
+    secretStoreScheme: 'http',
+    secretStoreHost: 'localhost',
+    secretStorePort: 12001,
+
+    threshold: 0,
+    password: 'unittest',
+    address: '0xed243adfb84a6626eba46178ccb567481c6e655d'
 }

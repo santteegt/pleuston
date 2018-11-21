@@ -34,20 +34,17 @@ class AssetFull extends PureComponent {
     }
 
     render() {
-        if (!this.props.assetId) return null
-
         const {
-            assetId,
-            publisherId,
-            handlePurchase,
-            token,
-            // OEP-08 Attributes
-            // https://github.com/oceanprotocol/OEPs/tree/master/8
+            asset,
+            handlePurchase
+        } = this.props
+        if (!asset) return null
+        const metadata = asset.findServiceByType('Metadata')
+        const {
             base,
             // curation,
             additionalInformation
-        } = this.props
-
+        } = metadata.metadata
         // OEP-08 Base Attributes
         const {
             name,
@@ -79,7 +76,7 @@ class AssetFull extends PureComponent {
                     </p>
                 )}
 
-                <AssetFullMeta label="Publisher" item={publisherId} truncate />
+                {/* <AssetFullMeta label="Publisher" item={publisherId} truncate /> */}
 
                 <AssetFullMeta label="Author" item={author} />
 
@@ -87,7 +84,7 @@ class AssetFull extends PureComponent {
 
                 <AssetFullMeta label="Published" item={dateCreated} />
 
-                <AssetFullMeta label="ID" item={assetId} truncate />
+                <AssetFullMeta label="ID" item={asset.id} truncate />
 
                 {description && <AssetFullMeta label="Description" item={description} />}
 
@@ -95,12 +92,12 @@ class AssetFull extends PureComponent {
                     <AssetFullMeta label="URL" item={contentUrls[0] || 'Please purchase'} link={contentUrls[0]} />
                 )}
 
-                {links.length > 0 && <AssetFullMeta label="Links" links={links} />}
+                {links && links.length > 0 && <AssetFullMeta label="Links" links={links} />}
 
                 <AssetFullMeta label="Price" item={`${price} Ọ`} />
-                <AssetFullMeta label="Token" item={token || 'Please purchase'} />
+                {/* <AssetFullMeta label="Token" item={token || 'Please purchase'} /> */}
 
-                {tags.length > 0 && (
+                {tags && tags.length > 0 && (
                     <AssetFullMeta label="Tags" item={tags.map(tag => (tag))} />
                 )}
 
@@ -113,7 +110,7 @@ class AssetFull extends PureComponent {
                 )}
 
                 <div className={styles.assetFullActions}>
-                    <Button primary="true" onClick={() => handlePurchase(assetId)}>Purchase</Button>
+                    <Button primary="true" onClick={() => handlePurchase(asset)}>Purchase</Button>
                 </div>
             </div>
         )
@@ -121,41 +118,8 @@ class AssetFull extends PureComponent {
 }
 
 AssetFull.propTypes = {
-    assetId: PropTypes.string,
     handlePurchase: PropTypes.func,
-    publisherId: PropTypes.string,
-    token: PropTypes.string,
-
-    // OEP-08 Attributes
-    // https://github.com/oceanprotocol/OEPs/tree/master/8
-    base: PropTypes.shape({
-        name: PropTypes.string.isRequired,
-        description: PropTypes.string,
-        dateCreated: PropTypes.date,
-        // size: PropTypes.string.isRequired,
-        author: PropTypes.string.isRequired,
-        type: PropTypes.string.isRequired,
-        license: PropTypes.string.isRequired,
-        copyrightHolder: PropTypes.string,
-        // encoding: PropTypes.string,
-        // compression: PropTypes.string,
-        // contentType: PropTypes.string.isRequired,
-        // workExample: PropTypes.string,
-        contentUrls: PropTypes.array.isRequired,
-        links: PropTypes.array,
-        // inLanguage: PropTypes.string,
-        tags: PropTypes.array,
-        price: PropTypes.number.isRequired
-    }),
-    curation: PropTypes.shape({
-        rating: PropTypes.number.isRequired,
-        numVotes: PropTypes.number.isRequired,
-        schema: PropTypes.string
-    }),
-    additionalInformation: PropTypes.shape({
-        updateFrequency: PropTypes.string
-        // structuredMarkup: PropTypes.array
-    })
+    asset: PropTypes.object
 }
 
 export default AssetFull
