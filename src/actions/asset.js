@@ -179,12 +179,18 @@ export async function list(state) {
 
 export async function purchase(ddo, consumer, providers) {
     const { ocean } = providers
-    const accessService = ddo.findServiceByType('Access')
+    const service = ddo.findServiceByType('Access')
     const serviceAgreementSignatureResult = await ocean.signServiceAgreement(ddo.id,
-        accessService.serviceDefinitionId, consumer)
+        service.serviceDefinitionId, consumer)
     Logger.log('ServiceAgreement Id:', serviceAgreementSignatureResult.serviceAgreementId)
     Logger.log('ServiceAgreement Signature:', serviceAgreementSignatureResult.serviceAgreementSignature)
-    /* TODO handle more */
+    const initSA = await ocean.initializeServiceAgreement(
+        ddo.id,
+        service.serviceDefinitionId,
+        serviceAgreementSignatureResult.serviceAgreementId,
+        serviceAgreementSignatureResult.serviceAgreementSignature,
+        consumer)
+    Logger.log('SA:', initSA)
 }
 
 // export async function listCloudFiles() {
