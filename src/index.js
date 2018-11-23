@@ -31,6 +31,13 @@ import {
 import App from './App'
 import * as serviceWorker from './serviceWorker'
 
+import * as Web3 from 'web3'
+
+// Replace the old injected version by the new local
+if (window.web3) {
+    window.web3 = new Web3(window.web3.currentProvider)
+}
+
 const history = createBrowserHistory()
 
 const store = createStore(
