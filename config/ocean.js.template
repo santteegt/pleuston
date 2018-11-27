@@ -2,11 +2,22 @@ module.exports = {
     // -----
     // Setup with local services
     // -----
-    keeperScheme: '${KEEPER_SCHEME}',
-    keeperHost: '${KEEPER_HOST}',
-    keeperPort: ${KEEPER_PORT},
-
+    nodeScheme: '${NODE_SCHEME}',
+    nodeHost: '${NODE_HOST}',
+    nodePort: '${NODE_PORT}',
     aquariusScheme: '${AQUARIUS_SCHEME}',
     aquariusHost: '${AQUARIUS_HOST}',
-    aquariusPort: ${AQUARIUS_PORT}
+    aquariusPort: '${AQUARIUS_PORT}',
+    brizoScheme: '${BRIZO_SCHEME}',
+    brizoHost: '${BRIZO_HOST}',
+    brizoPort: '${BRIZO_PORT}',
+    parityScheme: '${PARITY_SCHEME}',
+    parityHost: '${PARITY_HOST}',
+    parityPort: '${PARITY_PORT}',
+    secretStoreScheme: '${SECRET_STORE_SCHEME}',
+    secretStoreHost: '${SECRET_STORE_HOST}',
+    secretStorePort: '${SECRET_STORE_PORT}',
+    secretStoreThreshold: '${SECRET_STORE_THRESHOLD}',
+    secretStorePassword: '${SECRET_STORE_PASSWORD}',
+    secretStoreAddress: '${SECRET_STORE_ADDRESS}'
 }
