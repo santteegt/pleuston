@@ -1,12 +1,12 @@
 import React from 'react'
 import ReactDOM from 'react-dom'
-import { Logger } from '@oceanprotocol/squid'
 
 import thunk from 'redux-thunk'
 
 import { Provider } from 'react-redux'
 import { createStore, applyMiddleware } from 'redux'
 import { composeWithDevTools } from 'redux-devtools-extension'
+import { dispatchSubscribe } from 'redux-dispatch-subscribe'
 
 import { createBrowserHistory } from 'history'
 import {
@@ -46,30 +46,31 @@ const store = createStore(
         applyMiddleware(
             routerMiddleware(history), // for dispatching history actions
             thunk
-        )
+        ),
+        dispatchSubscribe()
     )
 )
-
-serviceWorker.register()
-
-window.addEventListener('load', async () => {
-    Logger.log('booting up pleuston')
-    store.dispatch(getOauthAccounts())
-    store.dispatch(setProviders())
-        .then(() => {
+store.addDispatchListener(action => {
+    if (action.type === 'web3/RECEIVE_ACCOUNT') {
+        store.dispatch(setProviders()).then(() => {
+            store.dispatch(getOauthAccounts())
             store.dispatch(setNetworkName())
             store.dispatch(getAccounts())
-                .then(() => {
-                    // store.dispatch(getOrders())
-                    store.dispatch(getAssets())
-                })
+            store.dispatch(getAssets())
+            // TODO: get own orders
         })
+    }
+    if (action.type === 'web3/CHANGE_ACCOUNT') {
+        store.dispatch(getAccounts())
+        // TODO: get own orders
+    }
 })
+
+serviceWorker.register()
 
 ReactDOM.render(
     <Provider store={store}>
         <Web3Provider
-            onChangeAccount={() => store.dispatch(getAccounts())}
             web3UnavailableScreen={() => <Web3Unavailable />}
             accountUnavailableScreen={() => <Web3AccountUnavailable />}
         >

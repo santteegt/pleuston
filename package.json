@@ -48,6 +48,7 @@
     "react-web3": "^1.2.0",
     "redux": "^4.0.1",
     "redux-devtools-extension": "^2.13.6",
+    "redux-dispatch-subscribe": "^1.0.0",
     "redux-form": "^7.4.2",
     "redux-thunk": "^2.3.0",
     "secp256k1": "^3.5.2",
