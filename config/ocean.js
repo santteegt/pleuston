@@ -10,7 +10,7 @@ module.exports = {
     aquariusHost: 'localhost',
     aquariusPort: 5000,
 
-    brizoScheme: 'https',
+    brizoScheme: 'http',
     brizoHost: 'localhost',
     brizoPort: 8030,
 
