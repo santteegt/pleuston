@@ -38,7 +38,7 @@ export async function publish(formValues, account, providers) {
             contentUrls: [contentUrls],
             links: links,
             // inLanguage: ,
-            tags: tags ? tags.split(',') : [],
+            tags: tags,
             price: parseFloat(price),
             type
         }),
