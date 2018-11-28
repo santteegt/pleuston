@@ -22,7 +22,7 @@ module.exports = {
     secretStoreHost: 'localhost',
     secretStorePort: 12001,
 
-    threshold: 0,
-    password: 'unittest',
-    address: '0xed243adfb84a6626eba46178ccb567481c6e655d'
+    secretStoreThreshold: 0,
+    secretStorePassword: 'unittest',
+    secretStoreAddress: '0xed243adfb84a6626eba46178ccb567481c6e655d'
 }
