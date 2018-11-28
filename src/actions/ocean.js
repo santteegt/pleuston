@@ -39,9 +39,9 @@ export async function provideOcean() {
         brizoUri,
         parityUri,
         secretStoreUri,
-        secretStoreThreshold,
-        secretStorePassword,
-        secretStoreAddress
+        threshold: secretStoreThreshold,
+        password: secretStorePassword,
+        address: secretStoreAddress
     }
 
     const ocean = Ocean.getInstance ? await Ocean.getInstance(config) : await new Ocean(config)
