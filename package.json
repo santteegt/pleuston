@@ -19,7 +19,7 @@
   },
   "dependencies": {
     "@oceanprotocol/art": "^2.1.0",
-    "@oceanprotocol/squid": "^0.1.28",
+    "@oceanprotocol/squid": "^0.2.0",
     "azure-storage": "^2.10.2",
     "connected-react-router": "^5.0.1",
     "copy": "^0.3.2",
@@ -45,14 +45,13 @@
     "react-transition-group": "^2.5.0",
     "react-truncate": "^2.4.0",
     "react-vis": "^1.11.5",
-    "react-web3": "^1.2.0",
+    "react-web3-provider": "^1.1.1",
     "redux": "^4.0.1",
     "redux-devtools-extension": "^2.13.6",
-    "redux-dispatch-subscribe": "^1.0.0",
     "redux-form": "^7.4.2",
     "redux-thunk": "^2.3.0",
     "secp256k1": "^3.5.2",
-    "web3": "^1.0.0-beta.36"
+    "web3": "1.0.0-beta.34"
   },
   "devDependencies": {
     "@babel/core": "^7.1.6",
