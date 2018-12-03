@@ -88,7 +88,6 @@ ReactDOM.render(
                 callback(fallbackWeb3)
             }}
             acceptProvider={async (web3, accept, reject) => {
-                window.web3 = web3
                 let accounts = await web3.eth.getAccounts()
                 if (accounts.length === 0 && window.ethereum) {
                     try {
@@ -100,6 +99,7 @@ ReactDOM.render(
                     }
                 }
                 if (accounts.length >= 1) {
+                    window.web3 = web3
                     bootstrap()
                     detectAccountChange()
                     accept()
