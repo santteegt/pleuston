@@ -61,7 +61,7 @@ export async function list(state) {
         ocean
     } = state.provider
     let searchForm
-    if (state.form && state.form.assetSearch) {
+    if (state.form && state.form.assetSearch && state.form.assetSearch.values) {
         searchForm = state.form.assetSearch.values
     } else {
         searchForm = {
@@ -78,7 +78,7 @@ export async function list(state) {
     if (Object.keys(searchForm).length > 2) {
         queryRequest.query['$and'] = []
     }
-    if (searchForm.text !== '') {
+    if (searchForm.text && searchForm.text !== '') {
         queryRequest.query['$and'] = [
             {
                 $text: {
