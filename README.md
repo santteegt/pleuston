@@ -83,7 +83,7 @@ You now have a locally running RPC client with all the contracts from _keeper-co
 
 ## Storage Providers
 
-As af right now, _pleuston_ requires asset files to be stored in Azure Cloud Storage before registering them through the UI. For more convenience we will integrate connections to various cloud storage providers.
+As of right now, _pleuston_ requires asset files to be stored in Azure Cloud Storage before registering them through the UI. For more convenience we will integrate connections to various cloud storage providers.
 
 <img width="584" alt="screen shot 2018-10-18 at 12 48 53" src="https://user-images.githubusercontent.com/90316/47149555-33472380-d2d4-11e8-982d-7f815c7499e9.png" />
 
@@ -146,8 +146,29 @@ To run your application over SSL, set the scheme values in [`config/ocean.js`](.
 
 ```js
 module.exports = {
-    keeperScheme: 'https',
-    aquariusScheme: 'https'
+    nodeScheme: 'http',
+    nodeHost: 'localhost',
+    nodePort: 8545,
+
+    aquariusScheme: 'http',
+    aquariusHost: 'localhost',
+    aquariusPort: 5000,
+
+    brizoScheme: 'https',
+    brizoHost: 'localhost',
+    brizoPort: 8030,
+
+    parityScheme: 'http',
+    parityHost: 'localhost',
+    parityPort: 8545,
+
+    secretStoreScheme: 'http',
+    secretStoreHost: 'localhost',
+    secretStorePort: 12001,
+
+    secretStoreThreshold: 0,
+    secretStorePassword: 'unittest',
+    secretStoreAddress: '0xed243adfb84a6626eba46178ccb567481c6e655d'
 }
 ```
 
