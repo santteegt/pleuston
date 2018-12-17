@@ -7,7 +7,7 @@ module.exports = {
     nodePort: 8545,
 
     aquariusScheme: 'http',
-    aquariusHost: 'localhost',
+    aquariusHost: 'aquarius.dev-ocean.com',
     aquariusPort: 5000,
 
     brizoScheme: 'http',
@@ -23,6 +23,8 @@ module.exports = {
     secretStorePort: 12001,
 
     secretStoreThreshold: 0,
-    secretStorePassword: 'secret',
-    secretStoreAddress: '0x068ed00cf0441e4829d9784fcbe7b9e26d4bd8d0'
+    secretStorePassword: 'node0',
+    secretStoreAddress: '0x00bd138abd70e2f00903268f3db08f2d25677c9e',
+
+    verboseLogging: true
 }

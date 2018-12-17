@@ -1,5 +1,3 @@
-/* eslint-disable no-console */
-// import fetchDownload from 'fetch-download'
 import AssetModel from '../models/asset'
 import { Logger } from '@oceanprotocol/squid'
 
@@ -177,28 +175,32 @@ export async function list(state) {
     return dbAssets
 }
 
+export function download(fileName) {
+    setTimeout(() => {
+        window.open(fileName) // eslint-disable-line
+    }, 100)
+}
+
 export async function purchase(ddo, consumer, providers) {
     const { ocean } = providers
     const service = ddo.findServiceByType('Access')
-    const serviceAgreementSignatureResult = await ocean.signServiceAgreement(ddo.id,
-        service.serviceDefinitionId, consumer)
-    Logger.log('ServiceAgreement Id:', serviceAgreementSignatureResult.serviceAgreementId)
-    Logger.log('ServiceAgreement Signature:', serviceAgreementSignatureResult.serviceAgreementSignature)
-    const initSA = await ocean.initializeServiceAgreement(
-        ddo.id,
-        service.serviceDefinitionId,
-        serviceAgreementSignatureResult.serviceAgreementId,
-        serviceAgreementSignatureResult.serviceAgreementSignature,
-        consumer)
-    Logger.log('SA:', initSA)
+    try {
+        const serviceAgreementSignatureResult = await ocean.signServiceAgreement(ddo.id,
+            service.serviceDefinitionId, consumer)
+        Logger.log('ServiceAgreement Id:', serviceAgreementSignatureResult.serviceAgreementId)
+        Logger.log('ServiceAgreement Signature:', serviceAgreementSignatureResult.serviceAgreementSignature)
+        await ocean.initializeServiceAgreement(
+            ddo.id,
+            service.serviceDefinitionId,
+            serviceAgreementSignatureResult.serviceAgreementId,
+            serviceAgreementSignatureResult.serviceAgreementSignature,
+            (files) => {
+                files.forEach((file) => {
+                    download(file)
+                })
+            },
+            consumer)
+    } catch (error) {
+        Logger.log(error)
+    }
 }
-
-// export async function listCloudFiles() {
-//     if (cloudName === 'azure') {
-//         const fileService = azure.createFileService(storageAccount, accessKey)
-//         fileService.listFilesAndDirectoriesSegmented(shareName, folderName, null, null, (error, result, response) => {
-//             console.log('files: ', result, response)
-//             return (error, result)
-//         })
-//     }
-// }
