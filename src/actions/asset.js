@@ -181,10 +181,11 @@ export function download(fileName) {
     }, 100)
 }
 
-export async function purchase(ddo, consumer, providers) {
+export async function purchase(inputDdo, consumer, providers) {
     const { ocean } = providers
-    const service = ddo.findServiceByType('Access')
     try {
+        const ddo = await ocean.resolveDID(inputDdo.id)
+        const service = ddo.findServiceByType('Access')
         const serviceAgreementSignatureResult = await ocean.signServiceAgreement(ddo.id,
             service.serviceDefinitionId, consumer)
         Logger.log('ServiceAgreement Id:', serviceAgreementSignatureResult.serviceAgreementId)

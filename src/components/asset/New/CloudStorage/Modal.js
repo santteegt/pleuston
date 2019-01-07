@@ -1,4 +1,5 @@
 import React from 'react'
+import PropTypes from 'prop-types'
 import Modal from '../../../atoms/Modal'
 import styles from './Modal.module.scss'
 import CloudStoragePickerLoader from '../../../../containers/CloudStoragePickerLoader'
@@ -18,5 +19,9 @@ const CloudStorageModal = ({ ...props }) => (
         </div>
     </Modal>
 )
+
+CloudStorageModal.propTypes = {
+    handleCloseModal: PropTypes.func.isRequired
+}
 
 export default CloudStorageModal
