@@ -10,11 +10,7 @@ import styles from './Picker.module.scss'
 export default class CloudStoragePicker extends PureComponent {
     static propTypes = {
         linkSetter: PropTypes.func.isRequired,
-        handleCloseModal: PropTypes.func.isRequired,
-        blobs: PropTypes.array.isRequired,
-        error: PropTypes.string,
-        loadCloudFiles: PropTypes.func.isRequired,
-        resetCloudFiles: PropTypes.func.isRequired
+        handleCloseModal: PropTypes.func.isRequired
     }
 
     state = {
@@ -24,24 +20,8 @@ export default class CloudStoragePicker extends PureComponent {
 
     componentDidMount() {
         this.setState({ loading: true })
-        this.props.loadCloudFiles()
-    }
-
-    componentDidUpdate(prevProps) {
-        if (
-            prevProps.blobs !== this.props.blobs ||
-            prevProps.error !== this.props.error
-        ) {
-            // disabling ESLint check here cause we know it's safe in this case
-            // see e.g. https://github.com/airbnb/javascript/issues/1875
-            // eslint-disable-next-line react/no-did-update-set-state
-            this.setState({ loading: false })
-        }
-    }
-
-    componentWillUnmount() {
-        this.props.resetCloudFiles()
-        this.setState({ loading: false })
+        // this.props.loadCloudFiles()
+        // TODO load cloud files, loading to false when done
     }
 
     handleSelection(blobId) {
@@ -55,6 +35,7 @@ export default class CloudStoragePicker extends PureComponent {
     }
 
     submitSelection() {
+        /*
         const selectionWithData = []
         for (const e of this.state.selection) {
             selectionWithData.push(this.props.blobs[e])
@@ -72,10 +53,10 @@ export default class CloudStoragePicker extends PureComponent {
         const sasUrl = blobService.getUrl(firstBlob.container, firstBlob.blobName, token)
         this.props.linkSetter(sasUrl)
         this.props.handleCloseModal()
+        */
     }
 
     render() {
-        const { blobs, error } = this.props
         return (
             <>
                 <div className={styles.files}>

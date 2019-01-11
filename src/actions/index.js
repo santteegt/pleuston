@@ -1,9 +1,12 @@
 import azure from 'azure-storage'
-import queryString from 'query-string'
+// import queryString from 'query-string'
 import * as ocean from './ocean'
 import * as asset from './asset'
 import { Logger } from '@oceanprotocol/squid'
 import { storageAccount, accessKey } from '../../config/cloudStorage'
+import StorageProviders from '../lib/storage-providers'
+
+const storageProviders = new StorageProviders()
 
 export function setProviders() {
     return async (dispatch) => {
@@ -252,18 +255,7 @@ export function getOauthAccounts() {
 }
 
 export function updateOauthAccounts(state) {
-    if (state.router.location.pathname === '/oauth/azure') {
-        const query = queryString.parse(state.router.location.hash)
-        state.oauthAccounts['azure'] = query
-        state.oauthAccounts['azure'].expires_on = new Date(new Date().getTime() + parseInt(query['expires_in'])).getTime()
-    }
-    window.localStorage.setItem('oauthAccounts', JSON.stringify(state.oauthAccounts))
-    return (dispatch) => {
-        dispatch({
-            type: 'SET_OAUTH_ACCOUNTS',
-            oauthAccounts: state.oauthAccounts
-        })
-    }
+    storageProviders.azure.updateConnected(state)
 }
 
 export function clearCloudFiles() {

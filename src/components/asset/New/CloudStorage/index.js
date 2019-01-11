@@ -1,32 +1,30 @@
 import React, { PureComponent } from 'react'
-import PropTypes from 'prop-types'
+// import PropTypes from 'prop-types'
 import { OauthSender } from 'react-oauth-flow'
 import Button from '../../../atoms/Button'
 import CloudStorageModal from './Modal'
 import { ReactComponent as IconAzure } from '../../../../svg/azure.svg'
 import { appId, redirectHost, scope } from '../../../../../config/cloudStorage'
+import StorageProviders from '../../../../lib/storage-providers'
 
 import styles from './index.module.scss'
 
 const authorizeUrl = `https://login.microsoftonline.com/common/oauth2/v2.0/authorize`
 
-export default class CloudStorage extends PureComponent {
-    static propTypes = {
-        oauthAccounts: PropTypes.object.isRequired,
-        reloadOauthAccounts: PropTypes.func.isRequired
-    }
+const storageProviders = new StorageProviders()
 
+export default class CloudStorage extends PureComponent {
     state = {
-        isModalOpen: false,
-        isConnected: false
+        storageProvider: null,
+        isConnectedAzure: false,
+        isConnectedAws: false
     }
 
     componentDidMount() {
         if (typeof window !== 'undefined') {
-            this.setState({ isConnected: !!window.localStorage.getItem('oauthAccounts') })
-
             window.addEventListener('storage', this.localStorageUpdated)
         }
+        this.localStorageUpdated()
     }
 
     componentWillUnmount() {
@@ -36,47 +34,33 @@ export default class CloudStorage extends PureComponent {
     }
 
     localStorageUpdated = () => {
-        if (!window.localStorage.getItem('oauthAccounts')) {
-            this.setState({ isConnected: false })
-        } else {
-            this.props.reloadOauthAccounts()
-        }
+        this.setState({
+            isConnectedAzure: storageProviders.azure.isConnected(),
+            isConnectedAws: storageProviders.aws.isConnected()
+        })
     }
 
-    isConnected = () => {
-        return this.props.oauthAccounts.azure && this.props.oauthAccounts.azure.expires_on < Date.now()
-    }
-
-    toggleModal = () => {
-        this.setState({ isModalOpen: !this.state.isModalOpen })
-    }
-
-    toggleOauthPopup(url) {
-        const windowObjectReference = window.open( // eslint-disable-line
-            url,
-            'Connect to Azure',
-            'resizable,scrollbars,status,width=400,height=500'
-        )
-        return windowObjectReference
+    closeModal = () => {
+        this.setState({ storageProvider: null })
     }
 
     toggleAzure(e, url) {
         if (e !== undefined) {
             e.preventDefault()
         }
-        this.setState({ isConnected: this.isConnected })
-        if (this.state.isConnected) {
-            this.toggleModal()
+        if (storageProviders.azure.isConnected()) {
+            this.setState({ storageProvider: storageProviders.azure })
         } else {
-            this.toggleOauthPopup(url)
+            storageProviders.azure.connect(url)
         }
     }
 
-    clearOauthAccounts = () => {
-        if (typeof window !== 'undefined') {
-            window.localStorage.removeItem('oauthAccounts')
+    disconnectAzure(e) {
+        if (e !== undefined) {
+            e.preventDefault()
         }
-        this.setState({ isConnected: false })
+        storageProviders.azure.disconnect()
+        this.localStorageUpdated()
     }
 
     render() {
@@ -98,10 +82,10 @@ export default class CloudStorage extends PureComponent {
                                 >
                                 Azure
                                 </Button>
-                                {this.state.isConnected && (
+                                {this.state.isConnectedAzure && (
                                     <Button
                                         className={styles.logout}
-                                        onClick={this.clearOauthAccounts}
+                                        onClick={(e) => this.disconnectAzure(e)}
                                     >
                                     logout
                                     </Button>
@@ -112,8 +96,9 @@ export default class CloudStorage extends PureComponent {
                 </div>
 
                 <CloudStorageModal
-                    isOpen={this.state.isModalOpen}
-                    handleCloseModal={this.toggleModal}
+                    handleCloseModal={this.closeModal}
+                    isOpen={(this.state.storageProvider !== null)}
+                    storageProvider={this.state.storageProvider}
                 />
             </>
         )
