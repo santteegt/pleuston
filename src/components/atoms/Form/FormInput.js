@@ -14,7 +14,9 @@ class FormInput extends PureComponent {
         component: PropTypes.string.isRequired,
         type: PropTypes.string,
         placeholder: PropTypes.string,
-        additionalComponent: PropTypes.element
+        additionalComponent: PropTypes.element,
+        small: PropTypes.string,
+        dimmed: PropTypes.any
     }
 
     state = { isFocused: false }

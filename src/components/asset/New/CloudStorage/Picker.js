@@ -1,27 +1,28 @@
 import React, { PureComponent } from 'react'
 import PropTypes from 'prop-types'
-import azure from 'azure-storage'
 import Button from '../../../atoms/Button'
 import Spinner from '../../../atoms/Spinner'
-import { storageAccount, accessKey } from '../../../../../config/cloudStorage'
 
 import styles from './Picker.module.scss'
 
 export default class CloudStoragePicker extends PureComponent {
     static propTypes = {
         linkSetter: PropTypes.func.isRequired,
-        handleCloseModal: PropTypes.func.isRequired
+        handleCloseModal: PropTypes.func.isRequired,
+        storageProvider: PropTypes.any.isRequired
     }
 
     state = {
         selection: [],
-        loading: false
+        loading: false,
+        blobs: [],
+        error: ''
     }
 
-    componentDidMount() {
+    async componentDidMount() {
         this.setState({ loading: true })
-        // this.props.loadCloudFiles()
-        // TODO load cloud files, loading to false when done
+        const files = await this.props.storageProvider.loadFiles()
+        this.setState({ blobs: files, loading: false })
     }
 
     handleSelection(blobId) {
@@ -35,25 +36,14 @@ export default class CloudStoragePicker extends PureComponent {
     }
 
     submitSelection() {
-        /*
         const selectionWithData = []
         for (const e of this.state.selection) {
-            selectionWithData.push(this.props.blobs[e])
+            selectionWithData.push(this.state.blobs[e])
         }
-        const blobService = azure.createBlobService(storageAccount, accessKey)
-        const timeout = (new Date().getTime()) + 3600 * 24 * 30 // 12 hours
-        const sharedAccessPolicy = {
-            AccessPolicy: {
-                Permissions: azure.BlobUtilities.SharedAccessPermissions.READ,
-                Expiry: timeout
-            }
-        }
-        const firstBlob = selectionWithData[0]
-        const token = blobService.generateSharedAccessSignature(firstBlob.container, firstBlob.blobName, sharedAccessPolicy)
-        const sasUrl = blobService.getUrl(firstBlob.container, firstBlob.blobName, token)
-        this.props.linkSetter(sasUrl)
+        const firstBlob = selectionWithData[0] // only first one from selected
+        const link = this.props.storageProvider.getSharableLink(firstBlob)
+        this.props.linkSetter(link)
         this.props.handleCloseModal()
-        */
     }
 
     render() {
@@ -61,22 +51,22 @@ export default class CloudStoragePicker extends PureComponent {
             <>
                 <div className={styles.files}>
                     {
-                        blobs === undefined || blobs.length === 0 ? (
+                        this.state.blobs === undefined || this.state.blobs.length === 0 ? (
                             <div className={styles.empty}>
                                 {this.state.loading ? <Spinner />
-                                    : error
-                                        ? <span className={styles.error}>{error}</span>
+                                    : this.state.error
+                                        ? <span className={styles.error}>{this.state.error}</span>
                                         : <span>No files found</span>
                                 }
                             </div>
                         ) : (
-                            blobs.map(blob => (
+                            this.state.blobs.map((blob, index) => (
                                 <span
-                                    key={blob.id}
-                                    onClick={() => this.handleSelection(blob.id)}
-                                    className={this.state.selection.includes(blob.id) ? styles.selected : styles.file}
+                                    key={index}
+                                    onClick={() => this.handleSelection(index)}
+                                    className={this.state.selection.includes(index) ? styles.selected : styles.file}
                                 >
-                                    {blob.container}/{blob.blobName}
+                                    {this.props.storageProvider.getPresentableFile(blob)}
                                 </span>
                             ))
                         )
