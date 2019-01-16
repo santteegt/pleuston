@@ -23,6 +23,6 @@ module.exports = {
     secretStorePort: 12001,
 
     secretStoreThreshold: 0,
-    secretStorePassword: 'unittest',
-    secretStoreAddress: '0xed243adfb84a6626eba46178ccb567481c6e655d'
+    secretStorePassword: 'node0',
+    secretStoreAddress: '0x00bd138abd70e2f00903268f3db08f2d25677c9e'
 }

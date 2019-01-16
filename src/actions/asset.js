@@ -192,13 +192,3 @@ export async function purchase(ddo, consumer, providers) {
         consumer)
     Logger.log('SA:', initSA)
 }
-
-// export async function listCloudFiles() {
-//     if (cloudName === 'azure') {
-//         const fileService = azure.createFileService(storageAccount, accessKey)
-//         fileService.listFilesAndDirectoriesSegmented(shareName, folderName, null, null, (error, result, response) => {
-//             console.log('files: ', result, response)
-//             return (error, result)
-//         })
-//     }
-// }

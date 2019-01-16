@@ -23,8 +23,6 @@ import {
     getAccounts,
     getAssets,
     setProviders,
-    // getOrders,
-    getOauthAccounts,
     setNetworkName
 } from './actions/index'
 
@@ -54,7 +52,6 @@ serviceWorker.register()
 
 window.addEventListener('load', async () => {
     Logger.log('booting up pleuston')
-    store.dispatch(getOauthAccounts())
     store.dispatch(setProviders())
         .then(() => {
             store.dispatch(setNetworkName())
