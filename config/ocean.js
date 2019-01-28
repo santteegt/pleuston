@@ -3,7 +3,7 @@ module.exports = {
     // Setup with local services
     // -----
     nodeScheme: 'http',
-    nodeHost: 'keeper-node',
+    nodeHost: 'localhost',
     nodePort: 8545,
 
     aquariusScheme: 'http',
@@ -11,7 +11,7 @@ module.exports = {
     aquariusPort: 5000,
 
     brizoScheme: 'http',
-    brizoHost: 'brizo',
+    brizoHost: 'localhost',
     brizoPort: 8030,
 
     parityScheme: 'http',

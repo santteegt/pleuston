@@ -1,5 +1,6 @@
 import AssetModel from '../models/asset'
 import { Logger } from '@oceanprotocol/squid'
+import quertString from 'query-string'
 
 export async function publish(formValues, account, providers) {
     const { ocean } = providers
@@ -176,8 +177,10 @@ export async function list(state) {
 }
 
 export function download(fileName) {
+    const parsedUrl = quertString.parseUrl(fileName)
     setTimeout(() => {
-        window.open(fileName) // eslint-disable-line
+        // eslint-disable-next-line
+        window.open(parsedUrl.query.url)
     }, 100)
 }
 
@@ -188,8 +191,6 @@ export async function purchase(inputDdo, consumer, providers) {
         const service = ddo.findServiceByType('Access')
         const serviceAgreementSignatureResult = await ocean.signServiceAgreement(ddo.id,
             service.serviceDefinitionId, consumer)
-        Logger.log('ServiceAgreement Id:', serviceAgreementSignatureResult.serviceAgreementId)
-        Logger.log('ServiceAgreement Signature:', serviceAgreementSignatureResult.serviceAgreementSignature)
         await ocean.initializeServiceAgreement(
             ddo.id,
             service.serviceDefinitionId,
