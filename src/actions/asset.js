@@ -1,7 +1,6 @@
-/* eslint-disable no-console */
-// import fetchDownload from 'fetch-download'
 import AssetModel from '../models/asset'
 import { Logger } from '@oceanprotocol/squid'
+import quertString from 'query-string'
 
 export async function publish(formValues, account, providers) {
     const { ocean } = providers
@@ -38,7 +37,7 @@ export async function publish(formValues, account, providers) {
             contentUrls: [contentUrls],
             links: links,
             // inLanguage: ,
-            tags: tags ? tags.split(',') : [],
+            tags: tags,
             price: parseFloat(price),
             type
         }),
@@ -61,7 +60,7 @@ export async function list(state) {
         ocean
     } = state.provider
     let searchForm
-    if (state.form && state.form.assetSearch) {
+    if (state.form && state.form.assetSearch && state.form.assetSearch.values) {
         searchForm = state.form.assetSearch.values
     } else {
         searchForm = {
@@ -78,7 +77,7 @@ export async function list(state) {
     if (Object.keys(searchForm).length > 2) {
         queryRequest.query['$and'] = []
     }
-    if (searchForm.text !== '') {
+    if (searchForm.text && searchForm.text !== '') {
         queryRequest.query['$and'] = [
             {
                 $text: {
@@ -177,28 +176,33 @@ export async function list(state) {
     return dbAssets
 }
 
-export async function purchase(ddo, consumer, providers) {
-    const { ocean } = providers
-    const service = ddo.findServiceByType('Access')
-    const serviceAgreementSignatureResult = await ocean.signServiceAgreement(ddo.id,
-        service.serviceDefinitionId, consumer)
-    Logger.log('ServiceAgreement Id:', serviceAgreementSignatureResult.serviceAgreementId)
-    Logger.log('ServiceAgreement Signature:', serviceAgreementSignatureResult.serviceAgreementSignature)
-    const initSA = await ocean.initializeServiceAgreement(
-        ddo.id,
-        service.serviceDefinitionId,
-        serviceAgreementSignatureResult.serviceAgreementId,
-        serviceAgreementSignatureResult.serviceAgreementSignature,
-        consumer)
-    Logger.log('SA:', initSA)
+export function download(fileName) {
+    const parsedUrl = quertString.parseUrl(fileName)
+    setTimeout(() => {
+        // eslint-disable-next-line
+        window.open(parsedUrl.query.url)
+    }, 100)
 }
 
-// export async function listCloudFiles() {
-//     if (cloudName === 'azure') {
-//         const fileService = azure.createFileService(storageAccount, accessKey)
-//         fileService.listFilesAndDirectoriesSegmented(shareName, folderName, null, null, (error, result, response) => {
-//             console.log('files: ', result, response)
-//             return (error, result)
-//         })
-//     }
-// }
+export async function purchase(inputDdo, consumer, providers) {
+    const { ocean } = providers
+    try {
+        const ddo = await ocean.resolveDID(inputDdo.id)
+        const service = ddo.findServiceByType('Access')
+        const serviceAgreementSignatureResult = await ocean.signServiceAgreement(ddo.id,
+            service.serviceDefinitionId, consumer)
+        await ocean.initializeServiceAgreement(
+            ddo.id,
+            service.serviceDefinitionId,
+            serviceAgreementSignatureResult.serviceAgreementId,
+            serviceAgreementSignatureResult.serviceAgreementSignature,
+            (files) => {
+                files.forEach((file) => {
+                    download(file)
+                })
+            },
+            consumer)
+    } catch (error) {
+        Logger.log(error)
+    }
+}

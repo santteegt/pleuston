@@ -40,7 +40,10 @@ const Button = ({ icon, children, primary, link, ...props }) => {
 
 Button.propTypes = {
     children: PropTypes.string.isRequired,
-    primary: PropTypes.string
+    primary: PropTypes.string,
+    icon: PropTypes.func,
+    link: PropTypes.any,
+    href: PropTypes.string
 }
 
 export default Button

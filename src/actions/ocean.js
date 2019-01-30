@@ -20,7 +20,8 @@ import {
     secretStorePort,
     secretStoreThreshold,
     secretStorePassword,
-    secretStoreAddress
+    secretStoreAddress,
+    verboseLogging
 } from '../../config/ocean'
 
 export async function provideOcean() {
@@ -39,9 +40,10 @@ export async function provideOcean() {
         brizoUri,
         parityUri,
         secretStoreUri,
-        secretStoreThreshold,
-        secretStorePassword,
-        secretStoreAddress
+        threshold: secretStoreThreshold,
+        password: secretStorePassword,
+        address: secretStoreAddress,
+        verbose: verboseLogging
     }
 
     const ocean = Ocean.getInstance ? await Ocean.getInstance(config) : await new Ocean(config)

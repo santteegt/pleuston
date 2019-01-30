@@ -15,12 +15,12 @@ import {
 
 import appReducer from './reducers'
 
-import { Web3Provider } from 'react-web3'
+import Web3Provider from 'react-web3-provider'
+import { Logger } from '@oceanprotocol/squid'
 
 import App from './App'
 import * as serviceWorker from './serviceWorker'
 import Web3Unavailable from './components/Account/Web3Unavailable'
-import Web3AccountUnavailable from './components/Account/Web3AccountUnavailable'
 
 const history = createBrowserHistory()
 
@@ -39,17 +39,18 @@ serviceWorker.register()
 it('index renders without crashing', () => {
     const div = document.createElement('div')
     ReactDOM.render(
-        <Web3Provider
-            web3UnavailableScreen={() => <Web3Unavailable />}
-            accountUnavailableScreen={() => <Web3AccountUnavailable />}
-            // onChangeAccount={null}
-        >
-            <Provider store={store}>
+        <Provider store={store}>
+            <Web3Provider
+                error={(err) => {
+                    Logger.log('Web3 error:', err)
+                    return <Web3Unavailable />
+                }}
+            >
                 <Router history={history}>
                     <App />
                 </Router>
-            </Provider>
-        </Web3Provider>,
+            </Web3Provider>
+        </Provider>,
         div
     )
     ReactDOM.unmountComponentAtNode(div)
