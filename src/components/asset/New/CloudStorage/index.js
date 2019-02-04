@@ -4,7 +4,7 @@ import { OauthSender } from 'react-oauth-flow'
 import Button from '../../../atoms/Button'
 import CloudStorageModal from './Modal'
 import { ReactComponent as IconAzure } from '../../../../svg/azure.svg'
-import { appId, redirectHost, scope } from '../../../../../config/cloudStorage'
+import { azure } from '../../../../../config/cloudStorage'
 import StorageProviders from '../../../../lib/storage-providers'
 
 import styles from './index.module.scss'
@@ -63,14 +63,34 @@ export default class CloudStorage extends PureComponent {
         this.localStorageUpdated()
     }
 
+    toggleAws(e) {
+        if (e !== undefined) {
+            e.preventDefault()
+        }
+        if (storageProviders.aws.isConnected()) {
+            this.setState({ storageProvider: storageProviders.aws })
+        } else {
+            storageProviders.aws.connect()
+        }
+    }
+
+    disconnectAws(e) {
+        if (e !== undefined) {
+            e.preventDefault()
+        }
+        storageProviders.aws.disconnect()
+        this.localStorageUpdated()
+    }
+
     render() {
+        const { scope } = azure
         return (
             <>
                 <div className={styles.cloudstorage}>
                     <OauthSender
                         authorizeUrl={authorizeUrl}
-                        clientId={appId}
-                        redirectUri={`${redirectHost}/oauth/azure`}
+                        clientId={azure.appId}
+                        redirectUri={`${azure.redirectHost}/oauth/azure`}
                         args={{ response_type: 'token', scope }}
                         state={{ from: '/new' }}
                         render={({ url }) => (
@@ -93,6 +113,23 @@ export default class CloudStorage extends PureComponent {
                             </>
                         )}
                     />
+
+                    <Button
+                        link="true"
+                        icon={IconAzure}
+                        onClick={(e) => this.toggleAws(e)}
+                    >
+                    Amazon
+                    </Button>
+                    {this.state.isConnectedAws && (
+                        <Button
+                            className={styles.logout}
+                            onClick={(e) => this.disconnectAws(e)}
+                        >
+                        logout
+                        </Button>
+                    )}
+
                 </div>
 
                 <CloudStorageModal

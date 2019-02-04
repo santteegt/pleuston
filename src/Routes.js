@@ -7,6 +7,7 @@ import Orders from './pages/Orders'
 import DatasetLoader from './containers/DatasetLoader'
 import OrderLoader from './containers/OrderLoader'
 import OauthLoader from './containers/OauthLoader'
+import AwsAuthenication from './pages/AwsAuthenication'
 
 const Routes = () => (
     <Switch>
@@ -15,6 +16,7 @@ const Routes = () => (
         <Route exact component={Orders} path="/orders" />
         <Route exact component={OrderLoader} path="/orders/:id" />
         <Route exact component={OauthLoader} path="/oauth/:id" />
+        <Route exact component={AwsAuthenication} path="/aws" />
         <Route exact component={DatasetLoader} path="/:id" />
 
         <Route component={NotFound} />

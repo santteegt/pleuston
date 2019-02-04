@@ -21,6 +21,7 @@
     "@oceanprotocol/art": "^2.2.0",
     "@oceanprotocol/squid": "0.2.7",
     "aws-amplify": "^1.1.19",
+    "aws-amplify-react": "^2.3.0",
     "azure-storage": "^2.10.2",
     "connected-react-router": "^6.2.1",
     "copy": "^0.3.2",

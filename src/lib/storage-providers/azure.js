@@ -1,9 +1,6 @@
-import azure from 'azure-storage'
+import storage from 'azure-storage'
 import queryString from 'query-string'
-import {
-    storageAccount,
-    accessKey
-} from '../../../config/cloudStorage'
+import { azure } from '../../../config/cloudStorage'
 import { Logger } from '@oceanprotocol/squid'
 
 class Azure {
@@ -11,8 +8,8 @@ class Azure {
         return new Promise((resolve, reject) => {
             const oauthObject = window.localStorage.getItem('oauthAzure')
             const accessToken = JSON.parse(oauthObject).access_token
-            const tokenCredential = new azure.TokenCredential(accessToken)
-            const blobService = azure.createBlobServiceWithTokenCredential(`https://${storageAccount}.blob.core.windows.net`, tokenCredential)
+            const tokenCredential = new storage.TokenCredential(accessToken)
+            const blobService = storage.createBlobServiceWithTokenCredential(`https://${azure.storageAccount}.blob.core.windows.net`, tokenCredential)
             blobService.listContainersSegmented(null, async (error, results) => {
                 if (error) {
                     Logger.error('Error listing containers', error)
@@ -35,11 +32,11 @@ class Azure {
     }
 
     getSharableLink(fileObject) {
-        const blobService = azure.createBlobService(storageAccount, accessKey)
+        const blobService = storage.createBlobService(azure.storageAccount, azure.accessKey)
         const timeout = (new Date().getTime()) + 3600 * 24 * 30 // 12 hours
         const sharedAccessPolicy = {
             AccessPolicy: {
-                Permissions: azure.BlobUtilities.SharedAccessPermissions.READ,
+                Permissions: storage.BlobUtilities.SharedAccessPermissions.READ,
                 Expiry: timeout
             }
         }
@@ -89,7 +86,7 @@ class Azure {
 
     getContainerFiles(container) {
         return new Promise((resolve, reject) => {
-            const blobservice = azure.createBlobService(storageAccount, accessKey)
+            const blobservice = storage.createBlobService(azure.storageAccount, azure.accessKey)
             blobservice.listBlobsSegmented(container, null, (error, result) => {
                 if (!error) {
                     resolve(result.entries)
