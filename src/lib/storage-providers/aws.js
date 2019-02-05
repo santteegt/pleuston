@@ -1,7 +1,7 @@
-// import amplify from 'aws-amplify'
-// import { Logger } from '@oceanprotocol/squid'
 import amplify from 'aws-amplify'
+import { Logger } from '@oceanprotocol/squid'
 
+/*
 const conf = {
     s3: {
         REGION: process.env.AWS_S3_UPLOADS_BUCKET_REGION,
@@ -14,13 +14,14 @@ const conf = {
         IDENTITY_POOL_ID: process.env.AWS_COGNITO_IDENTITY_POOL_ID
     }
 }
+*/
 
 amplify.configure({
-    Auth: conf.auth,
-    Storage: {
-        ...conf.storage,
-        level: 'private'
-    }
+    // Auth: conf.auth,
+    // Storage: {
+    //     ...conf.storage,
+    //     level: 'private'
+    // },
 })
 
 class Aws {
@@ -39,14 +40,13 @@ class Aws {
 
     async getPresentableFile(fileObject) {
         // kra
+        Logger.log(fileObject)
     }
 
     isConnected() {
-        let oauthAccount = {}
-        let storeObject = window.localStorage.getItem('oauthAws')
+        let storeObject = window.localStorage.getItem('amplify-authenticator-authState')
         if (storeObject !== null && storeObject !== undefined) {
-            oauthAccount = JSON.parse(storeObject)
-            if (oauthAccount) {
+            if (storeObject === 'signedIn') {
                 // check for expirations
                 return true
             }
@@ -55,23 +55,6 @@ class Aws {
     }
 
     async connect(url) {
-        /*
-        const username = 'testUser'
-        const password = 'password'
-        return amplify.Auth.signIn(username, password)
-        */
-        // Authenticator
-        /*
-        let { idToken, accessToken, refreshToken, user } = somewhere();
-        Auth.setCognitoSession({
-            idToken,
-            accessToken,
-            refreshToken,
-            user
-        }).then(user => {
-            console.log(user); // The Cognito user object
-        });
-        */
         const windowObjectReference = window.open( // eslint-disable-line
             '/aws',
             'Connect to Aws',
@@ -81,11 +64,11 @@ class Aws {
     }
 
     updateConnected(state) {
-        // kra
+        // not needed (set by amplify)
     }
 
     disconnect() {
-        delete window.localStorage.removeItem('oauthAws')
+        delete window.localStorage.removeItem('amplify-authenticator-authState')
     }
 }
 

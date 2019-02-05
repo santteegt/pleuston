@@ -1,0 +1,15 @@
+module.exports = {
+    azure: {
+        storageAccount: '',
+        accessKey: '',
+        appId: '',
+        redirectHost: '',
+        scope: ''
+    },
+    aws: {
+        identityPoolId: '',
+        region: '',
+        userPoolId: '',
+        userPoolWebClientId: '',
+    }
+}

@@ -7,7 +7,7 @@ import Orders from './pages/Orders'
 import DatasetLoader from './containers/DatasetLoader'
 import OrderLoader from './containers/OrderLoader'
 import OauthLoader from './containers/OauthLoader'
-import AwsAuthenication from './pages/AwsAuthenication'
+import AwsAuthenication from './components/AwsAuth/AwsAuthenication'
 
 const Routes = () => (
     <Switch>
