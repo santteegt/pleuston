@@ -1,5 +1,4 @@
 import amplify from 'aws-amplify'
-import { Logger } from '@oceanprotocol/squid'
 import { aws } from '../../../config/cloudStorage'
 
 amplify.configure(aws)

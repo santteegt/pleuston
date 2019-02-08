@@ -183,3 +183,26 @@ export function download(fileName) {
         window.open(parsedUrl.query.url)
     }, 100)
 }
+
+export async function purchase(inputDdo, consumer, providers) {
+    const { ocean } = providers
+    try {
+        const ddo = await ocean.resolveDID(inputDdo.id)
+        const service = ddo.findServiceByType('Access')
+        const serviceAgreementSignatureResult = await ocean.signServiceAgreement(ddo.id,
+            service.serviceDefinitionId, consumer)
+        await ocean.initializeServiceAgreement(
+            ddo.id,
+            service.serviceDefinitionId,
+            serviceAgreementSignatureResult.serviceAgreementId,
+            serviceAgreementSignatureResult.serviceAgreementSignature,
+            (files) => {
+                files.forEach((file) => {
+                    download(file)
+                })
+            },
+            consumer)
+    } catch (error) {
+        Logger.log(error)
+    }
+}

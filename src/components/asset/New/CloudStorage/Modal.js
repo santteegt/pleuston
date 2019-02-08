@@ -1,7 +1,6 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 import Modal from '../../../atoms/Modal'
-import PropTypes from 'prop-types'
 import styles from './Modal.module.scss'
 import CloudStoragePickerLoader from '../../../../containers/CloudStoragePickerLoader'
 

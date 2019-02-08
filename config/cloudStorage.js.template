@@ -7,9 +7,16 @@ module.exports = {
         scope: ''
     },
     aws: {
-        identityPoolId: '',
-        region: '',
-        userPoolId: '',
-        userPoolWebClientId: '',
+        Auth: {
+            identityPoolId: '',
+            region: '',
+            userPoolId: '',
+            userPoolWebClientId: '',
+        },
+        Storage: {
+            bucket: '',
+            region: '',
+            level: ''
+        }
     }
 }
