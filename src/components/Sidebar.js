@@ -10,11 +10,13 @@ const menuItems = [
     {
         name: 'Publish',
         route: '/new'
-    },
+    }
+    /* ,
     {
         name: 'Orders',
         route: '/orders'
     }
+    */
 ]
 
 const Sidebar = () => (

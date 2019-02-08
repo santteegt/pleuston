@@ -15,7 +15,7 @@ class FormInput extends PureComponent {
         type: PropTypes.string,
         placeholder: PropTypes.string,
         additionalComponent: PropTypes.element,
-        small: PropTypes.string,
+        small: PropTypes.any,
         dimmed: PropTypes.any
     }
 

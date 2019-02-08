@@ -98,7 +98,7 @@ class AssetFull extends PureComponent {
                 {/* <AssetFullMeta label="Token" item={token || 'Please purchase'} /> */}
 
                 {tags && tags.length > 0 && (
-                    <AssetFullMeta label="Tags" item={tags.map(tag => (tag))} />
+                    <AssetFullMeta label="Tags" item={tags.split(',').map(tag => (tag))} />
                 )}
 
                 <AssetFullMeta label="Type" item={type} />
