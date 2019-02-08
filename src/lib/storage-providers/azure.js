@@ -31,7 +31,7 @@ class Azure {
         })
     }
 
-    getSharableLink(fileObject) {
+    async getSharableLink(fileObject) {
         const blobService = storage.createBlobService(azure.storageAccount, azure.accessKey)
         const timeout = (new Date().getTime()) + 3600 * 24 * 30 // 12 hours
         const sharedAccessPolicy = {

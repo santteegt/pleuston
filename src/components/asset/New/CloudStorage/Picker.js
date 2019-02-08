@@ -35,13 +35,13 @@ export default class CloudStoragePicker extends PureComponent {
         }
     }
 
-    submitSelection() {
+    async submitSelection() {
         const selectionWithData = []
         for (const e of this.state.selection) {
             selectionWithData.push(this.state.blobs[e])
         }
         const firstBlob = selectionWithData[0] // only first one from selected
-        const link = this.props.storageProvider.getSharableLink(firstBlob)
+        const link = await this.props.storageProvider.getSharableLink(firstBlob)
         this.props.linkSetter(link)
         this.props.handleCloseModal()
     }
