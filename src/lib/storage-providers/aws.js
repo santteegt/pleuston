@@ -49,6 +49,7 @@ class Aws {
     }
 
     disconnect() {
+        amplify.Auth.signOut()
         delete window.localStorage.removeItem('amplify-authenticator-authState')
     }
 }

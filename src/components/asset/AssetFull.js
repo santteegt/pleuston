@@ -88,10 +88,6 @@ class AssetFull extends PureComponent {
 
                 {description && <AssetFullMeta label="Description" item={description} />}
 
-                {contentUrls && contentUrls.length && (
-                    <AssetFullMeta label="URL" item={contentUrls[0] || 'Please purchase'} link={contentUrls[0]} />
-                )}
-
                 {links && links.length > 0 && <AssetFullMeta label="Links" links={links} />}
 
                 <AssetFullMeta label="Price" item={`${price} Ọ`} />
