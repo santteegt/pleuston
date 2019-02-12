@@ -85,7 +85,7 @@ As of right now, _pleuston_ requires asset files to be stored in Azure Cloud Sto
 
 ### AWS
 
-App includes an OAuth connection to Amazon Web Services, so you can retrieve and register assets stored in an S3 bucket.
+App includes an Connection to Amazon Web Services, so you can retrieve and register assets stored in an S3 bucket. Setting AWS connection requires the setup of Cognito authentication service with proper Access-policies to specific bucket. Pleuston side configuration for AWS can be cound in [`config/cloudStorage.js`](config/cloudStorage.js)
 
 ### Azure Storage
 
