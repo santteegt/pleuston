@@ -27,8 +27,6 @@ import {
     getAccounts,
     getAssets,
     setProviders,
-    // getOrders,
-    getOauthAccounts,
     setNetworkName
 } from './actions/index'
 
@@ -56,7 +54,6 @@ const store = createStore(
 
 const bootstrap = () => {
     store.dispatch(setProviders()).then(() => {
-        store.dispatch(getOauthAccounts())
         store.dispatch(setNetworkName())
         store.dispatch(getAccounts())
         store.dispatch(getAssets())

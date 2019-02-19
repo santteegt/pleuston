@@ -6,8 +6,6 @@ import account from './account'
 import asset from './asset'
 import provider from './provider'
 import order from './order'
-import cloudStorage from './cloudStorage'
-import oauthAccounts from './oauthaccounts'
 
 const appReducer = history => combineReducers({
     router: connectRouter(history),
@@ -15,9 +13,7 @@ const appReducer = history => combineReducers({
     account,
     asset,
     provider,
-    order,
-    cloudStorage,
-    oauthAccounts
+    order
 })
 
 export default appReducer

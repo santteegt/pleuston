@@ -14,6 +14,7 @@ const CloudStorageModal = ({ ...props }) => (
 
             <CloudStoragePickerLoader
                 handleCloseModal={props.handleCloseModal}
+                storageProvider={props.storageProvider}
             />
 
         </div>
@@ -21,7 +22,8 @@ const CloudStorageModal = ({ ...props }) => (
 )
 
 CloudStorageModal.propTypes = {
-    handleCloseModal: PropTypes.func.isRequired
+    handleCloseModal: PropTypes.func.isRequired,
+    storageProvider: PropTypes.any
 }
 
 export default CloudStorageModal

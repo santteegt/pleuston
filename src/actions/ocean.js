@@ -32,9 +32,6 @@ export async function provideOcean() {
     const secretStoreUri = `${secretStoreScheme}://${secretStoreHost}:${secretStorePort}`
 
     const config = {
-        // todo: change this when the new interface of metmask is released
-        web3Provider: global.web3 ? global.web3.currentProvider : null,
-        // this is just a fallback in case web3 is not injected
         nodeUri,
         aquariusUri,
         brizoUri,

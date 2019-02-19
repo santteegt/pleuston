@@ -1,9 +1,9 @@
-import azure from 'azure-storage'
-import queryString from 'query-string'
 import * as ocean from './ocean'
 import * as asset from './asset'
 import { Logger } from '@oceanprotocol/squid'
-import { storageAccount, accessKey } from '../../config/cloudStorage'
+import StorageProviders from '../lib/storage-providers'
+
+const storageProviders = new StorageProviders()
 
 export function setProviders() {
     return async (dispatch) => {
@@ -237,96 +237,6 @@ export function getOrders() {
     }
 }
 
-export function getOauthAccounts() {
-    return (dispatch) => {
-        let oauthAccounts = {}
-        let storeObject = window.localStorage.getItem('oauthAccounts')
-        if (storeObject !== null && storeObject !== undefined) {
-            oauthAccounts = JSON.parse(storeObject)
-        }
-        dispatch({
-            type: 'SET_OAUTH_ACCOUNTS',
-            oauthAccounts: oauthAccounts
-        })
-    }
-}
-
 export function updateOauthAccounts(state) {
-    if (state.router.location.pathname === '/oauth/azure') {
-        const query = queryString.parse(state.router.location.hash)
-        state.oauthAccounts['azure'] = query
-        state.oauthAccounts['azure'].expires_on = new Date(new Date().getTime() + parseInt(query['expires_in'])).getTime()
-    }
-    window.localStorage.setItem('oauthAccounts', JSON.stringify(state.oauthAccounts))
-    return (dispatch) => {
-        dispatch({
-            type: 'SET_OAUTH_ACCOUNTS',
-            oauthAccounts: state.oauthAccounts
-        })
-    }
-}
-
-export function clearCloudFiles() {
-    return (dispatch) => {
-        dispatch({
-            type: 'CLEAR_CLOUD_BLOBS'
-        })
-    }
-}
-
-export function getCloudFiles() {
-    /* Get list of blobs in cloud storage if cloud access is defined in the config file */
-    return (dispatch, getState) => {
-        const state = getState()
-
-        if (state.oauthAccounts.azure !== undefined) {
-            const tokenCredential = new azure.TokenCredential(state.oauthAccounts.azure.access_token)
-            const blobService = azure.createBlobServiceWithTokenCredential(`https://${storageAccount}.blob.core.windows.net`, tokenCredential)
-            try {
-                blobService.listContainersSegmented(null, async function(error, results) {
-                    if (error) {
-                        Logger.error('Error listing containers', error)
-                        dispatch({
-                            type: 'CLOUD_ERROR',
-                            error: `Error listing containers: ${error.message}`
-                        })
-                    } else {
-                        const cloudBlobs = []
-                        for (const con of results.entries) {
-                            const files = await getContainerFiles(con.name)
-                            for (const file of files) {
-                                cloudBlobs.push({
-                                    container: con.name,
-                                    blobName: file.name
-                                })
-                            }
-                        }
-                        Logger.log('Blobs from azure storage: ', cloudBlobs)
-                        dispatch({
-                            type: 'CLOUD_BLOBS',
-                            blobs: cloudBlobs
-                        })
-                    }
-                })
-            } catch (error) {
-                dispatch({
-                    type: 'CLOUD_ERROR',
-                    error: `Error: ${error.message}`
-                })
-            }
-        }
-    }
-}
-
-export function getContainerFiles(container) {
-    return new Promise((resolve, reject) => {
-        const blobservice = azure.createBlobService(storageAccount, accessKey)
-        blobservice.listBlobsSegmented(container, null, (error, result) => {
-            if (!error) {
-                resolve(result.entries)
-            } else {
-                reject(error.message)
-            }
-        })
-    })
+    storageProviders.azure.updateConnected(state)
 }

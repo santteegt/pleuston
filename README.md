@@ -20,24 +20,20 @@ Main issues right now:
 - orders screen is not fully working
 
 ---
-
-## Table of Contents
-
-- [Pleuston](#pleuston)
-    - [Table of Contents](#table-of-contents)
-    - [Features](#features)
-    - [Prerequisites](#prerequisites)
-        - [🐋 aquarius](#-aquarius)
-        - [💧 keeper-contracts](#-keeper-contracts)
-    - [Storage Providers](#storage-providers)
-        - [Azure Storage](#azure-storage)
-    - [Development](#development)
-        - [MetaMask](#metamask)
-        - [Production build](#production-build)
-    - [Configuration](#configuration)
-    - [Testing](#testing)
-    - [Code style](#code-style)
-    - [License](#license)
+- [Features](#features)
+- [Prerequisites](#prerequisites)
+  - [🐋 aquarius](#-aquarius)
+  - [💧 keeper-contracts](#-keeper-contracts)
+- [Storage Providers](#storage-providers)
+  - [AWS](#aws)
+  - [Azure Storage](#azure-storage)
+- [Development](#development)
+  - [MetaMask](#metamask)
+  - [Production build](#production-build)
+- [Configuration](#configuration)
+- [Testing](#testing)
+- [Code style](#code-style)
+- [License](#license)
 
 ---
 
@@ -85,7 +81,11 @@ You now have a locally running RPC client with all the contracts from _keeper-co
 
 As of right now, _pleuston_ requires asset files to be stored in Azure Cloud Storage before registering them through the UI. For more convenience we will integrate connections to various cloud storage providers.
 
-<img width="584" alt="screen shot 2018-10-18 at 12 48 53" src="https://user-images.githubusercontent.com/90316/47149555-33472380-d2d4-11e8-982d-7f815c7499e9.png" />
+<img width="545" alt="screen shot 2019-02-12 at 12 47 42" src="https://user-images.githubusercontent.com/90316/52633365-6c7b5300-2ec4-11e9-825c-e8bc65655812.png">
+
+### AWS
+
+App includes an Connection to Amazon Web Services, so you can retrieve and register assets stored in an S3 bucket. Setting AWS connection requires the setup of Cognito authentication service with proper Access-policies to specific bucket. Pleuston side configuration for AWS can be cound in [`config/cloudStorage.js`](config/cloudStorage.js)
 
 ### Azure Storage
 
