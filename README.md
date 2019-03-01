@@ -136,6 +136,13 @@ serve -s build/
 # go to http://localhost:5000
 ```
 
+### npm releases
+
+For a new **patch release**, execute on the machine where you're logged into your npm account:
+
+```bash
+./bumpversion path
+
 ## Configuration
 
 All required components to get _Pleuston_ running are pre-configured and started with the above `docker-compose` command, and the web app is configured to connect to them.
