@@ -29,13 +29,11 @@ export async function publish(formValues, account, providers) {
             author,
             license,
             copyrightHolder,
-            // encoding: ,
-            // compression: ,
-            // contentType: ,
-            // workExample: ,
-            files: [files],
+            files: [{
+                index: 0,
+                url: files
+            }],
             links: links,
-            // inLanguage: ,
             tags: tags,
             price: parseFloat(price),
             type
