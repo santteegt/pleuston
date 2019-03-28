@@ -1,6 +1,6 @@
 import {
     Ocean
-} from '@oceanprotocol/squid/dist/node/squid'
+} from '@oceanprotocol/squid'
 
 import {
     nodeScheme,
@@ -43,7 +43,7 @@ export async function provideOcean() {
         verbose: verboseLogging
     }
 
-    const ocean = Ocean.getInstance ? await Ocean.getInstance(config) : await new Ocean(config)
+    const ocean = await Ocean.getInstance(config)
 
     return { ocean }
 }

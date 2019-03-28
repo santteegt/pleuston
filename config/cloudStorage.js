@@ -11,7 +11,7 @@ module.exports = {
             identityPoolId: '',
             region: '',
             userPoolId: '',
-            userPoolWebClientId: '',
+            userPoolWebClientId: ''
         },
         Storage: {
             bucket: '',

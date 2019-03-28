@@ -1,10 +1,9 @@
 import React, { Fragment } from 'react'
 import PropTypes from 'prop-types'
 import Blockies from 'react-blockies'
-import Button from '../atoms/Button'
 import styles from './Popover.module.scss'
 
-const Popover = ({ networkName, activeAccount, initMakeItRain }) => {
+const Popover = ({ networkName, activeAccount }) => {
     return (
         <div className={styles.popover}>
             <div key={'accountName'} className={styles.accountName}>
@@ -23,17 +22,13 @@ const Popover = ({ networkName, activeAccount, initMakeItRain }) => {
             <div key={'network'} className={styles.popoverInfoline}>
                 Network: &nbsp;<strong>{networkName}</strong>
             </div>
-            <div key={'makeItRain'} className={styles.popoverInfoline}>
-                <Button link onClick={initMakeItRain}>Make it rain Ọ</Button>
-            </div>
         </div>
     )
 }
 
 Popover.propTypes = {
     networkName: PropTypes.string,
-    activeAccount: PropTypes.object,
-    initMakeItRain: PropTypes.func
+    activeAccount: PropTypes.object
 }
 
 export default Popover

@@ -16,7 +16,7 @@ const AssetNew = ({ handleSubmit, linkSetter, resetLinksForm }) => (
 
         <FormInput
             label="Asset file"
-            name="contentUrls"
+            name="files"
             required
             component="input"
             type="url"

@@ -1,6 +1,6 @@
 import AssetModel from '../models/asset'
 import { Logger } from '@oceanprotocol/squid'
-import quertString from 'query-string'
+// import quertString from 'query-string'
 
 export async function publish(formValues, account, providers) {
     const { ocean } = providers
@@ -9,7 +9,7 @@ export async function publish(formValues, account, providers) {
         name,
         description,
         license,
-        contentUrls,
+        files,
         links,
         author,
         copyrightHolder,
@@ -26,7 +26,6 @@ export async function publish(formValues, account, providers) {
             name,
             description,
             dateCreated: (new Date()).toString(),
-            // size: ,
             author,
             license,
             copyrightHolder,
@@ -34,7 +33,7 @@ export async function publish(formValues, account, providers) {
             // compression: ,
             // contentType: ,
             // workExample: ,
-            contentUrls: [contentUrls],
+            files: [files],
             links: links,
             // inLanguage: ,
             tags: tags,
@@ -50,15 +49,24 @@ export async function publish(formValues, account, providers) {
             updateFrequency
         })
     }
-    const ddo = await ocean.registerAsset(newAsset, account)
-    Logger.debug('res: ', ddo)
-    return newAsset
+    try {
+        const asset = await ocean.assets.create(
+            newAsset,
+            account
+        )
+        Logger.debug('asset: ', asset)
+        return asset
+    } catch (e) {
+        // make readable errors
+        Logger.log('error:', e)
+    }
 }
 
 export async function list(state) {
     const {
         ocean
     } = state.provider
+    /*
     let searchForm
     if (state.form && state.form.assetSearch && state.form.assetSearch.values) {
         searchForm = state.form.assetSearch.values
@@ -171,38 +179,34 @@ export async function list(state) {
             })
         }
     }
-    let dbAssets = await ocean.searchAssets(queryRequest)
+    */
+    let searchForm
+    if (state.form && state.form.assetSearch && state.form.assetSearch.values) {
+        searchForm = state.form.assetSearch.values
+    } else {
+        searchForm = {
+            page: 0,
+            text: ''
+        }
+    }
+    let dbAssets = await ocean.assets.search(searchForm.text)
     Logger.log(`Loaded ${Object.keys(dbAssets).length} assets (from provider)`)
     return dbAssets
-}
-
-export function download(fileName) {
-    const parsedUrl = quertString.parseUrl(fileName)
-    setTimeout(() => {
-        // eslint-disable-next-line
-        window.open(parsedUrl.query.url)
-    }, 100)
 }
 
 export async function purchase(inputDdo, consumer, providers) {
     const { ocean } = providers
     try {
-        const ddo = await ocean.resolveDID(inputDdo.id)
-        const service = ddo.findServiceByType('Access')
-        const serviceAgreementSignatureResult = await ocean.signServiceAgreement(ddo.id,
-            service.serviceDefinitionId, consumer)
-        await ocean.initializeServiceAgreement(
-            ddo.id,
-            service.serviceDefinitionId,
-            serviceAgreementSignatureResult.serviceAgreementId,
-            serviceAgreementSignatureResult.serviceAgreementSignature,
-            (files) => {
-                files.forEach((file) => {
-                    download(file)
-                })
-            },
-            consumer)
-    } catch (error) {
-        Logger.log(error)
+        const accessService = inputDdo.findServiceByType('Access')
+        const agreementId = await ocean.assets.order(
+            inputDdo.id,
+            accessService.serviceDefinitionId,
+            consumer
+        )
+        const folder = ''
+        const path = await this.context.ocean.assets.consume(agreementId, inputDdo.id, accessService.serviceDefinitionId, consumer, folder)
+        Logger.log('path', path)
+    } catch (e) {
+        Logger.log('error', e)
     }
 }

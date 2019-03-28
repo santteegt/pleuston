@@ -9,10 +9,9 @@ it('CloudStoragePicker renders without crashing', () => {
         <CloudStoragePicker
             linkSetter={() => null}
             handleCloseModal={() => null}
+            storageProvider={{ loadFiles: () => { return [] } }}
             blobs={[]}
             error={null}
-            loadCloudFiles={() => null}
-            resetCloudFiles={() => null}
         />,
         div
     )
