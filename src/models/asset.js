@@ -13,6 +13,9 @@ const AssetModel = {
         'type': '',
         'license': null,
         'copyrightHolder': null,
+        'encoding': null,
+        'compression': null,
+        'contentType': null,
         'workExample': null,
         'files': [],
         'links': [{

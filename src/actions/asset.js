@@ -64,7 +64,6 @@ export async function list(state) {
     const {
         ocean
     } = state.provider
-    /*
     let searchForm
     if (state.form && state.form.assetSearch && state.form.assetSearch.values) {
         searchForm = state.form.assetSearch.values
@@ -74,120 +73,42 @@ export async function list(state) {
             text: ''
         }
     }
-    const queryRequest = {
-        offset: 100,
+    let queryRequest = {
+        offset: 20,
         page: state.asset.search.page,
+        sort: {
+            text: 1
+        },
         query: {}
     }
-    Logger.log('searchForm:', queryRequest)
-    if (Object.keys(searchForm).length > 2) {
-        queryRequest.query['$and'] = []
-    }
     if (searchForm.text && searchForm.text !== '') {
-        queryRequest.query['$and'] = [
-            {
-                $text: {
-                    $search: searchForm.text
-                }
-            }
-        ]
+        queryRequest.query['text'] = [searchForm.text]
     }
     if (searchForm.license) {
-        queryRequest.query['$and'].push({
-            service: {
-                '$elemMatch': {
-                    'metadata.base.license': searchForm.license
-                }
-            }
-        })
+        queryRequest.query['license'] = [searchForm.license]
     }
     if (searchForm.type) {
-        queryRequest.query['$and'].push({
-            service: {
-                '$elemMatch': {
-                    'metadata.base.type': searchForm.type
-                }
-            }
-        })
+        queryRequest.query['type'] = [searchForm.type]
+    }
+    if (searchForm.categories) {
+        queryRequest.query['categories'] = [searchForm.categories]
     }
     if (searchForm.updateFrequency) {
-        queryRequest.query['$and'].push({
-            service: {
-                '$elemMatch': {
-                    'metadata.additionalInformation.updateFrequency': searchForm.updateFrequency
-                }
-            }
-        })
+        queryRequest.query['updateFrequency'] = [searchForm.updateFrequency]
     }
     if (searchForm.priceFrom) {
-        queryRequest.query['$and'].push({
-            service: {
-                '$elemMatch': {
-                    'metadata.base.price': {
-                        '$gte': searchForm.priceFrom
-                    }
-                }
-            }
-        })
+        queryRequest.query['price'] = [searchForm.priceFrom]
     }
     if (searchForm.priceTo) {
-        queryRequest.query['$and'].push({
-            service: {
-                '$elemMatch': {
-                    'metadata.base.price': {
-                        '$lte': searchForm.priceTo
-                    }
-                }
-            }
-        })
+        queryRequest.query['price'] = [0, searchForm.priceTo]
+    }
+    if (searchForm.priceFrom && searchForm.priceTo) {
+        queryRequest.query['price'] = [searchForm.priceFrom, searchForm.priceTo]
     }
     if (searchForm.addedIn) {
-        const nowDate = new Date()
-        if (searchForm.addedIn === 'today') {
-            queryRequest.query['$and'].push({
-                service: {
-                    '$elemMatch': {
-                        'metadata.base.dateCreated': {
-                            '$gte': new Date(nowDate.getFullYear(), nowDate.getMonth(), nowDate.getDate())
-                        }
-                    }
-                }
-            })
-        }
-        if (searchForm.addedIn === 'thisMonth') {
-            queryRequest.query['$and'].push({
-                service: {
-                    '$elemMatch': {
-                        'metadata.base.dateCreated': {
-                            '$gte': new Date(nowDate.getFullYear(), nowDate.getMonth(), 1)
-                        }
-                    }
-                }
-            })
-        }
-        if (searchForm.addedIn === 'thisYear') {
-            queryRequest.query['$and'].push({
-                service: {
-                    '$elemMatch': {
-                        'metadata.base.dateCreated': {
-                            '$gte': new Date(nowDate.getFullYear(), 0, 1)
-                        }
-                    }
-                }
-            })
-        }
+        queryRequest.query['created'] = [searchForm.addedIn]
     }
-    */
-    let searchForm
-    if (state.form && state.form.assetSearch && state.form.assetSearch.values) {
-        searchForm = state.form.assetSearch.values
-    } else {
-        searchForm = {
-            page: 0,
-            text: ''
-        }
-    }
-    let dbAssets = await ocean.assets.search(searchForm.text)
+    let dbAssets = await ocean.assets.query(queryRequest)
     Logger.log(`Loaded ${Object.keys(dbAssets).length} assets (from provider)`)
     return dbAssets
 }
