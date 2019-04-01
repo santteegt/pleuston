@@ -123,7 +123,7 @@ export async function purchase(inputDdo, consumer, providers) {
             consumer
         )
         const folder = ''
-        const path = await this.context.ocean.assets.consume(agreementId, inputDdo.id, accessService.serviceDefinitionId, consumer, folder)
+        const path = await ocean.assets.consume(agreementId, inputDdo.id, accessService.serviceDefinitionId, consumer, folder)
         Logger.log('path', path)
     } catch (e) {
         Logger.log('error', e)
