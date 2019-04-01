@@ -59,7 +59,7 @@ class AssetFull extends PureComponent {
             // compression,
             // contentType,
             // workExample,
-            files,
+            // files,
             links,
             // inLanguage,
             tags,
@@ -70,9 +70,9 @@ class AssetFull extends PureComponent {
             <div className={styles.assetFull}>
                 <h1 className={styles.assetFullTitle}>{name}</h1>
 
-                {files && files.length && (
+                {links && links.length && (
                     <p>
-                        <AssetMedia title={name} files={files} />
+                        <AssetMedia title={name} links={links} />
                     </p>
                 )}
 
