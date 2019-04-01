@@ -6,6 +6,7 @@ import Spinner from '../../../atoms/Spinner'
 import styles from './Picker.module.scss'
 
 export default class CloudStoragePicker extends PureComponent {
+    _isMounted = false
     static propTypes = {
         linkSetter: PropTypes.func.isRequired,
         handleCloseModal: PropTypes.func.isRequired,
@@ -20,9 +21,16 @@ export default class CloudStoragePicker extends PureComponent {
     }
 
     async componentDidMount() {
+        this._isMounted = true
         this.setState({ loading: true })
         const files = await this.props.storageProvider.loadFiles()
-        this.setState({ blobs: files, loading: false })
+        if (this._isMounted) {
+            this.setState({ blobs: files, loading: false })
+        }
+    }
+
+    componentWillUnmount() {
+        this._isMounted = false
     }
 
     handleSelection(blobId) {

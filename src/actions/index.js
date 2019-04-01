@@ -22,7 +22,7 @@ export function getAccounts() {
         } = state.provider
         dispatch({
             type: 'SET_ACCOUNTS',
-            accounts: await ocean.getAccounts()
+            accounts: await ocean.accounts.list()
         })
     }
 }
@@ -150,20 +150,11 @@ export function getActiveAsset(state) {
 export function purchaseAsset(assetId) {
     return async (dispatch, getState) => {
         const state = getState()
-        const activeAsset = getActiveAsset(state)
-        const token = await asset.purchase(
-            activeAsset,
+        await asset.purchase(
+            assetId,
             getActiveAccount(state),
             state.provider
         )
-
-        dispatch({
-            type: 'UPDATE_ASSET',
-            assetId,
-            asset: Object.assign(activeAsset, {
-                token
-            })
-        })
     }
 }
 

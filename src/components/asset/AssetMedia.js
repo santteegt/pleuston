@@ -3,11 +3,11 @@ import React from 'react'
 import './Asset.scss'
 
 const AssetMedia = ({
-    contentUrls,
+    links,
     title
 }) => (
-    contentUrls[0].match(/\.(jpeg|jpg|gif|png)$/) &&
-    <img alt={title} className="asset__img" src={contentUrls[0]} />
+    links[0].url.match(/\.(jpeg|jpg|gif|png)$/) &&
+    <img alt={title} className="asset__img" src={links[0].url} />
 )
 
 export default AssetMedia

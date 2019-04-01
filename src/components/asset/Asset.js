@@ -19,7 +19,7 @@ class Asset extends PureComponent {
                     </div>
                 </header>
 
-                {metadata.metadata.base.contentUrls && <AssetMedia title={metadata.metadata.base.name} contentUrls={metadata.metadata.base.contentUrls} />}
+                {metadata.metadata.base.links && <AssetMedia title={metadata.metadata.base.name} links={metadata.metadata.base.links} />}
 
                 <div className="asset__description">
                     <Truncate lines={2}>{metadata.metadata.base.description}</Truncate>

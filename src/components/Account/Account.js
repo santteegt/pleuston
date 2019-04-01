@@ -6,10 +6,10 @@ import Popover from './Popover'
 import styles from './Account.module.scss'
 
 export default class Account extends PureComponent {
+    _isMounted = false
     static propTypes = {
         networkName: PropTypes.string,
-        activeAccount: PropTypes.object,
-        initMakeItRain: PropTypes.func
+        activeAccount: PropTypes.object
     }
 
     state = {
@@ -20,9 +20,11 @@ export default class Account extends PureComponent {
     async getBalances(prevProps) {
         if (this.props.activeAccount !== null) {
             const balance = await this.props.activeAccount.getBalance()
-            this.setState(() => ({
-                balance: balance
-            }))
+            if (this._isMounted) {
+                this.setState(() => ({
+                    balance: balance
+                }))
+            }
         }
     }
 
@@ -33,7 +35,12 @@ export default class Account extends PureComponent {
     }
 
     componentDidMount() {
+        this._isMounted = true
         this.getBalances()
+    }
+
+    componentWillUnmount() {
+        this._isMounted = false
     }
 
     togglePopover() {
@@ -43,7 +50,7 @@ export default class Account extends PureComponent {
     }
 
     render() {
-        const { activeAccount, networkName, initMakeItRain } = this.props
+        const { activeAccount, networkName } = this.props
         const { popoverOpen, balance } = this.state
 
         return (
@@ -59,13 +66,11 @@ export default class Account extends PureComponent {
                 <Status
                     networkName={networkName}
                     activeAccount={activeAccount}
-                    initMakeItRain={initMakeItRain}
                 />
                 {popoverOpen && (
                     <Popover
                         networkName={this.props.networkName}
                         activeAccount={this.props.activeAccount}
-                        initMakeItRain={this.props.initMakeItRain}
                     />
                 )}
             </div>

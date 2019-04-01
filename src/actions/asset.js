@@ -1,6 +1,6 @@
 import AssetModel from '../models/asset'
 import { Logger } from '@oceanprotocol/squid'
-import quertString from 'query-string'
+// import quertString from 'query-string'
 
 export async function publish(formValues, account, providers) {
     const { ocean } = providers
@@ -9,7 +9,7 @@ export async function publish(formValues, account, providers) {
         name,
         description,
         license,
-        contentUrls,
+        files,
         links,
         author,
         copyrightHolder,
@@ -26,17 +26,14 @@ export async function publish(formValues, account, providers) {
             name,
             description,
             dateCreated: (new Date()).toString(),
-            // size: ,
             author,
             license,
             copyrightHolder,
-            // encoding: ,
-            // compression: ,
-            // contentType: ,
-            // workExample: ,
-            contentUrls: [contentUrls],
+            files: [{
+                index: 0,
+                url: files
+            }],
             links: links,
-            // inLanguage: ,
             tags: tags,
             price: parseFloat(price),
             type
@@ -50,9 +47,17 @@ export async function publish(formValues, account, providers) {
             updateFrequency
         })
     }
-    const ddo = await ocean.registerAsset(newAsset, account)
-    Logger.debug('res: ', ddo)
-    return newAsset
+    try {
+        const asset = await ocean.assets.create(
+            newAsset,
+            account
+        )
+        Logger.debug('asset: ', asset)
+        return asset
+    } catch (e) {
+        // make readable errors
+        Logger.log('error:', e)
+    }
 }
 
 export async function list(state) {
@@ -68,141 +73,59 @@ export async function list(state) {
             text: ''
         }
     }
-    const queryRequest = {
-        offset: 100,
+    let queryRequest = {
+        offset: 20,
         page: state.asset.search.page,
+        sort: {
+            text: 1
+        },
         query: {}
     }
-    Logger.log('searchForm:', queryRequest)
-    if (Object.keys(searchForm).length > 2) {
-        queryRequest.query['$and'] = []
-    }
     if (searchForm.text && searchForm.text !== '') {
-        queryRequest.query['$and'] = [
-            {
-                $text: {
-                    $search: searchForm.text
-                }
-            }
-        ]
+        queryRequest.query['text'] = [searchForm.text]
     }
     if (searchForm.license) {
-        queryRequest.query['$and'].push({
-            service: {
-                '$elemMatch': {
-                    'metadata.base.license': searchForm.license
-                }
-            }
-        })
+        queryRequest.query['license'] = [searchForm.license]
     }
     if (searchForm.type) {
-        queryRequest.query['$and'].push({
-            service: {
-                '$elemMatch': {
-                    'metadata.base.type': searchForm.type
-                }
-            }
-        })
+        queryRequest.query['type'] = [searchForm.type]
+    }
+    if (searchForm.categories) {
+        queryRequest.query['categories'] = [searchForm.categories]
     }
     if (searchForm.updateFrequency) {
-        queryRequest.query['$and'].push({
-            service: {
-                '$elemMatch': {
-                    'metadata.additionalInformation.updateFrequency': searchForm.updateFrequency
-                }
-            }
-        })
+        queryRequest.query['updateFrequency'] = [searchForm.updateFrequency]
     }
     if (searchForm.priceFrom) {
-        queryRequest.query['$and'].push({
-            service: {
-                '$elemMatch': {
-                    'metadata.base.price': {
-                        '$gte': searchForm.priceFrom
-                    }
-                }
-            }
-        })
+        queryRequest.query['price'] = [searchForm.priceFrom]
     }
     if (searchForm.priceTo) {
-        queryRequest.query['$and'].push({
-            service: {
-                '$elemMatch': {
-                    'metadata.base.price': {
-                        '$lte': searchForm.priceTo
-                    }
-                }
-            }
-        })
+        queryRequest.query['price'] = [0, searchForm.priceTo]
+    }
+    if (searchForm.priceFrom && searchForm.priceTo) {
+        queryRequest.query['price'] = [searchForm.priceFrom, searchForm.priceTo]
     }
     if (searchForm.addedIn) {
-        const nowDate = new Date()
-        if (searchForm.addedIn === 'today') {
-            queryRequest.query['$and'].push({
-                service: {
-                    '$elemMatch': {
-                        'metadata.base.dateCreated': {
-                            '$gte': new Date(nowDate.getFullYear(), nowDate.getMonth(), nowDate.getDate())
-                        }
-                    }
-                }
-            })
-        }
-        if (searchForm.addedIn === 'thisMonth') {
-            queryRequest.query['$and'].push({
-                service: {
-                    '$elemMatch': {
-                        'metadata.base.dateCreated': {
-                            '$gte': new Date(nowDate.getFullYear(), nowDate.getMonth(), 1)
-                        }
-                    }
-                }
-            })
-        }
-        if (searchForm.addedIn === 'thisYear') {
-            queryRequest.query['$and'].push({
-                service: {
-                    '$elemMatch': {
-                        'metadata.base.dateCreated': {
-                            '$gte': new Date(nowDate.getFullYear(), 0, 1)
-                        }
-                    }
-                }
-            })
-        }
+        queryRequest.query['created'] = [searchForm.addedIn]
     }
-    let dbAssets = await ocean.searchAssets(queryRequest)
+    let dbAssets = await ocean.assets.query(queryRequest)
     Logger.log(`Loaded ${Object.keys(dbAssets).length} assets (from provider)`)
     return dbAssets
-}
-
-export function download(fileName) {
-    const parsedUrl = quertString.parseUrl(fileName)
-    setTimeout(() => {
-        // eslint-disable-next-line
-        window.open(parsedUrl.query.url)
-    }, 100)
 }
 
 export async function purchase(inputDdo, consumer, providers) {
     const { ocean } = providers
     try {
-        const ddo = await ocean.resolveDID(inputDdo.id)
-        const service = ddo.findServiceByType('Access')
-        const serviceAgreementSignatureResult = await ocean.signServiceAgreement(ddo.id,
-            service.serviceDefinitionId, consumer)
-        await ocean.initializeServiceAgreement(
-            ddo.id,
-            service.serviceDefinitionId,
-            serviceAgreementSignatureResult.serviceAgreementId,
-            serviceAgreementSignatureResult.serviceAgreementSignature,
-            (files) => {
-                files.forEach((file) => {
-                    download(file)
-                })
-            },
-            consumer)
-    } catch (error) {
-        Logger.log(error)
+        const accessService = inputDdo.findServiceByType('Access')
+        const agreementId = await ocean.assets.order(
+            inputDdo.id,
+            accessService.serviceDefinitionId,
+            consumer
+        )
+        const folder = ''
+        const path = await ocean.assets.consume(agreementId, inputDdo.id, accessService.serviceDefinitionId, consumer, folder)
+        Logger.log('path', path)
+    } catch (e) {
+        Logger.log('error', e)
     }
 }
