@@ -1,21 +1,32 @@
-import React from 'react'
+import React, { Component } from 'react'
 import PropTypes from 'prop-types'
 
 import './Asset.scss'
 
-const AssetMedia = ({
-    links,
-    title
-}) => (
-    <>
-        {links && links[0] && links[0].url && links[0].url.match(/\.(jpeg|jpg|gif|png)$/) &&
-        <img alt={title} className="asset__img" src={links[0].url} />}
-    </>
-)
-
-AssetMedia.propTypes = {
-    links: PropTypes.array,
-    title: PropTypes.string
+class AssetMedia extends Component {
+    static propTypes = {
+        links: PropTypes.array,
+        title: PropTypes.string
+    }
+    state = {
+        imageUrl: ''
+    }
+    componentDidMount() {
+        for (const link of this.props.links) {
+            if (link.url && link.url.match(/\.(jpeg|jpg|gif|png)$/)) {
+                this.setState({ imageUrl: link.url })
+                break
+            }
+        }
+    }
+    render() {
+        return (
+            <>
+                {this.state.imageUrl !== '' &&
+                <img alt={this.props.title} className="asset__img" src={this.state.imageUrl} />}
+            </>
+        )
+    }
 }
 
 export default AssetMedia
