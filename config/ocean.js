@@ -2,6 +2,7 @@ module.exports = {
     // -----
     // Setup with local services
     // -----
+    /*
     nodeScheme: 'http',
     nodeHost: 'localhost',
     nodePort: 8545,
@@ -22,6 +23,28 @@ module.exports = {
     secretStoreScheme: 'http',
     secretStoreHost: 'localhost',
     secretStorePort: 12001,
+    */
+
+    nodeScheme: 'https',
+    nodeHost: 'nile.dev-ocean.com',
+    nodePort: 443,
+
+    aquariusScheme: 'https',
+    aquariusHost: 'nginx-aquarius.dev-ocean.com',
+    aquariusPort: 443,
+
+    brizoScheme: 'https',
+    brizoHost: 'nginx-brizo.dev-ocean.com',
+    brizoPort: 443,
+    brizoAddress: '0x00bd138abd70e2f00903268f3db08f2d25677c9e',
+
+    parityScheme: 'https',
+    parityHost: 'nile.dev-ocean.com',
+    parityPort: 443,
+
+    secretStoreScheme: 'https',
+    secretStoreHost: 'secret-store.dev-ocean.com',
+    secretStorePort: 443,
 
     verboseLogging: true
 }
