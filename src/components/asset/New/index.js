@@ -50,9 +50,9 @@ const AssetNew = ({ handleSubmit, linkSetter, resetLinksForm }) => (
         </FormInput>
 
         <div className="form__group">
-            <h3 className="form__group__title">Links</h3>
+            <h3 className="form__group__title">Samples, discovery image</h3>
 
-            <FormHelp>Provide one or multiple links (e.g. samples, format definitions, web links) to give supplementary information about an Asset.</FormHelp>
+            <FormHelp>Provide one or multiple links (e.g. samples, format definitions, web links, discovery images) to give supplementary information about an Asset.</FormHelp>
 
             <FieldArray name="links" resetLinksForm={resetLinksForm} component={Links} />
         </div>

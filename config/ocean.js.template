@@ -11,13 +11,11 @@ module.exports = {
     brizoScheme: '${BRIZO_SCHEME}',
     brizoHost: '${BRIZO_HOST}',
     brizoPort: '${BRIZO_PORT}',
+    brizoAddress: '${BRIZO_ADDRESS}',
     parityScheme: '${PARITY_SCHEME}',
     parityHost: '${PARITY_HOST}',
     parityPort: '${PARITY_PORT}',
     secretStoreScheme: '${SECRET_STORE_SCHEME}',
     secretStoreHost: '${SECRET_STORE_HOST}',
-    secretStorePort: '${SECRET_STORE_PORT}',
-    secretStoreThreshold: '${SECRET_STORE_THRESHOLD}',
-    secretStorePassword: '${SECRET_STORE_PASSWORD}',
-    secretStoreAddress: '${SECRET_STORE_ADDRESS}'
+    secretStorePort: '${SECRET_STORE_PORT}'
 }

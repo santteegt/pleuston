@@ -86,6 +86,7 @@ export default class LinkForm extends PureComponent {
                     >
                         <option />
                         <option value="sample">Sample</option>
+                        <option value="discovery">Discovery image</option>
                         <option value="format">Data Format Definition</option>
                     </FormInput>
 
