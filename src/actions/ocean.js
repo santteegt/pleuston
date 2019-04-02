@@ -12,15 +12,13 @@ import {
     brizoScheme,
     brizoHost,
     brizoPort,
+    brizoAddress,
     parityScheme,
     parityHost,
     parityPort,
     secretStoreScheme,
     secretStoreHost,
     secretStorePort,
-    secretStoreThreshold,
-    secretStorePassword,
-    secretStoreAddress,
     verboseLogging
 } from '../../config/ocean'
 
@@ -35,11 +33,9 @@ export async function provideOcean() {
         nodeUri,
         aquariusUri,
         brizoUri,
+        brizoAddress,
         parityUri,
         secretStoreUri,
-        threshold: secretStoreThreshold,
-        password: secretStorePassword,
-        address: secretStoreAddress,
         verbose: verboseLogging
     }
 
