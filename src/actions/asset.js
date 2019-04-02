@@ -74,7 +74,7 @@ export async function list(state) {
         }
     }
     let queryRequest = {
-        offset: 20,
+        offset: 500,
         page: state.asset.search.page,
         sort: {
             text: 1

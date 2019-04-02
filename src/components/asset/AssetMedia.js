@@ -8,14 +8,14 @@ const AssetMedia = ({
     title
 }) => (
     <>
-        {links && links[0].url && links[0].url.match(/\.(jpeg|jpg|gif|png)$/) &&
+        {links && links[0] && links[0].url && links[0].url.match(/\.(jpeg|jpg|gif|png)$/) &&
         <img alt={title} className="asset__img" src={links[0].url} />}
     </>
 )
 
 AssetMedia.propTypes = {
-    links: PropTypes.array.isRequired,
-    title: PropTypes.string.isRequired
+    links: PropTypes.array,
+    title: PropTypes.string
 }
 
 export default AssetMedia

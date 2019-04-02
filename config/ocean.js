@@ -36,7 +36,7 @@ module.exports = {
     brizoScheme: 'https',
     brizoHost: 'nginx-brizo.dev-ocean.com',
     brizoPort: 443,
-    brizoAddress: '0x00bd138abd70e2f00903268f3db08f2d25677c9e',
+    brizoAddress: '0x413c9BA0A05B8A600899B41b0c62dd661e689354',
 
     parityScheme: 'https',
     parityHost: 'nile.dev-ocean.com',
