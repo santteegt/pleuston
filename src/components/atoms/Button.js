@@ -2,21 +2,48 @@ import React from 'react'
 import PropTypes from 'prop-types'
 import styles from './Button.module.scss'
 
-const Button = ({ children, ...props }) => {
-    const classes = (props.primary === 'true') ? styles.buttonPrimary : styles.button
+const ButtonIcon = ({ icon }) => {
+    const TagName = icon
+    return <TagName className={styles.icon} />
+}
+
+ButtonIcon.propTypes = {
+    icon: PropTypes.any
+}
+
+const Button = ({ icon, children, primary, link, ...props }) => {
+    let classes
+
+    if (primary) {
+        classes = styles.buttonPrimary
+    } else if (link) {
+        classes = styles.link
+    } else {
+        classes = styles.button
+    }
 
     return (
-        <button className={classes} {...props}>{children}</button>
+        props.href ? (
+            <a href={props.href} {...props}>
+                {icon && <ButtonIcon icon={icon} />}
+                {children}
+            </a>
+        ) : (
+            <button className={classes} {...props}>
+                {icon && <ButtonIcon icon={icon} />}
+                {children}
+            </button>
+        )
+
     )
 }
 
 Button.propTypes = {
     children: PropTypes.string.isRequired,
-    primary: PropTypes.string
-}
-
-Button.defaultProps = {
-    primary: 'false'
+    primary: PropTypes.string,
+    link: PropTypes.any,
+    href: PropTypes.any,
+    icon: PropTypes.any
 }
 
 export default Button

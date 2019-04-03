@@ -1,18 +1,21 @@
 const initialState = {
+    networkName: 'unknown',
     accounts: [],
     activeAccount: 0
 }
 
 const account = (state = initialState, action) => {
     switch (action.type) {
-        case 'GET_ACCOUNTS':
-            return Object.assign({}, state, {
+        case 'SET_ACCOUNTS':
+            return {
+                ...state,
                 accounts: action.accounts
-            })
-        case 'SET_ACTIVE_ACCOUNT':
-            return Object.assign({}, state, {
-                activeAccount: action.activeAccount
-            })
+            }
+        case 'SET_NETWORKNAME':
+            return {
+                ...state,
+                networkName: action.networkName
+            }
         default:
             return state
     }

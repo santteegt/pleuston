@@ -1,16 +1,13 @@
 [![banner](https://raw.githubusercontent.com/oceanprotocol/art/master/github/repo-banner%402x.png)](https://oceanprotocol.com)
 
-
 # Pleuston
 
 ![banner](https://user-images.githubusercontent.com/90316/43195950-cc01fd90-9006-11e8-8d5e-cb802c6502b3.gif "Big Banner")
 
-> 🦑 🦄 Web app for consumers to explore, download, and publish data assets.
+> 🦄 Web app for consumers to explore, download, and publish data assets.
 
-[![Build Status](https://travis-ci.com/oceanprotocol/pleuston.svg?token=3psqw6c8KMDqfdGQ2x6d&branch=master)](https://travis-ci.com/oceanprotocol/pleuston)
-[![Codacy Badge](https://api.codacy.com/project/badge/Grade/d4ebd79e33054bf98d8e55b0dde5452b)](https://app.codacy.com/app/ocean-protocol/pleuston?utm_source=github.com&utm_medium=referral&utm_content=oceanprotocol/pleuston&utm_campaign=badger)
-[![js oceanprotocol](https://img.shields.io/badge/js-oceanprotocol-7b1173.svg)](https://github.com/oceanprotocol/eslint-config-oceanprotocol)
-[![css bigchaindb](https://img.shields.io/badge/css-bigchaindb-39BA91.svg)](https://github.com/bigchaindb/stylelint-config-bigchaindb)
+[![Docker Build Status](https://img.shields.io/docker/build/oceanprotocol/pleuston.svg)](https://hub.docker.com/r/oceanprotocol/pleuston/) [![Build Status](https://api.travis-ci.com/oceanprotocol/pleuston.svg?branch=master)](https://travis-ci.com/oceanprotocol/pleuston) [![Codacy Badge](https://api.codacy.com/project/badge/Grade/d4ebd79e33054bf98d8e55b0dde5452b)](https://app.codacy.com/app/ocean-protocol/pleuston?utm_source=github.com&utm_medium=referral&utm_content=oceanprotocol/pleuston&utm_campaign=badger) [![js oceanprotocol](https://img.shields.io/badge/js-oceanprotocol-7b1173.svg)](https://github.com/oceanprotocol/eslint-config-oceanprotocol) [![css bigchaindb](https://img.shields.io/badge/css-bigchaindb-39BA91.svg)](https://github.com/bigchaindb/stylelint-config-bigchaindb)
+
 
 > _Pleuston [`ˈplustən`]: organisms that live in the thin surface layer existing at the air-water interface of a body of water as their habitat_
 
@@ -18,100 +15,95 @@
 
 **🐲🦑 THERE BE DRAGONS AND SQUIDS. This is in alpha state and you can expect running into problems. If you run into them, please open up [a new issue](https://github.com/oceanprotocol/pleuston/issues). 🦑🐲**
 
-We use the [Gitflow branching model](https://github.com/oceanprotocol/dev-ocean/blob/master/doc/development/branching-model.md) and use the `develop` branch with the latest changes as the default one, while the `master` branch holds the latest stable release.
-
 Main issues right now:
 - assets can only be purchased if they're hosted in Azure storage account
 - orders screen is not fully working
 
 ---
-
-## Table of Contents
-
-  - [Features](#features)
-  - [Prerequisites](#prerequisites)
-     - [Ocean Protocol Components](#ocean-protocol-components)
-     - [Contracts](#contracts)
-  - [Quick Start](#quick-start)
-  - [Ocean Protocol Components](#ocean-protocol-components)
-     - [Keeper](#keeper)
-     - [Provider](#provider)
-     - [Database](#database)
-  - [Code style](#code-style)
-  - [Testing](#testing)
-  - [License](#license)
+- [Features](#features)
+- [Prerequisites](#prerequisites)
+  - [🐋 aquarius](#-aquarius)
+  - [💧 keeper-contracts](#-keeper-contracts)
+- [Storage Providers](#storage-providers)
+  - [AWS](#aws)
+  - [Azure Storage](#azure-storage)
+- [Development](#development)
+  - [MetaMask](#metamask)
+  - [Production build](#production-build)
+- [Configuration](#configuration)
+- [Testing](#testing)
+- [Code style](#code-style)
+- [License](#license)
 
 ---
 
 ## Features
 
-This repository houses Pleuston, the reference web app for consumers to explore, download, and publish data assets within the Ocean Protocol network.
+This repository houses _Pleuston_, the reference web app for consumers to explore, download, and publish data assets within the Ocean Protocol network.
 
-- Connect to all required Ocean Protocol components: Keeper, Provider, and BigchainDB
+- Connect to all required Ocean Protocol components: _Keeper_ & _Aquarius_
 - Register and publish data assets
 - Explore, buy, and download data assets
 
-Pleuston is a single page React app, initially bootstrapped with [`create-react-app`](https://github.com/facebook/create-react-app), but ejected from it.
+_Pleuston_ is a single page React app, initially bootstrapped with [`create-react-app`](https://github.com/facebook/create-react-app), but ejected from it.
 
 ## Prerequisites
 
-- Node.js >=8 <v10 (`ursa` won't compile on `npm install` with newer versions, see https://github.com/JoshKaufman/ursa/issues/175)
+- Node.js >=8
 - npm
 - Ocean Protocol components
+- [MetaMask](https://metamask.io)
 
-### Ocean Protocol Components
+To start development with _Pleuston_ you first have to get all the other Ocean Protocol components up and running.
 
-To start development with pleuston you first have to get all the other Ocean Protocol components up and running. The simplest way is to use our main `docker-compose` file from the docker-images repository:
+![ocean-components](https://user-images.githubusercontent.com/90316/47997856-97a01a80-e0fd-11e8-80da-15b1f1b68347.png)
+
+The simplest way is to use our main script utilizing `docker-compose` from the [🐳 docker-images](https://github.com/oceanprotocol/docker-images) repository, and pass the option to skip the _Pleuston_ image in there:
 
 ```bash
 git clone git@github.com:oceanprotocol/docker-images.git
 cd docker-images/
 
-docker-compose --project-name=ocean up
+./start_ocean.sh --no-pleuston --latest
 ```
 
-This will start up all required components, but also an instance of pleuston. To use your local pleuston version in the next step, you have to stop the pleuston Docker container from another Terminal window:
+This will start up all required components:
 
-```bash
-docker stop ocean_pleuston_1
+### [🐋 aquarius](https://github.com/oceanprotocol/aquarius)
 
-# or find the right container name
-docker ps
-```
+You now have a locally running _Aquarius_ backend application exposed under `http://localhost:5000`.
 
-### Contracts
+### [💧 keeper-contracts](https://github.com/oceanprotocol/keeper-contracts)
 
-Because of changing addresses during migration, you need to make sure the deployed contracts within the Docker containers from [keeper-contracts](https://github.com/oceanprotocol/keeper-contracts) match the ones used in your local pleuston development version.
+You now have a locally running RPC client with all the contracts from _keeper-contracts_ deployed to it, exposed under `http://localhost:8545`.
 
-```bash
-git clone git@github.com:oceanprotocol/keeper-contracts.git
-cd keeper-contracts/
+## Storage Providers
 
-npm i
-truffle compile
-truffle migrate --reset
-```
+As of right now, _pleuston_ requires asset files to be stored in Azure Cloud Storage before registering them through the UI. For more convenience we will integrate connections to various cloud storage providers.
 
-Then link them up with npm so pleuston will grab them instead the package from npm.js:
+<img width="545" alt="screen shot 2019-02-12 at 12 47 42" src="https://user-images.githubusercontent.com/90316/52633365-6c7b5300-2ec4-11e9-825c-e8bc65655812.png">
 
-```bash
-npm link @oceanprotocol/keeper-contracts
-```
+### AWS
 
-## Quick Start
+App includes an Connection to Amazon Web Services, so you can retrieve and register assets stored in an S3 bucket. Setting AWS connection requires the setup of Cognito authentication service with proper Access-policies to specific bucket. Pleuston side configuration for AWS can be cound in [`config/cloudStorage.js`](config/cloudStorage.js)
 
-After the pleuston Docker container from the above `docker-compose` step is shut down, you can start your local development version of `pleuston`:
+### Azure Storage
+
+App includes an OAuth connection to your Azure account. Once authorized, assets can be chosen from a file list within _pleuston_.
+
+_Note: Currently, Azure Storage only allows listing containers with OAuth credentials. Listing blobs in containers and operations on blobs can't be done with OAuth credentials until [that feature is out of preview](https://docs.microsoft.com/en-gb/azure/storage/common/storage-auth-aad). Until then, manually added credentials are required in [`config/cloudStorage.js`](config/cloudStorage.js)_
+
+## Development
+
+After the Docker containers from the above step are up, you can start your local development version of _Pleuston_:
 
 ```bash
 git clone git@github.com:oceanprotocol/pleuston.git
 cd pleuston/
 
 npm i
-npm link @oceanprotocol/keeper-contracts
 npm start
-````
-
-Note that you have to redo the keeper-contracts `npm link` every time you do a `npm install` in pleuston.
+```
 
 This should output a message as follows:
 
@@ -123,7 +115,18 @@ You can now view @oceanprotocol/pleuston in the browser.
   Local:            http://localhost:3000/
 ```
 
-You can inspect a full production build by creating it first, and then run a local web server on top of the build output, e.g. [`serve`](https://github.com/zeit/serve).
+### MetaMask
+
+Be sure to login into your MetaMask account and either select:
+
+- the `Kovan` test network, or
+- `Localhost 8545`
+
+The latter will connect you to the RPC client running inside Docker.
+
+### Production build
+
+You can inspect a full production build by creating it first, and then run a local web server on top of the build output, e.g. [`serve`](https://github.com/zeit/serve):
 
 ```bash
 # create production build
@@ -133,53 +136,69 @@ serve -s build/
 # go to http://localhost:5000
 ```
 
-## Ocean Protocol Components
+### npm releases
 
-All required components to get `pleuston` running are pre-configured and started with the above `docker-compose` command, and the web app is configured to connect to them.
+For a new **patch release**, execute on the machine where you're logged into your npm account:
 
-If you want to change and run `pleuston` against your own deployed components, head over to the [`config/ocean.js`](./config/ocean.js) file and modify the respective values.
+```bash
+./bumpversion path
+
+## Configuration
+
+All required components to get _Pleuston_ running are pre-configured and started with the above `docker-compose` command, and the web app is configured to connect to them.
+
+If you want to change and run _Pleuston_ against your own deployed components, head over to the [`config/ocean.js`](./config/ocean.js) file and modify the respective values.
 
 To run your application over SSL, set the scheme values in [`config/ocean.js`](./config/ocean.js) to `https`:
 
 ```js
 module.exports = {
-    keeperScheme: 'https',
-    oceanScheme: 'https'
+    nodeScheme: 'http',
+    nodeHost: 'localhost',
+    nodePort: 8545,
+
+    aquariusScheme: 'http',
+    aquariusHost: 'localhost',
+    aquariusPort: 5000,
+
+    brizoScheme: 'https',
+    brizoHost: 'localhost',
+    brizoPort: 8030,
+
+    parityScheme: 'http',
+    parityHost: 'localhost',
+    parityPort: 8545,
+
+    secretStoreScheme: 'http',
+    secretStoreHost: 'localhost',
+    secretStorePort: 12001,
+
+    secretStoreThreshold: 0,
+    secretStorePassword: 'unittest',
+    secretStoreAddress: '0xed243adfb84a6626eba46178ccb567481c6e655d'
 }
-```
-
-### Keeper
-[`keeper-contracts`](https://github.com/oceanprotocol/keeper-contracts)
-
-After following the instructions outlined above, Pleuston will connect to the locally running RPC client under `http://localhost:8545` where all required smart contracts are deployed so you don't have to configure anything else.
-
-The Keeper Contracts ABI's are published as a [npm package](https://www.npmjs.com/package/@oceanprotocol/keeper-contracts) and imported in the project.
-
-### Provider
-[`provider`](https://github.com/oceanprotocol/provider)
-
-The app connects to the locally running Ocean Protocol Provider, exposed under `http://localhost:5000`.
-
-### Database
-[`bigchaindb`](https://github.com/bigchaindb/bigchaindb)
-
-Pleuston is currently using [BigchainDB](http://github.com/bigchaindb/bigchaindb) as a database backend and is configured to automatically connect to the locally running BigchainDB node, exposed under `http://localhost:9984`.
-
-## Code style
-
-Code linting is setup with [ESLint](https://eslint.org) and [stylelint](https://stylelint.io) following [eslint-config-oceanprotocol](https://github.com/oceanprotocol/eslint-config-oceanprotocol) and [stylelint-config-bigchaindb](https://github.com/bigchaindb/stylelint-config-bigchaindb).
-
-There's a npm script setup which runs all linting tests:
-
-```bash
-npm run lint
 ```
 
 ## Testing
 
 Automatic tests are setup via Travis, executing `npm test`.
 
-At the moment, besides linting tests, there's only one test checking if the whole app can be rendered.
+The tests run:
+
+- linting checks with ESLint and Stylelint
+- basic rendering tests for components with Jest
+
+While code coverage status will be reported in the console and on Travis, coverage information won't be uploaded to Codacy for any Pull Request from a forked repo. That is because of a [security restriction in Travis](https://docs.travis-ci.com/user/pull-requests/#pull-requests-and-security-restrictions).
+
+## Code style
+
+Code linting is setup with [ESLint](https://eslint.org) and [stylelint](https://stylelint.io) following [eslint-config-oceanprotocol](https://github.com/oceanprotocol/eslint-config-oceanprotocol) and [stylelint-config-bigchaindb](https://github.com/bigchaindb/stylelint-config-bigchaindb).
+
+There's a npm script setup which runs only linting tests:
+
+```bash
+npm run lint
+```
 
 ## License
 

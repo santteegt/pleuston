@@ -1,22 +1,22 @@
 import React, { PureComponent } from 'react'
 import PropTypes from 'prop-types'
-import Truncate from 'react-truncate'
 
 import AssetMedia from './AssetMedia'
+import AssetFullMeta from './AssetFullMeta'
 
 import Button from '../atoms/Button'
-import './AssetFull.scss'
+import styles from './AssetFull.module.scss'
 
-const Editable = ({ name, value, onFieldChange, onValueChange }) => (
-    <input name={name} type="text" value={value} onChange={onValueChange} />
-)
+// const Editable = ({ name, value, onFieldChange, onValueChange }) => (
+//     <input name={name} type="text" value={value} onChange={onValueChange} />
+// )
 
-Editable.propTypes = {
-    name: PropTypes.string,
-    value: PropTypes.string,
-    onFieldChange: PropTypes.func,
-    onValueChange: PropTypes.func
-}
+// Editable.propTypes = {
+//     name: PropTypes.string,
+//     value: PropTypes.string,
+//     onFieldChange: PropTypes.func,
+//     onValueChange: PropTypes.func
+// }
 
 class AssetFull extends PureComponent {
     constructor(props) {
@@ -34,91 +34,79 @@ class AssetFull extends PureComponent {
     }
 
     render() {
-        if (!this.props.assetId) return null
-
         const {
-            assetId,
-            handlePurchase,
-            metadata: {
-                // category,
-                // classification,
-                date,
-                description,
-                // format,
-                // industry,
-                // keywords,
-                labels,
-                license,
-                // lifecycleStage,
-                links,
-                name,
-                // note,
-                // size,
-                token,
-                updateFrequency
-            },
-            publisherId
+            asset,
+            handlePurchase
         } = this.props
+        if (!asset) return null
+        const metadata = asset.findServiceByType('Metadata')
+        const {
+            base,
+            // curation,
+            additionalInformation
+        } = metadata.metadata
+        // OEP-08 Base Attributes
+        const {
+            name,
+            description,
+            dateCreated,
+            // size,
+            author,
+            type,
+            license,
+            copyrightHolder,
+            // encoding,
+            // compression,
+            // contentType,
+            // workExample,
+            // files,
+            links,
+            // inLanguage,
+            tags,
+            price
+        } = base
 
         return (
-            <div className="assetfull">
-                <h1 className="assetfull__title">{name}</h1>
+            <div className={styles.assetFull}>
+                <h1 className={styles.assetFullTitle}>{name}</h1>
 
                 {links && links.length && (
                     <p>
-                        <AssetMedia title={name} url={links} />
+                        <AssetMedia title={name} links={links} />
                     </p>
                 )}
 
-                <p>
-                    <span className="assetfull__label">Publisher</span> <Truncate>{publisherId}</Truncate>
-                </p>
+                {/* <AssetFullMeta label="Publisher" item={publisherId} truncate /> */}
 
-                <p>
-                    <span className="assetfull__label">Published</span> { date }
-                </p>
-                <p>
-                    <span className="assetfull__label">ID</span> <Truncate>{assetId}</Truncate>
-                </p>
+                <AssetFullMeta label="Author" item={author} />
 
-                {description && (
-                    <p className="assetfull__description">
-                        <span className="assetfull__label">Description</span> {description}
-                    </p>
+                {copyrightHolder && <AssetFullMeta label="Copyright holder" item={copyrightHolder} />}
+
+                <AssetFullMeta label="Published" item={dateCreated} />
+
+                <AssetFullMeta label="ID" item={asset.id} truncate />
+
+                {description && <AssetFullMeta label="Description" item={description} />}
+
+                {links && links.length > 0 && <AssetFullMeta label="Links" links={links} />}
+
+                <AssetFullMeta label="Price" item={`${price} Ọ`} />
+                {/* <AssetFullMeta label="Token" item={token || 'Please purchase'} /> */}
+
+                {tags && tags.length > 0 && (
+                    <AssetFullMeta label="Tags" item={tags.split(',').map(tag => (tag))} />
                 )}
 
-                {links && links.length && (
-                    <p className="assetfull__url">
-                        <span className="assetfull__label">Url</span>
-                        <a href={typeof links === 'string' ? links : links[0]}
-                            rel="noopener noreferrer" target="_blank">{ (typeof links === 'string' ? links : links[0]) || 'Please purchase' }</a>
-                    </p>
+                <AssetFullMeta label="Type" item={type} />
+
+                <AssetFullMeta label="License" item={license} />
+
+                {additionalInformation.updateFrequency && (
+                    <AssetFullMeta label="Update Frequency" item={additionalInformation.updateFrequency} />
                 )}
 
-                <p className="assetfull__token">
-                    <span className="assetfull__label">Token</span> { token || 'Please purchase' }
-                </p>
-
-                {labels && (
-                    <p className="assetfull__tags">
-                        <span className="assetfull__label">Labels</span> { labels.map(label => (label)) }
-                    </p>
-                )}
-
-                {license && (
-                    <p className="assetfull__license">
-                        <span className="assetfull__label">License</span> { license }
-                    </p>
-                )}
-
-                {updateFrequency && (
-                    <p className="assetfull__updateFrequency">
-                        <span className="assetfull__label">Update Frequency</span> { updateFrequency }
-                    </p>
-                )}
-
-                <div className="assetfull__actions">
-                    <Button primary="true" onClick={() => handlePurchase(assetId)}>Purchase</Button>
+                <div className={styles.assetFullActions}>
+                    <Button primary="true" onClick={() => handlePurchase(asset)}>Purchase</Button>
                 </div>
             </div>
         )
@@ -126,10 +114,8 @@ class AssetFull extends PureComponent {
 }
 
 AssetFull.propTypes = {
-    assetId: PropTypes.string,
     handlePurchase: PropTypes.func,
-    metadata: PropTypes.object,
-    publisherId: PropTypes.string
+    asset: PropTypes.object
 }
 
 export default AssetFull

@@ -1,6 +1,7 @@
 import React, { Fragment, PureComponent } from 'react'
 import PropTypes from 'prop-types'
-import HeaderLoader from '../containers/HeaderLoader'
+import Header from '../components/Header'
+import Footer from '../components/Footer'
 import SidebarLoader from '../containers/SidebarLoader'
 
 import Spinner from './atoms/Spinner'
@@ -33,21 +34,30 @@ class Layout extends PureComponent {
 
         return (
             <Fragment>
-                <HeaderLoader />
+                <Header />
 
-                <main className={styles.layout} {...this.props}>
+                <main className={styles.layout}>
                     <nav className={styles.layoutSidebar}>
                         <SidebarLoader />
                     </nav>
-                    {loading ? <Spinner /> : this.props.children}
+                    {
+                        loading
+                            ? <Spinner />
+                            : this.props.narrow
+                                ? <div className={styles.narrow}>{this.props.children}</div>
+                                : this.props.children
+                    }
                 </main>
+
+                <Footer />
             </Fragment>
         )
     }
 }
 
 Layout.propTypes = {
-    children: PropTypes.any.isRequired
+    children: PropTypes.any.isRequired,
+    narrow: PropTypes.bool
 }
 
 export default Layout

@@ -1,4 +1,3 @@
-const autoprefixer = require('autoprefixer')
 const path = require('path')
 const webpack = require('webpack')
 const HtmlWebpackPlugin = require('html-webpack-plugin')
@@ -43,9 +42,11 @@ const getStyleLoaders = (cssOptions, preProcessor) => {
                 // https://github.com/facebook/create-react-app/issues/2677
                 ident: 'postcss',
                 plugins: () => [
-                    autoprefixer({
-                        flexbox: 'no-2009',
-                        grid: true
+                    require('postcss-preset-env')({
+                        autoprefixer: {
+                            flexbox: 'no-2009'
+                        },
+                        stage: 3
                     })
                 ]
             }
@@ -63,7 +64,6 @@ const getStyleLoaders = (cssOptions, preProcessor) => {
 module.exports = {
     mode: 'development',
     entry: [
-        // We ship a few polyfills by default:
         require.resolve('./polyfills'),
         // Include an alternative client for WebpackDevServer. A client's job is to
         // connect to WebpackDevServer by a socket and get notified about changes.
@@ -82,18 +82,6 @@ module.exports = {
         // initialization, it doesn't blow up the WebpackDevServer client, and
         // changing JS code would still trigger a refresh.
     ],
-    optimization: {
-        // Automatically split vendor and commons
-        // https://twitter.com/wSokra/status/969633336732905474
-        // https://medium.com/webpack/webpack-4-code-splitting-chunk-graph-and-the-splitchunks-optimization-be739a861366
-        splitChunks: {
-            chunks: 'all',
-            name: 'vendors'
-        },
-        // Keep the runtime chunk seperated to enable long term caching
-        // https://twitter.com/wSokra/status/969679223278505985
-        runtimeChunk: true
-    },
     output: {
         // Add /* filename */ comments to generated require()s in the output.
         pathinfo: true,
@@ -105,6 +93,18 @@ module.exports = {
         chunkFilename: 'static/js/[name].chunk.js',
         // This is the URL that app is served from. We use "/" in development.
         publicPath: publicPath
+    },
+    optimization: {
+        // Automatically split vendor and commons
+        // https://twitter.com/wSokra/status/969633336732905474
+        // https://medium.com/webpack/webpack-4-code-splitting-chunk-graph-and-the-splitchunks-optimization-be739a861366
+        splitChunks: {
+            chunks: 'all',
+            name: false
+        },
+        // Keep the runtime chunk seperated to enable long term caching
+        // https://twitter.com/wSokra/status/969679223278505985
+        runtimeChunk: true
     },
     resolve: {
         // This allows you to set a fallback for where Webpack should look for modules.
@@ -144,8 +144,7 @@ module.exports = {
                         loader: require.resolve('eslint-loader')
                     }
                 ],
-                include: paths.appSrc,
-                exclude: [/[/\\\\]node_modules[/\\\\]/]
+                include: paths.appSrc
             },
             {
                 // "oneOf" will traverse all following loaders until one will
@@ -166,49 +165,58 @@ module.exports = {
                     // Process application JS with Babel.
                     // The preset includes JSX, Flow, and some ESnext features.
                     {
-                        test: /\.(js|jsx|mjs)$/,
+                        test: /\.(js|mjs|jsx)$/,
                         include: paths.appSrc,
-                        exclude: [/[/\\\\]node_modules[/\\\\]/],
-                        use: [
-                            // This loader parallelizes code compilation, it is optional but
-                            // improves compile time on larger projects
-                            {
-                                loader: require.resolve('thread-loader'),
-                                options: {
-                                    poolTimeout: Infinity // keep workers alive for more effective watch mode
-                                }
-                            },
-                            {
-                                loader: require.resolve('babel-loader'),
-                                options: {
-                                    cacheDirectory: true,
-                                    highlightCode: true
-                                }
-                            }
-                        ]
+                        loader: require.resolve('babel-loader'),
+                        options: {
+                            customize: require.resolve(
+                                'babel-preset-react-app/webpack-overrides'
+                            ),
+                            plugins: [
+                                [
+                                    require.resolve('babel-plugin-named-asset-import'),
+                                    {
+                                        loaderMap: {
+                                            svg: {
+                                                ReactComponent: '@svgr/webpack?-prettier,-svgo![path]'
+                                            }
+                                        }
+                                    }
+                                ]
+                            ],
+                            // This is a feature of `babel-loader` for webpack (not Babel itself).
+                            // It enables caching results in ./node_modules/.cache/babel-loader/
+                            // directory for faster rebuilds.
+                            cacheDirectory: true,
+                            // Don't waste time on Gzipping the cache
+                            cacheCompression: false
+                        }
                     },
                     // Process any JS outside of the app with Babel.
                     // Unlike the application JS, we only compile the standard ES features.
                     {
-                        test: /\.js$/,
-                        use: [
-                            // This loader parallelizes code compilation, it is optional but
-                            // improves compile time on larger projects
-                            {
-                                loader: require.resolve('thread-loader'),
-                                options: {
-                                    poolTimeout: Infinity // keep workers alive for more effective watch mode
-                                }
-                            },
-                            {
-                                loader: require.resolve('babel-loader'),
-                                options: {
-                                    compact: false,
-                                    cacheDirectory: true,
-                                    highlightCode: true
-                                }
-                            }
-                        ]
+                        test: /\.(js|mjs)$/,
+                        exclude: /@babel(?:\/|\\{1,2})runtime/,
+                        loader: require.resolve('babel-loader'),
+                        options: {
+                            babelrc: false,
+                            configFile: false,
+                            compact: false,
+                            presets: [
+                                [
+                                    require.resolve('babel-preset-react-app/dependencies'),
+                                    { helpers: true }
+                                ]
+                            ],
+                            cacheDirectory: true,
+                            // Don't waste time on Gzipping the cache
+                            cacheCompression: false,
+                            // If an error happens in a package, it's possible to be
+                            // because it was compiled. Thus, we don't want the browser
+                            // debugger to show the original code. Instead, the code
+                            // being evaluated would be much more helpful.
+                            sourceMaps: false
+                        }
                     },
                     // "postcss" loader applies autoprefixer to our CSS.
                     // "css" loader resolves paths in CSS and adds assets as dependencies.
@@ -244,7 +252,7 @@ module.exports = {
                         use: getStyleLoaders(
                             {
                                 importLoaders: 2,
-                                includePaths: ['src/assets/stylesheets/']
+                                includePaths: ['src/styles/']
                             },
                             'sass-loader'
                         )
@@ -258,7 +266,7 @@ module.exports = {
                                 importLoaders: 2,
                                 modules: true,
                                 getLocalIdent: getCSSModuleLocalIdent,
-                                includePaths: ['src/assets/stylesheets/']
+                                includePaths: ['src/styles/']
                             },
                             'sass-loader'
                         )
@@ -295,7 +303,7 @@ module.exports = {
         // The public URL is available as %PUBLIC_URL% in index.html, e.g.:
         // <link rel="shortcut icon" href="%PUBLIC_URL%/favicon.ico">
         // In development, this will be an empty string.
-        new InterpolateHtmlPlugin(env.raw),
+        new InterpolateHtmlPlugin(HtmlWebpackPlugin, env.raw),
         // Makes some environment variables available to the JS code, for example:
         // if (process.env.NODE_ENV === 'development') { ... }. See `./env.js`.
         new webpack.DefinePlugin(env.stringified),

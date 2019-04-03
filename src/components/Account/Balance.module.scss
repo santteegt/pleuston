@@ -1,0 +1,12 @@
+@import 'variables';
+
+.balance {
+    font-size: $font-size-small;
+    color: $brand-grey-light;
+    margin-left: $spacer / 2;
+    white-space: nowrap;
+
+    &:first-child {
+        margin-left: 0;
+    }
+}

@@ -8,7 +8,7 @@ import {
 
 export default connect(
     state => ({
-        ...getActiveAsset(state)
+        asset: getActiveAsset(state)
     }),
 
     dispatch => ({

@@ -1,65 +1,131 @@
-import fetchDownload from 'fetch-download'
 import AssetModel from '../models/asset'
-import PurchaseHandler from './purchase'
-import Logger from '../logger'
-
-const MINIMUM_REQUIRED_TOKENS = 10
+import { Logger } from '@oceanprotocol/squid'
+// import quertString from 'query-string'
 
 export async function publish(formValues, account, providers) {
-    const { oceanKeeper, oceanAgent } = providers
-    // check account balance and request tokens if necessary
-    const tokensBalance = await oceanKeeper.getBalance(account.name)
-    if (tokensBalance < MINIMUM_REQUIRED_TOKENS) {
-        oceanKeeper.requestTokens(account.name, MINIMUM_REQUIRED_TOKENS)
-    }
-    // Register on the keeper (on-chain) first, then on the OceanDB
-    const assetId = await oceanKeeper.registerDataAsset(
-        formValues.name, formValues.description, formValues.price, account.name
-    )
-
+    const { ocean } = providers
+    // Get user entered form values
+    const {
+        name,
+        description,
+        license,
+        files,
+        links,
+        author,
+        copyrightHolder,
+        tags,
+        price,
+        type,
+        updateFrequency
+    } = formValues
     // Now register in oceandb and publish the metadata
     const newAsset = {
-        assetId,
-        metadata: Object.assign(AssetModel.metadata, {
-            date: (new Date()).toString(),
-            description: formValues.description,
-            labels: formValues.tags ? [formValues.tags] : [],
-            license: formValues.license,
-            links: formValues.links,
-            name: formValues.name,
-            updateFrequency: formValues.updateFrequency
+        // OEP-08 Attributes
+        // https://github.com/oceanprotocol/OEPs/tree/master/8
+        base: Object.assign(AssetModel.base, {
+            name,
+            description,
+            dateCreated: (new Date()).toString(),
+            author,
+            license,
+            copyrightHolder,
+            files: [{
+                index: 0,
+                url: files
+            }],
+            links: links,
+            tags: tags,
+            price: parseFloat(price),
+            type
         }),
-        publisherId: account.name
+        curation: Object.assign(AssetModel.curation, {
+            rating: 0,
+            numVotes: 0,
+            schema: 'Binary Voting'
+        }),
+        additionalInformation: Object.assign(AssetModel.additionalInformation, {
+            updateFrequency
+        })
     }
-    const res = await oceanAgent.publishDataAsset(newAsset)
-    Logger.debug('res: ', res)
-    return newAsset
+    try {
+        const asset = await ocean.assets.create(
+            newAsset,
+            account
+        )
+        Logger.debug('asset: ', asset)
+        return asset
+    } catch (e) {
+        // make readable errors
+        Logger.log('error:', e)
+    }
 }
 
-export async function list(contract, account, providers) {
-    const { oceanKeeper, oceanAgent } = providers
-    let dbAssets = await oceanAgent.getAssetsMetadata()
-    Logger.log('assets: ', dbAssets)
-
-    dbAssets = Object.values(dbAssets).filter(async (asset) => { return oceanKeeper.checkAsset(asset.assetId) })
-    Logger.log('assets (published on-chain): ', dbAssets)
-
+export async function list(state) {
+    const {
+        ocean
+    } = state.provider
+    let searchForm
+    if (state.form && state.form.assetSearch && state.form.assetSearch.values) {
+        searchForm = state.form.assetSearch.values
+    } else {
+        searchForm = {
+            page: 0,
+            text: ''
+        }
+    }
+    let queryRequest = {
+        offset: 500,
+        page: state.asset.search.page,
+        sort: {
+            text: 1
+        },
+        query: {}
+    }
+    if (searchForm.text && searchForm.text !== '') {
+        queryRequest.query['text'] = [searchForm.text]
+    }
+    if (searchForm.license) {
+        queryRequest.query['license'] = [searchForm.license]
+    }
+    if (searchForm.type) {
+        queryRequest.query['type'] = [searchForm.type]
+    }
+    if (searchForm.categories) {
+        queryRequest.query['categories'] = [searchForm.categories]
+    }
+    if (searchForm.updateFrequency) {
+        queryRequest.query['updateFrequency'] = [searchForm.updateFrequency]
+    }
+    if (searchForm.priceFrom) {
+        queryRequest.query['price'] = [searchForm.priceFrom]
+    }
+    if (searchForm.priceTo) {
+        queryRequest.query['price'] = [0, searchForm.priceTo]
+    }
+    if (searchForm.priceFrom && searchForm.priceTo) {
+        queryRequest.query['price'] = [searchForm.priceFrom, searchForm.priceTo]
+    }
+    if (searchForm.addedIn) {
+        queryRequest.query['created'] = [searchForm.addedIn]
+    }
+    let dbAssets = await ocean.assets.query(queryRequest)
+    Logger.log(`Loaded ${Object.keys(dbAssets).length} assets (from provider)`)
     return dbAssets
 }
 
-export async function purchase(asset, account, providers) {
-    const { oceanKeeper } = providers
-
-    Logger.log('Purchasing asset by consumer:  ', account.name, ' assetid: ', asset.assetId)
-
-    let purchaseHandler = new PurchaseHandler(asset, account, oceanKeeper)
-    let order = await purchaseHandler.doPurchase()
-    if (order.accessUrl) {
-        Logger.log('begin downloading asset data.')
-        const res = await fetchDownload(order.accessUrl)
-            .then((result) => Logger.log('Asset data downloaded successfully: ', result))
-            .catch((error) => Logger.log('Asset download failed: ', error))
-        Logger.debug('res: ', res)
+export async function purchase(inputDdo, consumer, providers) {
+    const { ocean } = providers
+    try {
+        const accessService = inputDdo.findServiceByType('Access')
+        const agreementId = await ocean.assets.order(
+            inputDdo.id,
+            accessService.serviceDefinitionId,
+            consumer
+        )
+        const folder = ''
+        const path = await ocean.assets.consume(agreementId, inputDdo.id, accessService.serviceDefinitionId, consumer, folder)
+        Logger.log('path', path)
+    } catch (e) {
+        Logger.log('error', e)
     }
-    Logger.log('purchase completed, new order is: ', order)
 }

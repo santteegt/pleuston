@@ -2,22 +2,18 @@ import React, { Fragment } from 'react'
 import PropTypes from 'prop-types'
 
 import Empty from '../atoms/Empty'
-import AssetFilterLoader from '../../containers/AssetFilterLoader'
 import Asset from './Asset'
-import './AssetList.scss'
 
-const AssetList = ({
-    assets,
-    handleClick
-}) => (
+import styles from './AssetList.module.scss'
+
+const AssetList = ({ assets, handleClick }) => (
     assets.length ? (
         <Fragment>
-            <AssetFilterLoader />
-            <div className="assets">
+            <div className={styles.assets}>
                 {assets.map(asset => (
                     <div
-                        className="assets__tile assets_count"
-                        key={asset.assetId}
+                        className={styles.tile}
+                        key={asset.id}
                         onClick={() => handleClick(asset)}
                         onKeyPress={() => handleClick(asset)}
                         role="link"
@@ -28,7 +24,7 @@ const AssetList = ({
             </div>
         </Fragment>
     ) : (
-        <Empty title="No data sets found :-(" text="Have you checked your Keeper connection and selected an account?" />
+        <Empty title="No data sets yet" text="Why not add some of yours?" action="+ Add new data set" actionLink="/new" />
     )
 )
 

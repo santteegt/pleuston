@@ -1,19 +1,43 @@
-import React, { Fragment, PureComponent } from 'react'
+import React, { PureComponent } from 'react'
+import PropTypes from 'prop-types'
 import { Field } from 'redux-form'
+import { ReactComponent as SearchIcon } from '../../../svg/search.svg'
+import FormHelp from './FormHelp'
 import './FormInput.scss'
 
 class FormInput extends PureComponent {
-    constructor(props) {
-        super(props)
+    static propTypes = {
+        name: PropTypes.string.isRequired,
+        label: PropTypes.string.isRequired,
+        required: PropTypes.bool,
+        help: PropTypes.string,
+        component: PropTypes.string.isRequired,
+        type: PropTypes.string,
+        placeholder: PropTypes.string,
+        additionalComponent: PropTypes.element,
+        small: PropTypes.any,
+        dimmed: PropTypes.any
+    }
 
-        this.state = { isFocused: false }
+    state = { isFocused: false }
+
+    inputWrapClasses() {
+        if (this.props.type === 'search') {
+            return 'input-wrap input-wrap-search'
+        } else if (this.props.type === 'search' && this.state.isFocused) {
+            return 'input-wrap input-wrap-search is-focused'
+        } else if (this.state.isFocused && this.props.type !== 'search') {
+            return 'input-wrap is-focused'
+        } else {
+            return 'input-wrap'
+        }
     }
 
     render() {
-        const { name, label, required } = this.props
+        const { name, label, required, type, help, small, dimmed, additionalComponent, ...props } = this.props
 
         return (
-            <Fragment>
+            <div className={dimmed ? 'form__group is-dimmed' : 'form__group'}>
                 <label
                     htmlFor={name}
                     className={required ? 'form__label is-required' : 'form__label'}
@@ -21,16 +45,23 @@ class FormInput extends PureComponent {
                 >
                     {label}
                 </label>
-                <div className={this.state.isFocused ? 'input-wrap is-focused' : 'input-wrap'}>
+                <div className={this.inputWrapClasses()}>
                     <Field
-                        className="input"
+                        className={small ? 'input input-sm' : 'input'}
                         id={name}
-                        {...this.props}
+                        name={name}
+                        required={required}
+                        type={type}
+                        {...props}
                         onFocus={() => this.setState({ isFocused: true })}
                         onBlur={() => this.setState({ isFocused: false })}
                     />
+                    {type === 'search' && <SearchIcon />}
                 </div>
-            </Fragment>
+                {help && <FormHelp>{help}</FormHelp>}
+
+                {additionalComponent && additionalComponent}
+            </div>
         )
     }
 }

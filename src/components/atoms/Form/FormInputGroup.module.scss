@@ -1,0 +1,40 @@
+@import 'variables';
+
+.inputGroup {
+    width: 100%;
+
+    > div {
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: space-between;
+
+        > * {
+            flex: 1;
+            margin-bottom: $spacer / 2;
+        }
+
+        :global(.input-wrap) {
+            margin-bottom: 0;
+        }
+
+        button {
+            flex: 1 1 100%;
+            position: relative;
+            z-index: 2;
+            margin-bottom: 0;
+
+            @media screen and (min-width: $break-point--small) {
+                flex: 0 0 25%;
+                border-top-left-radius: 0;
+                border-bottom-left-radius: 0;
+                margin-left: -.2rem;
+                border: .1rem solid darken($brand-grey-light, 5%);
+                border-left: 0;
+            }
+        }
+
+        &:last-child {
+            flex-grow: 1;
+        }
+    }
+}
