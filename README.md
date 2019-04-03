@@ -49,7 +49,7 @@ _Pleuston_ is a single page React app, initially bootstrapped with [`create-reac
 
 ## Prerequisites
 
-- Node.js >=8
+- Node.js >=10
 - npm
 - Ocean Protocol components
 - [MetaMask](https://metamask.io)
@@ -164,6 +164,7 @@ module.exports = {
     brizoScheme: 'https',
     brizoHost: 'localhost',
     brizoPort: 8030,
+    brizoAddress: '0xed243adfb84a6626eba46178ccb567481c6e655d'
 
     parityScheme: 'http',
     parityHost: 'localhost',
@@ -171,11 +172,7 @@ module.exports = {
 
     secretStoreScheme: 'http',
     secretStoreHost: 'localhost',
-    secretStorePort: 12001,
-
-    secretStoreThreshold: 0,
-    secretStorePassword: 'unittest',
-    secretStoreAddress: '0xed243adfb84a6626eba46178ccb567481c6e655d'
+    secretStorePort: 12001
 }
 ```
 
