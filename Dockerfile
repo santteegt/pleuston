@@ -6,6 +6,7 @@ RUN apk add --no-cache --update\
     g++\
     gcc\
     git\
+    gettext\
     make\
     python
 
