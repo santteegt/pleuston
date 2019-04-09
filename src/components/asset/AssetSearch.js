@@ -59,7 +59,8 @@ class AssetSearch extends PureComponent {
         handleClick: PropTypes.func.isRequired,
         page: PropTypes.number.isRequired,
         handleSetPage: PropTypes.func.isRequired,
-        assets: PropTypes.array.isRequired
+        assets: PropTypes.array.isRequired,
+        totalPages: PropTypes.number.isRequired
     }
 
     state = {
@@ -73,7 +74,7 @@ class AssetSearch extends PureComponent {
     }
 
     render() {
-        const { page, handleSubmit, assets, handleClick, handleSetPage } = this.props
+        const { page, handleSubmit, assets, handleClick, handleSetPage, totalPages } = this.props
         const { isFiltersShown } = this.state
 
         return (
@@ -104,11 +105,11 @@ class AssetSearch extends PureComponent {
 
                 {/* TODO: WARNING! This doesn't work as intended until we can check 'page'
                 against total number of pages */}
-                {page > 0 && (
+                {page > 1 && (
                     <div className={styles.pagination}>
                         <a href="#" className={styles.item} onClick={() => handleSetPage(page - 1)}>&lt; Prev page</a>
                         <span className={styles.item}>{ page }</span>
-                        <a href="#" className={styles.item} onClick={() => handleSetPage(page + 1)}>Next page &gt;</a>
+                        {page <= totalPages && (<a href="#" className={styles.item} onClick={() => handleSetPage(page + 1)}>Next page &gt;</a>)}
                     </div>
                 )}
             </>

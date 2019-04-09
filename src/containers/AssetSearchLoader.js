@@ -8,12 +8,13 @@ export default connect(
     state => ({
         initialValues: state.asset.search,
         page: state.asset.search.page,
+        totalPages: state.asset.totalPages,
         assets: Object.values(state.asset.assets)
     }),
 
     dispatch => ({
         onSubmit: values => {
-            dispatch(setAssetSearchPage(0))
+            dispatch(setAssetSearchPage(1))
             dispatch(getAssets())
         },
         handleClick: asset => {
