@@ -1,9 +1,10 @@
 const initialState = {
     assets: {},
+    totalPages: 1,
     activeAsset: null,
     search: {
         text: '',
-        page: 0
+        page: 1
     }
 }
 
@@ -11,7 +12,8 @@ const asset = (state = initialState, action) => {
     switch (action.type) {
         case 'GET_ASSETS':
             return Object.assign({}, state, {
-                assets: action.assets
+                assets: action.assets,
+                totalPages: action.totalPages
             })
         case 'SET_ACTIVE_ASSET':
             return Object.assign({}, state, {
