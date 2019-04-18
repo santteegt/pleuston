@@ -1,6 +1,6 @@
 {
   "name": "@oceanprotocol/pleuston",
-  "version": "0.3.0",
+  "version": "0.3.1",
   "private": true,
   "license": "Apache-2.0",
   "scripts": {
@@ -10,16 +10,14 @@
     "lint:css": "stylelint ./src/**/*.scss",
     "lint": "run-p --continue-on-error lint:js lint:css",
     "test": "npm run lint && node scripts/test.js --env=jsdom --coverage",
-    "coverage": "cat ./coverage/lcov.info | codacy-coverage",
-    "requirements-check": "./scripts/check-node-version.sh",
-    "preinstall": "npm run requirements-check"
+    "coverage": "cat ./coverage/lcov.info | codacy-coverage"
   },
   "engines": {
     "node": ">=8"
   },
   "dependencies": {
     "@oceanprotocol/art": "^2.2.0",
-    "@oceanprotocol/squid": "0.5.0",
+    "@oceanprotocol/squid": "^0.5.6",
     "aws-amplify": "^1.1.22",
     "aws-amplify-react": "^2.3.2",
     "azure-storage": "^2.10.2",

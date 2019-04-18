@@ -69,8 +69,7 @@ export async function list(state) {
         searchForm = state.form.assetSearch.values
     } else {
         searchForm = {
-            page: 0,
-            text: ''
+            page: 1
         }
     }
     let queryRequest = {
@@ -109,8 +108,9 @@ export async function list(state) {
         queryRequest.query['created'] = [searchForm.addedIn]
     }
     let dbAssets = await ocean.assets.query(queryRequest)
-    Logger.log(`Loaded ${Object.keys(dbAssets).length} assets (from provider)`)
-    return dbAssets
+    let { results, totalPages } = dbAssets
+    Logger.log(`Loaded ${Object.keys(results).length} assets (from provider)`)
+    return { assets: results, totalPages }
 }
 
 export async function purchase(inputDdo, consumer, providers) {

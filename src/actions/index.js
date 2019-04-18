@@ -94,16 +94,15 @@ export function putAsset(formValues) {
 export function getAssets() {
     return async (dispatch, getState) => {
         const state = getState()
-        const assets = (await asset
-            .list(state))
-            .reduce((map, obj) => {
-                map[obj.id] = obj
-                return map
-            }, {})
-        Logger.log('assets:', assets)
+        const { assets, totalPages } = await asset.list(state)
+        const reducedAssets = assets.reduce((map, obj) => {
+            map[obj.id] = obj
+            return map
+        }, {})
         dispatch({
             type: 'GET_ASSETS',
-            assets
+            assets: reducedAssets,
+            totalPages
         })
     }
 }
@@ -131,7 +130,6 @@ export function getActiveAsset(state) {
         activeAsset,
         assets
     } = state.asset
-
     if (!activeAsset && state.router.location.pathname) {
         const rgxAssetId = /\/(.*?)/g
         const {
@@ -218,9 +216,6 @@ export function getOrders() {
             map[obj._id] = obj
             return map
         }, {})
-        // Logger.log('Mapped orders: ', JSON.stringify(orders, null, 2))
-        Logger.log(`Mapped ${Object.keys(orders).length} orders.`)
-
         dispatch({
             type: 'SET_ORDERS',
             orders
