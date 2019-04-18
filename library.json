@@ -10,7 +10,7 @@
     },
     {
       "name": "brizo",
-      "version": "~0.3.3"
+      "version": "~0.3.5"
     },
     {
       "name": "aquarius",
@@ -18,7 +18,7 @@
     },
     {
       "name": "squid-js",
-      "version": "~0.5.2"
+      "version": "~0.5.6"
     }
   ]
 }
