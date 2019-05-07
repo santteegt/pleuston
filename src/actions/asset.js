@@ -1,6 +1,6 @@
 import AssetModel from '../models/asset'
 import { Logger } from '@oceanprotocol/squid'
-// import quertString from 'query-string'
+import * as Web3 from 'web3'
 
 export async function publish(formValues, account, providers) {
     const { ocean } = providers
@@ -15,6 +15,7 @@ export async function publish(formValues, account, providers) {
         copyrightHolder,
         tags,
         price,
+        denomination,
         type,
         updateFrequency
     } = formValues
@@ -35,7 +36,7 @@ export async function publish(formValues, account, providers) {
             }],
             links: links,
             tags: tags,
-            price: parseFloat(price),
+            price: Web3.utils.toWei(price, denomination),
             type
         }),
         curation: Object.assign(AssetModel.curation, {

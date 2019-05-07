@@ -1,0 +1,15 @@
+@import 'variables';
+
+.priceHolder {
+    display: flex;
+
+    .price {
+        flex-grow: 1;
+    }
+
+    .denomination {
+        width: 200px;
+        margin-left: 10px;
+    }
+}
+
