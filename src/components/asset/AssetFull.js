@@ -4,6 +4,8 @@ import PropTypes from 'prop-types'
 import AssetMedia from './AssetMedia'
 import AssetFullMeta from './AssetFullMeta'
 
+import * as Web3 from 'web3'
+
 import Button from '../atoms/Button'
 import styles from './AssetFull.module.scss'
 
@@ -90,7 +92,7 @@ class AssetFull extends PureComponent {
 
                 {links && links.length > 0 && <AssetFullMeta label="Links" links={links} />}
 
-                <AssetFullMeta label="Price" item={`${price} Ọ`} />
+                <AssetFullMeta label="Price" item={`${Web3.utils.fromWei(price.toString())} Ọ`} />
                 {/* <AssetFullMeta label="Token" item={token || 'Please purchase'} /> */}
 
                 {tags && tags.length > 0 && (

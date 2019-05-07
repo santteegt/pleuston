@@ -2,7 +2,7 @@ module.exports = {
     // -----
     // Setup with local services
     // -----
-    /*
+
     nodeScheme: 'http',
     nodeHost: 'localhost',
     nodePort: 8545,
@@ -23,8 +23,8 @@ module.exports = {
     secretStoreScheme: 'http',
     secretStoreHost: 'localhost',
     secretStorePort: 12001,
-    */
 
+    /*
     nodeScheme: 'https',
     nodeHost: 'nile.dev-ocean.com',
     nodePort: 443,
@@ -45,6 +45,6 @@ module.exports = {
     secretStoreScheme: 'https',
     secretStoreHost: 'secret-store.dev-ocean.com',
     secretStorePort: 443,
-
+    */
     verboseLogging: true
 }
