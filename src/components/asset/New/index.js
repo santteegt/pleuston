@@ -7,8 +7,6 @@ import FormHelp from '../../atoms/Form/FormHelp'
 import CloudStorageLoader from '../../../containers/CloudStorageLoader'
 import Links from './Links/'
 
-import styles from './index.module.scss'
-
 const AssetNew = ({ handleSubmit, linkSetter, resetLinksForm }) => (
     <Form className="form" onSubmit={handleSubmit}>
 
@@ -27,25 +25,7 @@ const AssetNew = ({ handleSubmit, linkSetter, resetLinksForm }) => (
             additionalComponent={<CloudStorageLoader linkSetter={linkSetter} />}
         />
 
-        <div className={styles.priceHolder}>
-            <div className={styles.price}>
-                <FormInput label="Price" name="price" required type="number" component="input" placeholder="0" help="Price of your asset in Ocean Tokens." />
-            </div>
-            <div className={styles.denomination}>
-                <FormInput label="Denomination" required name="denomination" component="select" help="Denomination of price.">
-                    <option value="wei">attoOCEAN (10^-18)</option>
-                    <option value="kwei">femtoOCEAN (10^-15)</option>
-                    <option value="mwei">picoOCEAN (10^-12)</option>
-                    <option value="gwei">nanoOCEAN (10^-9)</option>
-                    <option value="micro">microOCEAN (10^-6)</option>
-                    <option value="milli">milliOCEAN (10^-3)</option>
-                    <option value="ether">OCEAN</option>
-                    <option value="kether">kiloOCEAN (10^-3)</option>
-                    <option value="mether">megaOCEAN (10^-6)</option>
-                    <option value="gether">gigaOCEAN (10^-9)</option>
-                </FormInput>
-            </div>
-        </div>
+        <FormInput label="Price" name="price" required type="number" component="input" placeholder="0" help="Price of your asset in Ocean Tokens." />
 
         <FormInput label="Author" name="author" required component="input" type="text" placeholder="e.g. Tfl, Disney Corp." help="The name of the entity generating this data." />
 
@@ -103,9 +83,6 @@ AssetNew.propTypes = {
 
 const AssetNewForm = reduxForm({
     form: 'newAsset',
-    initialValues: {
-        denomination: 'ether'
-    },
     fields: ['name']
 })(AssetNew)
 
