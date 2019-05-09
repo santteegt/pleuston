@@ -15,7 +15,6 @@ export async function publish(formValues, account, providers) {
         copyrightHolder,
         tags,
         price,
-        denomination,
         type,
         updateFrequency
     } = formValues
@@ -36,7 +35,7 @@ export async function publish(formValues, account, providers) {
             }],
             links: links,
             tags: tags,
-            price: Web3.utils.toWei(price, denomination),
+            price: Web3.utils.toWei(price, 'ether'),
             type
         }),
         curation: Object.assign(AssetModel.curation, {
