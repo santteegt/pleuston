@@ -70,8 +70,8 @@ export function makeItRain(amount) {
                 getActiveAccount(state).id
             )
             dispatch(getAccounts())
-        } catch (e) {
-            Logger.error(e)
+        } catch (error) {
+            Logger.error(error.message)
         }
     }
 }

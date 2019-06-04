@@ -7,7 +7,7 @@ import FormHelp from '../../atoms/Form/FormHelp'
 import CloudStorageLoader from '../../../containers/CloudStorageLoader'
 import Links from './Links/'
 
-const AssetNew = ({ handleSubmit, linkSetter, resetLinksForm }) => (
+const AssetNew = ({ handleSubmit, fileSetter, resetLinksForm }) => (
     <Form className="form" onSubmit={handleSubmit}>
 
         <FormInput label="Title" name="name" required component="input" type="text" help="The title of your asset." />
@@ -22,7 +22,7 @@ const AssetNew = ({ handleSubmit, linkSetter, resetLinksForm }) => (
             type="url"
             placeholder="e.g. https://url.com/dataset.zip"
             help="Add a URL pointing to your data set asset or select it from cloud storage providers."
-            additionalComponent={<CloudStorageLoader linkSetter={linkSetter} />}
+            additionalComponent={<CloudStorageLoader fileSetter={fileSetter} />}
         />
 
         <FormInput label="Price" name="price" required type="number" component="input" placeholder="0" help="Price of your asset in Ocean Tokens." />
@@ -77,7 +77,7 @@ const AssetNew = ({ handleSubmit, linkSetter, resetLinksForm }) => (
 
 AssetNew.propTypes = {
     handleSubmit: PropTypes.func.isRequired,
-    linkSetter: PropTypes.func.isRequired,
+    fileSetter: PropTypes.func.isRequired,
     resetLinksForm: PropTypes.func.isRequired
 }
 
