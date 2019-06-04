@@ -8,7 +8,7 @@
     "lint:js": "eslint ./src/",
     "lint:css": "stylelint ./src/**/*.scss",
     "lint": "run-p --continue-on-error lint:js lint:css",
-    "test": "npm run lint && node scripts/test.js --env=jsdom --coverage",
+    "test": "npm run lint && node scripts/test.js --env=jsdom --coverage --watchAll=false",
     "coverage": "cat ./coverage/lcov.info | codacy-coverage",
     "release": "release-it --non-interactive",
     "changelog": "auto-changelog -p"
