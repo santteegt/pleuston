@@ -8,33 +8,23 @@ const AssetModel = {
         'name': null,
         'description': null,
         'dateCreated': null,
-        'size': null,
         'author': null,
         'type': '',
         'license': null,
         'copyrightHolder': null,
-        'encoding': null,
-        'compression': null,
-        'contentType': null,
-        'workExample': null,
         'files': [],
         'links': [{
             'name': null,
             'type': null,
             'url': null
         }],
-        'inLanguage': null,
         'tags': [],
-        'price': null
-    },
-    'curation': {
-        'rating': null,
-        'numVotes': null,
-        'schema': null
+        'price': '',
+        'workExample': '',
+        'inLanguage': ''
     },
     'additionalInformation': {
-        'updateFrequency': null,
-        'structuredMarkup': []
+        'updateFrequency': null
     }
 }
 

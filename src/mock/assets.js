@@ -5,18 +5,21 @@ const mockAssets = [
         'base': {
             'name': 'UK Weather information 2011',
             'description': 'Weather information of UK including temperature and humidity',
-            'size': '3.1gb',
-            'dateCreated': '2012-02-01T10:55:11+00:00',
+            'dateCreated': '2012-02-01T10:55:11Z',
             'author': 'Met Office',
             'type': 'dataset',
             'license': 'CC-BY',
             'copyrightHolder': 'Met Office',
-            'encoding': 'UTF-8',
-            'compression': 'zip',
-            'contentType': 'text/csv',
             'workExample': `stationId,latitude,longitude,datetime,temperature,humidity\n
                 423432fsd,51.509865,-0.118092,2011-01-01T10:55:11+00:00,7.2,68`,
-            'contentUrls': ['https://testocnfiles.blob.core.windows.net/testfiles/testzkp.zip'],
+            'files': [{
+                index: 0,
+                url: 'https://testocnfiles.blob.core.windows.net/testfiles/testzkp.zip',
+                'encoding': 'UTF-8',
+                'compression': 'zip',
+                'contentType': 'text/csv',
+                'size': '3.1gb'
+            }],
             'links': [
                 {
                     'name': 'Sample of Asset Data',
@@ -31,7 +34,7 @@ const mockAssets = [
             ],
             'inLanguage': 'en',
             'tags': ['weather', 'uk', '2011', 'temperature', 'humidity'],
-            'price': 10
+            'price': '100000000'
         },
         'curation': {
             'rating': 0.93,
@@ -52,18 +55,21 @@ const mockAssets = [
         'base': {
             'name': 'UK Weather information 2012',
             'description': 'Weather information of UK including temperature and humidity',
-            'size': '3.1gb',
-            'dateCreated': '2012-02-01T10:55:11+00:00',
+            'dateCreated': '2012-02-01T10:55:11Z',
             'author': 'Met Office',
             'type': 'dataset',
             'license': 'CC-BY',
             'copyrightHolder': 'Met Office',
-            'encoding': 'UTF-8',
-            'compression': 'zip',
-            'contentType': 'text/csv',
             'workExample': `stationId,latitude,longitude,datetime,temperature,humidity\n
                 423432fsd,51.509865,-0.118092,2011-01-01T10:55:11+00:00,7.2,68`,
-            'contentUrls': ['https://testocnfiles.blob.core.windows.net/testfiles/testzkp.zip'],
+            'files': [{
+                index: 0,
+                url: 'https://testocnfiles.blob.core.windows.net/testfiles/testzkp.zip',
+                'encoding': 'UTF-8',
+                'compression': 'zip',
+                'contentType': 'text/csv',
+                'size': '3.1gb'
+            }],
             'links': [
                 { 'sample1': 'http://data.ceda.ac.uk/badc/ukcp09/data/gridded-land-obs/gridded-land-obs-daily/' },
                 { 'sample2': 'http://data.ceda.ac.uk/badc/ukcp09/data/gridded-land-obs/gridded-land-obs-averages-25km/' },
@@ -92,18 +98,21 @@ const mockAssets = [
         'base': {
             'name': 'UK Weather information 2013',
             'description': 'Weather information of UK including temperature and humidity',
-            'size': '3.1gb',
-            'dateCreated': '2012-02-01T10:55:11+00:00',
+            'dateCreated': '2012-02-01T10:55:11Z',
             'author': 'Met Office',
             'type': 'dataset',
             'license': 'CC-BY',
             'copyrightHolder': 'Met Office',
-            'encoding': 'UTF-8',
-            'compression': 'zip',
-            'contentType': 'text/csv',
             'workExample': `stationId,latitude,longitude,datetime,temperature,humidity\n
                 423432fsd,51.509865,-0.118092,2011-01-01T10:55:11+00:00,7.2,68`,
-            'contentUrls': ['https://testocnfiles.blob.core.windows.net/testfiles/testzkp.zip'],
+            'files': [{
+                index: 0,
+                url: 'https://testocnfiles.blob.core.windows.net/testfiles/testzkp.zip',
+                'encoding': 'UTF-8',
+                'compression': 'zip',
+                'contentType': 'text/csv',
+                'size': '3.1gb'
+            }],
             'links': [
                 { 'sample1': 'http://data.ceda.ac.uk/badc/ukcp09/data/gridded-land-obs/gridded-land-obs-daily/' },
                 { 'sample2': 'http://data.ceda.ac.uk/badc/ukcp09/data/gridded-land-obs/gridded-land-obs-averages-25km/' },

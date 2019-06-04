@@ -5,8 +5,8 @@ import { change } from 'redux-form'
 export default connect(
     state => ({}),
     dispatch => ({
-        linkSetter: (newValue) => {
-            dispatch(change('newAsset', 'contentUrls', newValue))
+        fileSetter: (newValue) => {
+            dispatch(change('newAsset', 'files', newValue))
         }
     })
 )(CloudStoragePicker)
