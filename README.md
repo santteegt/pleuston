@@ -33,6 +33,8 @@ Main issues right now:
 - [Configuration](#configuration)
 - [Testing](#testing)
 - [Code style](#code-style)
+- [Releases](#releases)
+- [Changelog](#changelog)
 - [License](#license)
 
 ---
@@ -136,13 +138,6 @@ serve -s build/
 # go to http://localhost:5000
 ```
 
-### npm releases
-
-For a new **patch release**, execute on the machine where you're logged into your npm account:
-
-```bash
-./bumpversion path
-
 ## Configuration
 
 All required components to get _Pleuston_ running are pre-configured and started with the above `docker-compose` command, and the web app is configured to connect to them.
@@ -153,11 +148,11 @@ To run your application over SSL, set the scheme values in [`config/ocean.js`](.
 
 ```js
 module.exports = {
-    nodeScheme: 'http',
+    nodeScheme: 'https',
     nodeHost: 'localhost',
     nodePort: 8545,
 
-    aquariusScheme: 'http',
+    aquariusScheme: 'https',
     aquariusHost: 'localhost',
     aquariusPort: 5000,
 
@@ -166,11 +161,11 @@ module.exports = {
     brizoPort: 8030,
     brizoAddress: '0xed243adfb84a6626eba46178ccb567481c6e655d'
 
-    parityScheme: 'http',
+    parityScheme: 'https',
     parityHost: 'localhost',
     parityPort: 8545,
 
-    secretStoreScheme: 'http',
+    secretStoreScheme: 'https',
     secretStoreHost: 'localhost',
     secretStorePort: 12001
 }
@@ -196,6 +191,30 @@ There's a npm script setup which runs only linting tests:
 ```bash
 npm run lint
 ```
+
+## Releases
+
+From a clean `master` branch you can run any release task doing the following:
+
+- bumps the project version in `package.json`
+- auto-generates and updates the CHANGELOG.md file from commit messages
+- creates a Git tag
+- commits and pushes everything
+- creates a GitHub release with commit messages as description
+
+You can execute the script using {major|minor|patch} as first argument to bump the version accordingly:
+
+- To bump a patch version: `npm run release`
+- To bump a minor version: `npm run release minor`
+- To bump a major version: `npm run release major`
+
+By creating the Git tag with these tasks, Travis will trigger a new Kubernetes live deployment automatically, after a successful tag build.
+
+For the GitHub releases steps a GitHub personal access token, exported as `GITHUB_TOKEN` is required. [Setup](https://github.com/release-it/release-it#github-releases)
+
+## Changelog
+
+See the [CHANGELOG.md](./CHANGELOG.md) file. This file is auto-generated during the above mentioned release process.
 
 ## License
 

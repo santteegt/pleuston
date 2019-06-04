@@ -1,7 +1,6 @@
 {
   "name": "@oceanprotocol/pleuston",
   "version": "0.3.1",
-  "private": true,
   "license": "Apache-2.0",
   "scripts": {
     "start": "node --max_old_space_size=4096 scripts/start.js",
@@ -10,7 +9,9 @@
     "lint:css": "stylelint ./src/**/*.scss",
     "lint": "run-p --continue-on-error lint:js lint:css",
     "test": "npm run lint && node scripts/test.js --env=jsdom --coverage",
-    "coverage": "cat ./coverage/lcov.info | codacy-coverage"
+    "coverage": "cat ./coverage/lcov.info | codacy-coverage",
+    "release": "release-it --non-interactive",
+    "changelog": "auto-changelog -p"
   },
   "engines": {
     "node": ">=8 <12"
@@ -60,6 +61,7 @@
     "@babel/preset-env": "^7.4.5",
     "@babel/preset-react": "^7.0.0",
     "@svgr/webpack": "^4.3.0",
+    "auto-changelog": "^1.13.0",
     "babel-core": "^7.0.0-bridge.0",
     "babel-eslint": "^10.0.1",
     "babel-jest": "^24.8.0",
@@ -93,6 +95,7 @@
     "postcss-preset-env": "^6.6.0",
     "postcss-safe-parser": "^4.0.1",
     "react-dev-utils": "^9.0.1",
+    "release-it": "^12.2.2",
     "sass-loader": "^7.1.0",
     "style-loader": "^0.23.1",
     "stylelint": "^10.0.1",
@@ -151,5 +154,21 @@
       "node",
       "mjs"
     ]
+  },
+  "release-it": {
+    "scripts": {
+      "beforeStart": "npm test",
+      "beforeStage": "npm run changelog",
+      "afterRelease": "echo Successfully released ${name} v${version} to ${repo.repository}."
+    },
+    "git": {
+      "tagName": "v${version}"
+    },
+    "github": {
+      "release": true
+    },
+    "npm": {
+      "publish": false
+    }
   }
 }
