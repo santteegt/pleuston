@@ -70,7 +70,7 @@ export async function list(state) {
         offset: 100,
         page: state.asset.search.page,
         sort: {
-            text: 1
+            created: -1
         },
         query: {}
     }
