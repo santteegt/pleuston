@@ -9,13 +9,10 @@ import * as Web3 from 'web3'
 import Button from '../atoms/Button'
 import styles from './AssetFull.module.scss'
 
-class AssetFull extends PureComponent {
-    constructor(props) {
-        super(props)
-
-        this.state = {
-            isWritable: false
-        }
+export default class AssetFull extends PureComponent {
+    static propTypes = {
+        handlePurchase: PropTypes.func,
+        asset: PropTypes.object
     }
 
     render() {
@@ -45,6 +42,7 @@ class AssetFull extends PureComponent {
         return (
             <div className={styles.assetFull}>
                 <h1 className={styles.assetFullTitle}>{name}</h1>
+                <h2 className={styles.did}>{asset.id}</h2>
 
                 {links && links.length && (
                     <p>
@@ -60,8 +58,6 @@ class AssetFull extends PureComponent {
 
                 <AssetFullMeta label="Published" item={dateCreated} />
 
-                <AssetFullMeta label="ID" item={asset.id} truncate />
-
                 {description && <AssetFullMeta label="Description" item={description} />}
 
                 {links && links.length > 0 && <AssetFullMeta label="Links" links={links} />}
@@ -69,7 +65,7 @@ class AssetFull extends PureComponent {
                 <AssetFullMeta label="Price" item={`${Web3.utils.fromWei(price.toString())} Ọ`} />
 
                 {tags && tags.length > 0 && (
-                    <AssetFullMeta label="Tags" item={tags.map(tag => tag)} />
+                    <AssetFullMeta label="Tags" item={tags.map(tag => <span key={tag} className={styles.tag}>{tag}</span>)} />
                 )}
 
                 <AssetFullMeta label="Type" item={type} />
@@ -87,10 +83,3 @@ class AssetFull extends PureComponent {
         )
     }
 }
-
-AssetFull.propTypes = {
-    handlePurchase: PropTypes.func,
-    asset: PropTypes.object
-}
-
-export default AssetFull
