@@ -1,6 +1,5 @@
 import * as ocean from './ocean'
 import * as asset from './asset'
-import { Logger } from '@oceanprotocol/squid'
 import StorageProviders from '../lib/storage-providers'
 
 const storageProviders = new StorageProviders()
@@ -56,24 +55,6 @@ export function getNetworkName(state) {
         networkName
     } = state.account
     return networkName
-}
-
-export function makeItRain(amount) {
-    return async (dispatch, getState) => {
-        const state = getState()
-        const {
-            ocean
-        } = state.provider
-        try {
-            await ocean.keeper.market.requestTokens(
-                amount,
-                getActiveAccount(state).id
-            )
-            dispatch(getAccounts())
-        } catch (error) {
-            Logger.error(error.message)
-        }
-    }
 }
 
 export function putAsset(formValues) {
