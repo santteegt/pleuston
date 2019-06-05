@@ -48,7 +48,7 @@ _Pleuston_ is a single page React app, initially bootstrapped with [`create-reac
 
 ## Prerequisites
 
-- Node.js >=10
+- Node.js >=8 <12
 - npm
 - Ocean Protocol components
 - [MetaMask](https://metamask.io)

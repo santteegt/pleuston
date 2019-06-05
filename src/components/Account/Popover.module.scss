@@ -55,15 +55,15 @@ $popoverWidth: 18rem;
 .accountName {
     composes: popoverInfoline;
     flex-wrap: nowrap;
+}
 
-    // blockies avatar
-    canvas {
-        display: inline-block;
-        border-radius: 50%;
-        overflow: hidden;
-        flex: 0 0 20px;
-        margin-right: $spacer / 4;
-    }
+.avatar {
+    display: inline-block;
+    border-radius: 50%;
+    overflow: hidden;
+    flex: 0 0 20px;
+    margin-right: $spacer / 4;
+    border: 1px solid $brand-grey-light;
 }
 
 .address {
