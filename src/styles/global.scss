@@ -1,4 +1,5 @@
 @import 'variables';
+@import '@oceanprotocol/typographies/sass/ocean-typo.scss';
 
 *,
 *:before,
@@ -55,7 +56,7 @@ p {
 
 strong,
 .strong {
-    font-family: $font-family-button;
+    font-weight: $font-weight-bold;
     font-weight: 600;
 }
 

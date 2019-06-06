@@ -1,22 +1,20 @@
-import React, { Fragment } from 'react'
+import React from 'react'
 import PropTypes from 'prop-types'
-import Blockies from 'react-blockies'
+import { toDataUrl } from 'ethereum-blockies'
 import styles from './Popover.module.scss'
 
 const Popover = ({ networkName, activeAccount }) => {
+    const accountId = activeAccount.getId()
+    const identicon = accountId && toDataUrl(accountId)
+
     return (
         <div className={styles.popover}>
             <div key={'accountName'} className={styles.accountName}>
                 {activeAccount ? (
-                    <Fragment>
-                        <Blockies
-                            size={10}
-                            scale={2}
-                            className={styles.avatar}
-                            seed={activeAccount.getId()}
-                        />
-                        <span className={styles.address} title={activeAccount.getId()}>{activeAccount.getId()}</span>
-                    </Fragment>
+                    <>
+                        <img className={styles.avatar} src={identicon} alt="Blockies" />
+                        <span className={styles.address} title={accountId}>{accountId}</span>
+                    </>
                 ) : 'No account selected'}
             </div>
             <div key={'network'} className={styles.popoverInfoline}>

@@ -1,23 +1,18 @@
+dist: xenial
 language: node_js
 node_js:
-- "11"
+    - '11'
 
 before_install:
-# required for `canvas` npm package
-- sudo apt-get install libcairo2-dev libjpeg-dev libpango1.0-dev libgif-dev build-essential g++
-
-install:
-- npm -g install npm
-- npm install
+    - npm install -g npm
 
 script:
-- npm test
-- 'if [ "$TRAVIS_SECURE_ENV_VARS" = "true" ]; then npm run coverage; fi'
-- npm run build
+    # will run `npm ci` automatically here
+    - npm test
+    - 'if [ "$TRAVIS_SECURE_ENV_VARS" = "true" ]; then npm run coverage; fi'
+    - npm run build
 
 notifications:
     email: false
 
-cache:
-    directories:
-    - node_modules
+cache: npm
