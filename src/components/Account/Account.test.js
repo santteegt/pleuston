@@ -32,7 +32,6 @@ it('Account renders without crashing', () => {
                 }
             }}
             networkName={'Kovan'}
-            initMakeItRain={() => null}
         />,
         div
     )

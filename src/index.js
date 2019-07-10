@@ -90,8 +90,8 @@ ReactDOM.render(
                     try {
                         await window.ethereum.enable()
                         accounts = await web3.eth.getAccounts()
-                    } catch (e) {
-                        Logger.log('ethereum.enable() error:', e)
+                    } catch (error) {
+                        Logger.log('ethereum.enable() error:', error.message)
                         reject()
                     }
                 }

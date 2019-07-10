@@ -7,7 +7,7 @@ it('CloudStoragePicker renders without crashing', () => {
     const div = document.createElement('div')
     ReactDOM.render(
         <CloudStoragePicker
-            linkSetter={() => null}
+            fileSetter={() => null}
             handleCloseModal={() => null}
             storageProvider={{ loadFiles: () => { return [] } }}
             blobs={[]}

@@ -8,7 +8,7 @@ import styles from './Picker.module.scss'
 export default class CloudStoragePicker extends PureComponent {
     _isMounted = false
     static propTypes = {
-        linkSetter: PropTypes.func.isRequired,
+        fileSetter: PropTypes.func.isRequired,
         handleCloseModal: PropTypes.func.isRequired,
         storageProvider: PropTypes.any.isRequired
     }
@@ -50,7 +50,7 @@ export default class CloudStoragePicker extends PureComponent {
         }
         const firstBlob = selectionWithData[0] // only first one from selected
         const link = await this.props.storageProvider.getSharableLink(firstBlob)
-        this.props.linkSetter(link)
+        this.props.fileSetter(link)
         this.props.handleCloseModal()
     }
 

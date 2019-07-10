@@ -13,7 +13,7 @@
     a {
         display: inline-block;
         padding: $spacer / 4 $spacer;
-        font-family: $font-family-button;
+        font-weight: $font-weight-bold;
         color: $brand-grey;
 
         &:hover,

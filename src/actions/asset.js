@@ -1,9 +1,10 @@
 import AssetModel from '../models/asset'
 import { Logger } from '@oceanprotocol/squid'
-// import quertString from 'query-string'
+import * as Web3 from 'web3'
 
 export async function publish(formValues, account, providers) {
     const { ocean } = providers
+
     // Get user entered form values
     const {
         name,
@@ -18,14 +19,17 @@ export async function publish(formValues, account, providers) {
         type,
         updateFrequency
     } = formValues
-    // Now register in oceandb and publish the metadata
+
+    // Now register and publish the metadata
     const newAsset = {
         // OEP-08 Attributes
         // https://github.com/oceanprotocol/OEPs/tree/master/8
         base: Object.assign(AssetModel.base, {
             name,
             description,
-            dateCreated: (new Date()).toString(),
+            dateCreated: new Date()
+                .toISOString()
+                .split('.')[0] + 'Z', // remove milliseconds
             author,
             license,
             copyrightHolder,
@@ -34,36 +38,26 @@ export async function publish(formValues, account, providers) {
                 url: files
             }],
             links: links,
-            tags: tags,
-            price: parseFloat(price),
+            tags: tags && tags.split(','),
+            price: Web3.utils.toWei(price, 'ether'), // convert to vodka 10^18
             type
-        }),
-        curation: Object.assign(AssetModel.curation, {
-            rating: 0,
-            numVotes: 0,
-            schema: 'Binary Voting'
         }),
         additionalInformation: Object.assign(AssetModel.additionalInformation, {
             updateFrequency
         })
     }
     try {
-        const asset = await ocean.assets.create(
-            newAsset,
-            account
-        )
+        const asset = await ocean.assets.create(newAsset, account)
         Logger.debug('asset: ', asset)
         return asset
-    } catch (e) {
-        // make readable errors
-        Logger.log('error:', e)
+    } catch (error) {
+        Logger.error('error:', error.message)
     }
 }
 
 export async function list(state) {
-    const {
-        ocean
-    } = state.provider
+    const { ocean } = state.provider
+
     let searchForm
     if (state.form && state.form.assetSearch && state.form.assetSearch.values) {
         searchForm = state.form.assetSearch.values
@@ -73,10 +67,10 @@ export async function list(state) {
         }
     }
     let queryRequest = {
-        offset: 500,
+        offset: 100,
         page: state.asset.search.page,
         sort: {
-            text: 1
+            created: -1
         },
         query: {}
     }
@@ -115,6 +109,7 @@ export async function list(state) {
 
 export async function purchase(inputDdo, consumer, providers) {
     const { ocean } = providers
+
     try {
         const accessService = inputDdo.findServiceByType('Access')
         const agreementId = await ocean.assets.order(
@@ -125,7 +120,7 @@ export async function purchase(inputDdo, consumer, providers) {
         const folder = ''
         const path = await ocean.assets.consume(agreementId, inputDdo.id, accessService.serviceDefinitionId, consumer, folder)
         Logger.log('path', path)
-    } catch (e) {
-        Logger.log('error', e)
+    } catch (error) {
+        Logger.error('error', error.message)
     }
 }

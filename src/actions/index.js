@@ -1,6 +1,5 @@
 import * as ocean from './ocean'
 import * as asset from './asset'
-import { Logger } from '@oceanprotocol/squid'
 import StorageProviders from '../lib/storage-providers'
 
 const storageProviders = new StorageProviders()
@@ -56,24 +55,6 @@ export function getNetworkName(state) {
         networkName
     } = state.account
     return networkName
-}
-
-export function makeItRain(amount) {
-    return async (dispatch, getState) => {
-        const state = getState()
-        const {
-            ocean
-        } = state.provider
-        try {
-            await ocean.keeper.market.requestTokens(
-                amount,
-                getActiveAccount(state).id
-            )
-            dispatch(getAccounts())
-        } catch (e) {
-            Logger.error(e)
-        }
-    }
 }
 
 export function putAsset(formValues) {
@@ -153,73 +134,6 @@ export function purchaseAsset(assetId) {
             getActiveAccount(state),
             state.provider
         )
-    }
-}
-
-export function getActiveOrder(state) {
-    const {
-        activeOrder,
-        orders
-    } = state.order
-
-    if (activeOrder) {
-        return orders[activeOrder]
-    }
-
-    return {}
-}
-
-export function setActiveOrder(orderId) {
-    return (dispatch) => {
-        dispatch({
-            type: 'SET_ACTIVE_ORDER',
-            activeOrder: orderId
-        })
-    }
-}
-
-export function getOrders() {
-    return async (dispatch, getState) => {
-        const state = getState()
-        const account = getActiveAccount(state)
-        if (!account) {
-            Logger.error('Active account is not set!')
-            return []
-        }
-        const {
-            ocean
-        } = state.provider
-        // Logger.log('ORDERS: ', await ocean.getOrdersByAccount(account))
-        // let orders = await ocean.order.getOrdersByConsumer(account.name)
-        let orders = await ocean.getOrdersByAccount(account)
-        // Logger.log('ORDERS: ', orders, Object.values(state.asset.assets))
-        let assets = null
-        // do we have assets in the state?ß
-        if (Object.values(state.asset.assets).length !== 0) {
-            // yep, map them to assets
-            assets = Object.values(state.asset.assets).reduce((map, obj) => {
-                map[obj.assetId] = obj
-                return map
-            })
-        }
-        // do we have mapped assets?
-        if (assets !== null && Object.values(assets).length !== 0) {
-            // yep, so map the names of the assets to the order
-            for (let order of orders) {
-                if (order._resourceId && assets[order._resourceId] && assets[order._resourceId].base) {
-                    order.assetName = assets[order._resourceId].base.name
-                }
-            }
-        }
-        // map orders by order id
-        orders = await orders.reduce((map, obj) => {
-            map[obj._id] = obj
-            return map
-        }, {})
-        dispatch({
-            type: 'SET_ORDERS',
-            orders
-        })
     }
 }
 

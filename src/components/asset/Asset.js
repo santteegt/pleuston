@@ -1,6 +1,7 @@
 import React, { PureComponent } from 'react'
 import PropTypes from 'prop-types'
 import Truncate from 'react-truncate'
+import * as Web3 from 'web3'
 
 import AssetMedia from './AssetMedia'
 import './Asset.scss'
@@ -26,7 +27,7 @@ class Asset extends PureComponent {
                 </div>
 
                 <div className="asset__meta">
-                    <div className="asset__price">{metadata.metadata.base.price} Ọ</div>
+                    <div className="asset__price">{Web3.utils.fromWei(metadata.metadata.base.price.toString())} Ọ</div>
                     <div className="asset__date">
                         {new Date(metadata.metadata.base.dateCreated).toLocaleDateString('en-US')}
                     </div>

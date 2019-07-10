@@ -1,6 +1,4 @@
-import {
-    Ocean
-} from '@oceanprotocol/squid'
+import { Ocean } from '@oceanprotocol/squid'
 
 import {
     nodeScheme,
