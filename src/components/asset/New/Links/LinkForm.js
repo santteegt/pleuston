@@ -19,7 +19,7 @@ export default class LinkForm extends PureComponent {
         noUrl: null
     }
 
-    handleSubmit = (e) => {
+    handleSubmit = e => {
         e.preventDefault()
 
         const { name, type, url } = this.state
@@ -39,17 +39,17 @@ export default class LinkForm extends PureComponent {
         this.props.addLink(name, type, url)
     }
 
-    onChangeName = (e) => {
+    onChangeName = e => {
         this.setState({ name: e.target.value })
         this.clearErrors()
     }
 
-    onChangeType = (e) => {
+    onChangeType = e => {
         this.setState({ type: e.target.value })
         this.clearErrors()
     }
 
-    onChangeUrl = (e) => {
+    onChangeUrl = e => {
         this.setState({ url: e.target.value })
         this.clearErrors()
     }
@@ -102,10 +102,18 @@ export default class LinkForm extends PureComponent {
                     />
                 </FormInputGroup>
 
-                <Button onClick={(e) => this.handleSubmit(e)}>Add Link</Button>
+                <Button onClick={e => this.handleSubmit(e)}>Add Link</Button>
 
-                {hasError && <span className={styles.error}>Please fill in all required fields.</span>}
-                {noUrl && <span className={styles.error}>Please enter a valid URL.</span>}
+                {hasError && (
+                    <span className={styles.error}>
+                        Please fill in all required fields.
+                    </span>
+                )}
+                {noUrl && (
+                    <span className={styles.error}>
+                        Please enter a valid URL.
+                    </span>
+                )}
             </fieldset>
         )
     }

@@ -5,10 +5,7 @@ import CloudStorage from '.'
 it('CloudStorage renders without crashing', () => {
     const div = document.createElement('div')
     ReactDOM.render(
-        <CloudStorage
-            reloadOauthAccounts={() => null}
-            oauthAccounts={{}}
-        />,
+        <CloudStorage reloadOauthAccounts={() => null} oauthAccounts={{}} />,
         div
     )
     ReactDOM.unmountComponentAtNode(div)

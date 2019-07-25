@@ -34,14 +34,14 @@ const store = createStore(
     )
 )
 
-serviceWorker.register()
+serviceWorker.unregister()
 
 it('index renders without crashing', () => {
     const div = document.createElement('div')
     ReactDOM.render(
         <Provider store={store}>
             <Web3Provider
-                error={(err) => {
+                error={err => {
                     Logger.log('Web3 error:', err)
                     return <Web3Unavailable />
                 }}

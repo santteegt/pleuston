@@ -1,10 +1,6 @@
 import React from 'react'
 import ReactDOM from 'react-dom'
-import {
-    nodeScheme,
-    nodeHost,
-    nodePort
-} from '../config/ocean'
+import { nodeUri } from './config/ocean'
 
 import thunk from 'redux-thunk'
 
@@ -44,12 +40,7 @@ const history = createBrowserHistory()
 
 const store = createStore(
     appReducer(history),
-    composeWithDevTools(
-        applyMiddleware(
-            routerMiddleware(history),
-            thunk
-        )
-    )
+    composeWithDevTools(applyMiddleware(routerMiddleware(history), thunk))
 )
 
 const bootstrap = () => {
@@ -74,12 +65,15 @@ const detectAccountChange = async () => {
     }, 1000)
 }
 
-serviceWorker.register()
+serviceWorker.unregister()
+
 ReactDOM.render(
     <Provider store={store}>
         <Web3Provider
-            defaultProvider={(callback) => {
-                const fallbackWeb3 = new Web3(new Web3.providers.HttpProvider(`${nodeScheme}://${nodeHost}:${nodePort}`))
+            defaultProvider={callback => {
+                const fallbackWeb3 = new Web3(
+                    new Web3.providers.HttpProvider(nodeUri)
+                )
                 window.web3 = fallbackWeb3
                 bootstrap()
                 callback(fallbackWeb3)
@@ -104,7 +98,7 @@ ReactDOM.render(
                     reject()
                 }
             }}
-            error={(err) => {
+            error={err => {
                 Logger.log('Web3 error:', err)
                 return <Web3Unavailable />
             }}

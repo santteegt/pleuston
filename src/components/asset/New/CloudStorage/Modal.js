@@ -11,12 +11,10 @@ const CloudStorageModal = ({ ...props }) => (
         title="Pick a data set"
     >
         <div className={styles.content}>
-
             <CloudStoragePickerLoader
                 handleCloseModal={props.handleCloseModal}
                 storageProvider={props.storageProvider}
             />
-
         </div>
     </Modal>
 )

@@ -6,12 +6,13 @@ import account from './account'
 import asset from './asset'
 import provider from './provider'
 
-const appReducer = history => combineReducers({
-    router: connectRouter(history),
-    form: formReducer,
-    account,
-    asset,
-    provider
-})
+const appReducer = history =>
+    combineReducers({
+        router: connectRouter(history),
+        form: formReducer,
+        account,
+        asset,
+        provider
+    })
 
 export default appReducer

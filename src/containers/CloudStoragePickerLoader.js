@@ -5,7 +5,7 @@ import { change } from 'redux-form'
 export default connect(
     state => ({}),
     dispatch => ({
-        fileSetter: (newValue) => {
+        fileSetter: newValue => {
             dispatch(change('newAsset', 'files', newValue))
         }
     })

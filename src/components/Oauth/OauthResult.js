@@ -36,8 +36,14 @@ export default class OauthResult extends Component {
         return (
             <div className={styles.screen}>
                 <div>
-                    <Empty title="Success" text="Click the Azure button again to see your blobs." />
-                    <Button link="true" onClick={() => window.close()}>{`Closing window in ${this.state.count}s ...`}</Button>
+                    <Empty
+                        title="Success"
+                        text="Click the Azure button again to see your blobs."
+                    />
+                    <Button
+                        link="true"
+                        onClick={() => window.close()}
+                    >{`Closing window in ${this.state.count}s ...`}</Button>
                 </div>
             </div>
         )

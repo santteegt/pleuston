@@ -12,10 +12,18 @@ const Popover = ({ networkName, activeAccount }) => {
             <div key={'accountName'} className={styles.accountName}>
                 {activeAccount ? (
                     <>
-                        <img className={styles.avatar} src={identicon} alt="Blockies" />
-                        <span className={styles.address} title={accountId}>{accountId}</span>
+                        <img
+                            className={styles.avatar}
+                            src={identicon}
+                            alt="Blockies"
+                        />
+                        <span className={styles.address} title={accountId}>
+                            {accountId}
+                        </span>
                     </>
-                ) : 'No account selected'}
+                ) : (
+                    'No account selected'
+                )}
             </div>
             <div key={'network'} className={styles.popoverInfoline}>
                 Network: &nbsp;<strong>{networkName}</strong>

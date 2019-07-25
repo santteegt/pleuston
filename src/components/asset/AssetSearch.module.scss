@@ -1,10 +1,11 @@
-@import 'variables';
+@import '../../styles/variables';
 
 .searchForm {
     width: 100%;
     margin-bottom: $spacer;
 
-    > div > div > label { // stylelint-disable-line selector-max-compound-selectors
+    > div > div > label {
+        // stylelint-disable-line selector-max-compound-selectors
         // hide visually, but expose to screen readers
         position: absolute;
         overflow: hidden;

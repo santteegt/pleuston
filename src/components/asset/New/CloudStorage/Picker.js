@@ -35,7 +35,9 @@ export default class CloudStoragePicker extends PureComponent {
 
     handleSelection(blobId) {
         if (this.state.selection.includes(blobId)) {
-            this.setState({ selection: this.state.selection.filter(bId => bId !== blobId) })
+            this.setState({
+                selection: this.state.selection.filter(bId => bId !== blobId)
+            })
         } else {
             this.setState(prevState => ({
                 selection: [...prevState.selection, blobId]
@@ -58,33 +60,43 @@ export default class CloudStoragePicker extends PureComponent {
         return (
             <>
                 <div className={styles.files}>
-                    {
-                        this.state.blobs === undefined || this.state.blobs.length === 0 ? (
-                            <div className={styles.empty}>
-                                {this.state.loading ? <Spinner />
-                                    : this.state.error
-                                        ? <span className={styles.error}>{this.state.error}</span>
-                                        : <span>No files found</span>
-                                }
-                            </div>
-                        ) : (
-                            this.state.blobs.map((blob, index) => (
-                                <span
-                                    key={index}
-                                    onClick={() => this.handleSelection(index)}
-                                    className={this.state.selection.includes(index) ? styles.selected : styles.file}
-                                >
-                                    {this.props.storageProvider.getPresentableFile(blob)}
+                    {this.state.blobs === undefined ||
+                    this.state.blobs.length === 0 ? (
+                        <div className={styles.empty}>
+                            {this.state.loading ? (
+                                <Spinner />
+                            ) : this.state.error ? (
+                                <span className={styles.error}>
+                                    {this.state.error}
                                 </span>
-                            ))
-                        )
-                    }
+                            ) : (
+                                <span>No files found</span>
+                            )}
+                        </div>
+                    ) : (
+                        this.state.blobs.map((blob, index) => (
+                            <span
+                                key={index}
+                                onClick={() => this.handleSelection(index)}
+                                className={
+                                    this.state.selection.includes(index)
+                                        ? styles.selected
+                                        : styles.file
+                                }
+                            >
+                                {this.props.storageProvider.getPresentableFile(
+                                    blob
+                                )}
+                            </span>
+                        ))
+                    )}
                 </div>
                 <div className={styles.listSubmit}>
                     <Button
                         primary="true"
                         type="submit"
-                        onClick={() => this.submitSelection()}>
+                        onClick={() => this.submitSelection()}
+                    >
                         Submit
                     </Button>
                 </div>

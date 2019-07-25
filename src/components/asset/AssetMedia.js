@@ -13,7 +13,12 @@ class AssetMedia extends Component {
     }
     componentDidMount() {
         for (const link of this.props.links) {
-            if (link.url && link.type && link.type === 'discovery' && link.url.match(/\.(jpeg|jpg|gif|png)$/)) {
+            if (
+                link.url &&
+                link.type &&
+                link.type === 'discovery' &&
+                link.url.match(/\.(jpeg|jpg|gif|png)$/)
+            ) {
                 this.setState({ imageUrl: link.url })
                 break
             }
@@ -22,8 +27,13 @@ class AssetMedia extends Component {
     render() {
         return (
             <>
-                {this.state.imageUrl !== '' &&
-                <img alt={this.props.title} className="asset__img" src={this.state.imageUrl} />}
+                {this.state.imageUrl !== '' && (
+                    <img
+                        alt={this.props.title}
+                        className="asset__img"
+                        src={this.state.imageUrl}
+                    />
+                )}
             </>
         )
     }

@@ -20,19 +20,37 @@ const AssetFilters = () => (
             <option value="other">Other</option>
         </FormInput>
 
-        <FormInput small dimmed label="License" name="license" component="select">
+        <FormInput
+            small
+            dimmed
+            label="License"
+            name="license"
+            component="select"
+        >
             <option />
             <option value="none">No License Specified</option>
             <option value="Public Domain">Public Domain</option>
             <option value="CC BY">CC BY: Attribution</option>
             <option value="CC BY-SA">CC BY-SA: Attribution ShareAlike</option>
             <option value="CC BY-ND">CC BY-ND: Attribution-NoDerivs</option>
-            <option value="CC BY-NC">CC BY-NC: Attribution-NonCommercial</option>
-            <option value="CC BY-NC-SA">CC BY-NC-SA: Attribution-NonCommercial-ShareAlike</option>
-            <option value="CC BY-NC-ND">CC BY-NC-ND: Attribution-NonCommercial-NoDerivs</option>
+            <option value="CC BY-NC">
+                CC BY-NC: Attribution-NonCommercial
+            </option>
+            <option value="CC BY-NC-SA">
+                CC BY-NC-SA: Attribution-NonCommercial-ShareAlike
+            </option>
+            <option value="CC BY-NC-ND">
+                CC BY-NC-ND: Attribution-NonCommercial-NoDerivs
+            </option>
         </FormInput>
 
-        <FormInput small dimmed label="Update Frequency" name="updateFrequency" component="select">
+        <FormInput
+            small
+            dimmed
+            label="Update Frequency"
+            name="updateFrequency"
+            component="select"
+        >
             <option />
             <option value="seldom">Seldom</option>
             <option value="annually">Annually</option>
@@ -40,11 +58,31 @@ const AssetFilters = () => (
             <option value="never">Never expected to get updated</option>
         </FormInput>
 
-        <FormInput small dimmed label="Price from" name="priceFrom" component="input" type="number" />
+        <FormInput
+            small
+            dimmed
+            label="Price from"
+            name="priceFrom"
+            component="input"
+            type="number"
+        />
 
-        <FormInput small dimmed label="Price to" name="priceTo" component="input" type="number" />
+        <FormInput
+            small
+            dimmed
+            label="Price to"
+            name="priceTo"
+            component="input"
+            type="number"
+        />
 
-        <FormInput small dimmed label="Time added" name="addedIn" component="select">
+        <FormInput
+            small
+            dimmed
+            label="Time added"
+            name="addedIn"
+            component="select"
+        >
             <option />
             <option value="today">Today</option>
             <option value="thisMonth">This month</option>
@@ -74,14 +112,31 @@ class AssetSearch extends PureComponent {
     }
 
     render() {
-        const { page, handleSubmit, assets, handleClick, handleSetPage, totalPages } = this.props
+        const {
+            page,
+            handleSubmit,
+            assets,
+            handleClick,
+            handleSetPage,
+            totalPages
+        } = this.props
         const { isFiltersShown } = this.state
 
         return (
             <>
                 <form onSubmit={handleSubmit} className={styles.searchForm}>
                     <FormInputGroup>
-                        <FormInput dimmed label="Search" name="text" component="input" type="search" placeholder="Search for keyword in the name or description." additionalComponent={<Button type="submit">Search</Button>} />
+                        <FormInput
+                            dimmed
+                            label="Search"
+                            name="text"
+                            component="input"
+                            type="search"
+                            placeholder="Search for keyword in the name or description."
+                            additionalComponent={
+                                <Button type="submit">Search</Button>
+                            }
+                        />
                     </FormInputGroup>
 
                     <aside className={styles.searchActions}>
@@ -107,9 +162,21 @@ class AssetSearch extends PureComponent {
                 against total number of pages */}
                 {page > 1 && (
                     <div className={styles.pagination}>
-                        <a href="#" className={styles.item} onClick={() => handleSetPage(page - 1)}>&lt; Prev page</a>
-                        <span className={styles.item}>{ page }</span>
-                        {page <= totalPages && (<a href="#" className={styles.item} onClick={() => handleSetPage(page + 1)}>Next page &gt;</a>)}
+                        <button
+                            className={styles.item}
+                            onClick={() => handleSetPage(page - 1)}
+                        >
+                            &lt; Prev page
+                        </button>
+                        <span className={styles.item}>{page}</span>
+                        {page <= totalPages && (
+                            <button
+                                className={styles.item}
+                                onClick={() => handleSetPage(page + 1)}
+                            >
+                                Next page &gt;
+                            </button>
+                        )}
                     </div>
                 )}
             </>

@@ -14,7 +14,7 @@ export default connect(
             dispatch(reset('newAsset'))
             dispatch(push('/'))
         },
-        fileSetter: (newValue) => {
+        fileSetter: newValue => {
             dispatch(change('newAsset', 'files', newValue))
         },
         resetLinksForm: () => {

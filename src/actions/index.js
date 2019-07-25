@@ -5,7 +5,7 @@ import StorageProviders from '../lib/storage-providers'
 const storageProviders = new StorageProviders()
 
 export function setProviders() {
-    return async (dispatch) => {
+    return async dispatch => {
         dispatch({
             type: 'SET_PROVIDERS',
             ...(await ocean.provideOcean())
@@ -16,9 +16,7 @@ export function setProviders() {
 export function getAccounts() {
     return async (dispatch, getState) => {
         const state = getState()
-        const {
-            ocean
-        } = state.provider
+        const { ocean } = state.provider
         dispatch({
             type: 'SET_ACCOUNTS',
             accounts: await ocean.accounts.list()
@@ -27,10 +25,7 @@ export function getAccounts() {
 }
 
 export function getActiveAccount(state) {
-    let {
-        activeAccount,
-        accounts
-    } = state.account
+    let { activeAccount, accounts } = state.account
     if (accounts.length === 0) {
         return null
     }
@@ -40,9 +35,7 @@ export function getActiveAccount(state) {
 export function setNetworkName() {
     return async (dispatch, getState) => {
         const state = getState()
-        const {
-            ocean
-        } = state.provider
+        const { ocean } = state.provider
         dispatch({
             type: 'SET_NETWORKNAME',
             networkName: await ocean.keeper.getNetworkName()
@@ -51,9 +44,7 @@ export function setNetworkName() {
 }
 
 export function getNetworkName(state) {
-    let {
-        networkName
-    } = state.account
+    let { networkName } = state.account
     return networkName
 }
 
@@ -62,11 +53,7 @@ export function putAsset(formValues) {
         const state = getState()
         const account = getActiveAccount(state)
 
-        await asset.publish(
-            formValues,
-            account,
-            state.provider
-        )
+        await asset.publish(formValues, account, state.provider)
 
         dispatch(getAssets())
     }
@@ -89,7 +76,7 @@ export function getAssets() {
 }
 
 export function setAssetSearchPage(page) {
-    return (dispatch) => {
+    return dispatch => {
         dispatch({
             type: 'SET_ASSET_SEARCH_PAGE',
             page: page
@@ -98,7 +85,7 @@ export function setAssetSearchPage(page) {
 }
 
 export function setActiveAsset(assetId) {
-    return (dispatch) => {
+    return dispatch => {
         dispatch({
             type: 'SET_ACTIVE_ASSET',
             activeAsset: assetId
@@ -107,15 +94,10 @@ export function setActiveAsset(assetId) {
 }
 
 export function getActiveAsset(state) {
-    const {
-        activeAsset,
-        assets
-    } = state.asset
+    const { activeAsset, assets } = state.asset
     if (!activeAsset && state.router.location.pathname) {
         const rgxAssetId = /\/(.*?)/g
-        const {
-            pathname
-        } = state.router.location
+        const { pathname } = state.router.location
         if (rgxAssetId.exec(pathname)) {
             const assetIdFromUrl = pathname.replace(/^.*[\\\/]/, '') // eslint-disable-line
             if (assetIdFromUrl) {
@@ -129,11 +111,7 @@ export function getActiveAsset(state) {
 export function purchaseAsset(assetId) {
     return async (dispatch, getState) => {
         const state = getState()
-        await asset.purchase(
-            assetId,
-            getActiveAccount(state),
-            state.provider
-        )
+        await asset.purchase(assetId, getActiveAccount(state), state.provider)
     }
 }
 

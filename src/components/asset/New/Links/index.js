@@ -16,7 +16,7 @@ export default class Links extends PureComponent {
         isFormShown: false
     }
 
-    toggleForm = (e) => {
+    toggleForm = e => {
         e.preventDefault()
 
         this.setState({ isFormShown: !this.state.isFormShown })
@@ -28,7 +28,7 @@ export default class Links extends PureComponent {
         this.setState({ isFormShown: !this.state.isFormShown })
     }
 
-    removeLink = (index) => {
+    removeLink = index => {
         this.props.fields.remove(index)
     }
 
@@ -44,7 +44,10 @@ export default class Links extends PureComponent {
                                 timeout={400}
                                 classNames="fade"
                             >
-                                <Link link={this.props.fields.get(index)} removeLink={() => this.removeLink(index)} />
+                                <Link
+                                    link={this.props.fields.get(index)}
+                                    removeLink={() => this.removeLink(index)}
+                                />
                             </CSSTransition>
                         ))}
                     </TransitionGroup>
@@ -63,7 +66,6 @@ export default class Links extends PureComponent {
                 >
                     <LinkForm addLink={this.addLink} />
                 </CSSTransition>
-
             </div>
         )
     }

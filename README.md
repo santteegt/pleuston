@@ -1,12 +1,12 @@
 [![banner](https://raw.githubusercontent.com/oceanprotocol/art/master/github/repo-banner%402x.png)](https://oceanprotocol.com)
 
-# Pleuston
-
-![banner](https://user-images.githubusercontent.com/90316/43195950-cc01fd90-9006-11e8-8d5e-cb802c6502b3.gif "Big Banner")
+<h1 align="center">Pleuston</h1>
 
 > 🦄 Web app for consumers to explore, download, and publish data assets.
 
 [![Docker Build Status](https://img.shields.io/docker/build/oceanprotocol/pleuston.svg)](https://hub.docker.com/r/oceanprotocol/pleuston/) [![Build Status](https://api.travis-ci.com/oceanprotocol/pleuston.svg?branch=master)](https://travis-ci.com/oceanprotocol/pleuston) [![Codacy Badge](https://api.codacy.com/project/badge/Grade/d4ebd79e33054bf98d8e55b0dde5452b)](https://app.codacy.com/app/ocean-protocol/pleuston?utm_source=github.com&utm_medium=referral&utm_content=oceanprotocol/pleuston&utm_campaign=badger) [![js oceanprotocol](https://img.shields.io/badge/js-oceanprotocol-7b1173.svg)](https://github.com/oceanprotocol/eslint-config-oceanprotocol) [![css bigchaindb](https://img.shields.io/badge/css-bigchaindb-39BA91.svg)](https://github.com/bigchaindb/stylelint-config-bigchaindb)
+
+![banner](https://user-images.githubusercontent.com/90316/43195950-cc01fd90-9006-11e8-8d5e-cb802c6502b3.gif "Big Banner")
 
 > _Pleuston [`ˈplustən`]: organisms that live in the thin surface layer existing at the air-water interface of a body of water as their habitat_
 
@@ -38,30 +38,30 @@
 
 ## Features
 
-This repository houses _Pleuston_, a reference web app for consumers to explore, download, and publish data assets within the Ocean Protocol network.
+This repository houses _Pleuston_, a reference web app for consumers to explore, download, and publish data assets within the Ocean Protocol network. It is shipped as the main interface to interact with Ocean components when running [🐳 barge](https://github.com/oceanprotocol/barge).
 
 - Connect to all required Ocean Protocol components: _Keeper_, _Aquarius_, _Brizo_, _Secret Store_
 - Register and publish data assets
 - Explore, buy, and download data assets
 
-_Pleuston_ is a single page React app, initially bootstrapped with [`create-react-app`](https://github.com/facebook/create-react-app), but ejected from it.
+_Pleuston_ is a single page React app, bootstrapped with [`create-react-app`](https://github.com/facebook/create-react-app).
 
 ## Prerequisites
 
 - Node.js >=8 <12
 - npm
-- Ocean Protocol components
+- Ocean Protocol components (with Docker)
 - [MetaMask](https://metamask.io)
 
 To start development with _Pleuston_ you first have to get all the other Ocean Protocol components up and running.
 
-The simplest way is to use our main script utilizing `docker-compose` from the [🐳 barge](https://github.com/oceanprotocol/barge) repository, and pass the option to skip the _Pleuston_ image in there:
+The simplest way is to use our main script from the [🐳 barge](https://github.com/oceanprotocol/barge) repository to spin up a local Spree test network, and pass the option to skip the _Pleuston_ image in there:
 
 ```bash
 git clone git@github.com:oceanprotocol/barge.git
 cd barge/
 
-./start_ocean.sh --no-pleuston --latest
+./start_ocean.sh --no-pleuston
 ```
 
 This will start up all required components [as documented in _Barge_](https://github.com/oceanprotocol/barge#docker-building-blocks).
@@ -75,6 +75,12 @@ git clone git@github.com:oceanprotocol/pleuston.git
 cd pleuston/
 
 npm i
+
+# exporting this variable before running `npm start`,
+# will copy generated contract artifacts from Docker container
+# required for local Spree test network
+export LOCAL_CONTRACTS=true
+
 npm start
 ```
 
@@ -92,7 +98,6 @@ You can now view @oceanprotocol/pleuston in the browser.
 
 Be sure to login into your MetaMask account and either select:
 
-- the `Kovan` test network, or
 - the [`Nile`](https://docs.oceanprotocol.com/concepts/testnets/#the-nile-testnet) test network (RPC `https://nile.dev-ocean.com`), or
 - `Localhost 8545`
 
@@ -102,9 +107,9 @@ The latter will connect you to the RPC client running inside Docker, which by de
 
 All required components to get _Pleuston_ running are pre-configured and started with _Barge_, and the web app is configured to connect to them locally by default.
 
-If you want to change and run _Pleuston_ against Nile remote components, or your own deployed components, head over to the [`config/ocean.js`](./config/ocean.js) file and modify the respective values.
+If you want to change and run _Pleuston_ against Nile remote components, or your own deployed components, head over to the [`src/config/ocean.js`](./src/config/ocean.js) file and modify the respective values.
 
-- [`config/ocean.js`](./config/ocean.js)
+- [`src/config/ocean.js`](./src/config/ocean.js)
 
 ### Storage Providers
 
@@ -114,7 +119,7 @@ When registering assets, files can be retrieved from various cloud storage provi
 
 Configuration for all storage provider options can be found in:
 
-- [`config/cloudStorage.js`](config/cloudStorage.js)
+- [`src/config/cloudStorage.js`](src/config/cloudStorage.js)
 
 #### AWS
 
@@ -124,23 +129,15 @@ App includes a connection to Amazon Web Services, so you can retrieve and regist
 
 App includes an OAuth connection to your Azure account. Once authorized, assets can be chosen from a file list within _Pleuston_.
 
-_Note: Currently, Azure Storage only allows listing containers with OAuth credentials. Listing blobs in containers and operations on blobs can't be done with OAuth credentials until [that feature is out of preview](https://docs.microsoft.com/en-gb/azure/storage/common/storage-auth-aad). Until then, manually added credentials are required in [`config/cloudStorage.js`](config/cloudStorage.js)_
+_Note: Currently, Azure Storage only allows listing containers with OAuth credentials. Listing blobs in containers and operations on blobs can't be done with OAuth credentials until [that feature is out of preview](https://docs.microsoft.com/en-gb/azure/storage/common/storage-auth-aad). Until then, manually added credentials are required in [`src/config/cloudStorage.js`](src/config/cloudStorage.js)_
 
 ### SSL
 
-To run your application over SSL, set the scheme values in [`config/ocean.js`](./config/ocean.js) to `https`, e.g.:
+To run your application over SSL, set the scheme values in [`src/config/ocean.js`](./src/config/ocean.js) to `https`, e.g.:
 
 ```js
 module.exports = {
-    nodeScheme: 'https',
-    ...
-    aquariusScheme: 'https',
-    ...
-    brizoScheme: 'https',
-    ...
-    parityScheme: 'https',
-    ...
-    secretStoreScheme: 'https',
+    nodeUri: 'https://my-node-uri.com',
     ...
 }
 ```

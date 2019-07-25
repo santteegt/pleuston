@@ -1,137 +1,180 @@
 const mockAssets = [
     {
-        'assetId': '0x1298371984723941',
-        'publisherId': '0x0234242345',
-        'base': {
-            'name': 'UK Weather information 2011',
-            'description': 'Weather information of UK including temperature and humidity',
-            'dateCreated': '2012-02-01T10:55:11Z',
-            'author': 'Met Office',
-            'type': 'dataset',
-            'license': 'CC-BY',
-            'copyrightHolder': 'Met Office',
-            'workExample': `stationId,latitude,longitude,datetime,temperature,humidity\n
+        assetId: '0x1298371984723941',
+        publisherId: '0x0234242345',
+        base: {
+            name: 'UK Weather information 2011',
+            description:
+                'Weather information of UK including temperature and humidity',
+            dateCreated: '2012-02-01T10:55:11Z',
+            author: 'Met Office',
+            type: 'dataset',
+            license: 'CC-BY',
+            copyrightHolder: 'Met Office',
+            workExample: `stationId,latitude,longitude,datetime,temperature,humidity\n
                 423432fsd,51.509865,-0.118092,2011-01-01T10:55:11+00:00,7.2,68`,
-            'files': [{
-                index: 0,
-                url: 'https://testocnfiles.blob.core.windows.net/testfiles/testzkp.zip',
-                'encoding': 'UTF-8',
-                'compression': 'zip',
-                'contentType': 'text/csv',
-                'size': '3.1gb'
-            }],
-            'links': [
+            files: [
                 {
-                    'name': 'Sample of Asset Data',
-                    'type': 'sample',
-                    'url': 'https://foo.com/sample.csv'
-                },
-                {
-                    'name': 'Data Format Definition',
-                    'type': 'format',
-                    'AssetID': '4d517500da0acb0d65a716f61330969334630363ce4a6a9d39691026ac7908ea'
+                    index: 0,
+                    url:
+                        'https://testocnfiles.blob.core.windows.net/testfiles/testzkp.zip',
+                    encoding: 'UTF-8',
+                    compression: 'zip',
+                    contentType: 'text/csv',
+                    size: '3.1gb'
                 }
             ],
-            'inLanguage': 'en',
-            'tags': ['weather', 'uk', '2011', 'temperature', 'humidity'],
-            'price': '100000000'
+            links: [
+                {
+                    name: 'Sample of Asset Data',
+                    type: 'sample',
+                    url: 'https://foo.com/sample.csv'
+                },
+                {
+                    name: 'Data Format Definition',
+                    type: 'format',
+                    AssetID:
+                        '4d517500da0acb0d65a716f61330969334630363ce4a6a9d39691026ac7908ea'
+                }
+            ],
+            inLanguage: 'en',
+            tags: ['weather', 'uk', '2011', 'temperature', 'humidity'],
+            price: '100000000'
         },
-        'curation': {
-            'rating': 0.93,
-            'numVotes': 123,
-            'schema': 'Binary Voting'
+        curation: {
+            rating: 0.93,
+            numVotes: 123,
+            schema: 'Binary Voting'
         },
-        'additionalInformation': {
-            'updateFrequency': 'yearly',
-            'structuredMarkup': [
-                { 'uri': 'http://skos.um.es/unescothes/C01194/jsonld', 'mediaType': 'application/ld+json' },
-                { 'uri': 'http://skos.um.es/unescothes/C01194/turtle', 'mediaType': 'text/turtle' }
+        additionalInformation: {
+            updateFrequency: 'yearly',
+            structuredMarkup: [
+                {
+                    uri: 'http://skos.um.es/unescothes/C01194/jsonld',
+                    mediaType: 'application/ld+json'
+                },
+                {
+                    uri: 'http://skos.um.es/unescothes/C01194/turtle',
+                    mediaType: 'text/turtle'
+                }
             ]
         }
     },
     {
-        'assetId': '0x1298371984723942',
-        'publisherId': '0x0234242345',
-        'base': {
-            'name': 'UK Weather information 2012',
-            'description': 'Weather information of UK including temperature and humidity',
-            'dateCreated': '2012-02-01T10:55:11Z',
-            'author': 'Met Office',
-            'type': 'dataset',
-            'license': 'CC-BY',
-            'copyrightHolder': 'Met Office',
-            'workExample': `stationId,latitude,longitude,datetime,temperature,humidity\n
+        assetId: '0x1298371984723942',
+        publisherId: '0x0234242345',
+        base: {
+            name: 'UK Weather information 2012',
+            description:
+                'Weather information of UK including temperature and humidity',
+            dateCreated: '2012-02-01T10:55:11Z',
+            author: 'Met Office',
+            type: 'dataset',
+            license: 'CC-BY',
+            copyrightHolder: 'Met Office',
+            workExample: `stationId,latitude,longitude,datetime,temperature,humidity\n
                 423432fsd,51.509865,-0.118092,2011-01-01T10:55:11+00:00,7.2,68`,
-            'files': [{
-                index: 0,
-                url: 'https://testocnfiles.blob.core.windows.net/testfiles/testzkp.zip',
-                'encoding': 'UTF-8',
-                'compression': 'zip',
-                'contentType': 'text/csv',
-                'size': '3.1gb'
-            }],
-            'links': [
-                { 'sample1': 'http://data.ceda.ac.uk/badc/ukcp09/data/gridded-land-obs/gridded-land-obs-daily/' },
-                { 'sample2': 'http://data.ceda.ac.uk/badc/ukcp09/data/gridded-land-obs/gridded-land-obs-averages-25km/' },
-                { 'fieldsDescription': 'http://data.ceda.ac.uk/badc/ukcp09/' }
+            files: [
+                {
+                    index: 0,
+                    url:
+                        'https://testocnfiles.blob.core.windows.net/testfiles/testzkp.zip',
+                    encoding: 'UTF-8',
+                    compression: 'zip',
+                    contentType: 'text/csv',
+                    size: '3.1gb'
+                }
             ],
-            'inLanguage': 'en',
-            'tags': ['weather', 'uk', '2011', 'temperature', 'humidity'],
-            'price': 10
+            links: [
+                {
+                    sample1:
+                        'http://data.ceda.ac.uk/badc/ukcp09/data/gridded-land-obs/gridded-land-obs-daily/'
+                },
+                {
+                    sample2:
+                        'http://data.ceda.ac.uk/badc/ukcp09/data/gridded-land-obs/gridded-land-obs-averages-25km/'
+                },
+                { fieldsDescription: 'http://data.ceda.ac.uk/badc/ukcp09/' }
+            ],
+            inLanguage: 'en',
+            tags: ['weather', 'uk', '2011', 'temperature', 'humidity'],
+            price: 10
         },
-        'curation': {
-            'rating': 0.93,
-            'numVotes': 123,
-            'schema': 'Binary Voting'
+        curation: {
+            rating: 0.93,
+            numVotes: 123,
+            schema: 'Binary Voting'
         },
-        'additionalInformation': {
-            'updateFrequency': 'yearly',
-            'structuredMarkup': [
-                { 'uri': 'http://skos.um.es/unescothes/C01194/jsonld', 'mediaType': 'application/ld+json' },
-                { 'uri': 'http://skos.um.es/unescothes/C01194/turtle', 'mediaType': 'text/turtle' }
+        additionalInformation: {
+            updateFrequency: 'yearly',
+            structuredMarkup: [
+                {
+                    uri: 'http://skos.um.es/unescothes/C01194/jsonld',
+                    mediaType: 'application/ld+json'
+                },
+                {
+                    uri: 'http://skos.um.es/unescothes/C01194/turtle',
+                    mediaType: 'text/turtle'
+                }
             ]
         }
     },
     {
-        'assetId': '0x1298371984723943',
-        'publisherId': '0x0234242345',
-        'base': {
-            'name': 'UK Weather information 2013',
-            'description': 'Weather information of UK including temperature and humidity',
-            'dateCreated': '2012-02-01T10:55:11Z',
-            'author': 'Met Office',
-            'type': 'dataset',
-            'license': 'CC-BY',
-            'copyrightHolder': 'Met Office',
-            'workExample': `stationId,latitude,longitude,datetime,temperature,humidity\n
+        assetId: '0x1298371984723943',
+        publisherId: '0x0234242345',
+        base: {
+            name: 'UK Weather information 2013',
+            description:
+                'Weather information of UK including temperature and humidity',
+            dateCreated: '2012-02-01T10:55:11Z',
+            author: 'Met Office',
+            type: 'dataset',
+            license: 'CC-BY',
+            copyrightHolder: 'Met Office',
+            workExample: `stationId,latitude,longitude,datetime,temperature,humidity\n
                 423432fsd,51.509865,-0.118092,2011-01-01T10:55:11+00:00,7.2,68`,
-            'files': [{
-                index: 0,
-                url: 'https://testocnfiles.blob.core.windows.net/testfiles/testzkp.zip',
-                'encoding': 'UTF-8',
-                'compression': 'zip',
-                'contentType': 'text/csv',
-                'size': '3.1gb'
-            }],
-            'links': [
-                { 'sample1': 'http://data.ceda.ac.uk/badc/ukcp09/data/gridded-land-obs/gridded-land-obs-daily/' },
-                { 'sample2': 'http://data.ceda.ac.uk/badc/ukcp09/data/gridded-land-obs/gridded-land-obs-averages-25km/' },
-                { 'fieldsDescription': 'http://data.ceda.ac.uk/badc/ukcp09/' }
+            files: [
+                {
+                    index: 0,
+                    url:
+                        'https://testocnfiles.blob.core.windows.net/testfiles/testzkp.zip',
+                    encoding: 'UTF-8',
+                    compression: 'zip',
+                    contentType: 'text/csv',
+                    size: '3.1gb'
+                }
             ],
-            'inLanguage': 'en',
-            'tags': ['weather', 'uk', '2011', 'temperature', 'humidity'],
-            'price': 10
+            links: [
+                {
+                    sample1:
+                        'http://data.ceda.ac.uk/badc/ukcp09/data/gridded-land-obs/gridded-land-obs-daily/'
+                },
+                {
+                    sample2:
+                        'http://data.ceda.ac.uk/badc/ukcp09/data/gridded-land-obs/gridded-land-obs-averages-25km/'
+                },
+                { fieldsDescription: 'http://data.ceda.ac.uk/badc/ukcp09/' }
+            ],
+            inLanguage: 'en',
+            tags: ['weather', 'uk', '2011', 'temperature', 'humidity'],
+            price: 10
         },
-        'curation': {
-            'rating': 0.93,
-            'numVotes': 123,
-            'schema': 'Binary Voting'
+        curation: {
+            rating: 0.93,
+            numVotes: 123,
+            schema: 'Binary Voting'
         },
-        'additionalInformation': {
-            'updateFrequency': 'yearly',
-            'structuredMarkup': [
-                { 'uri': 'http://skos.um.es/unescothes/C01194/jsonld', 'mediaType': 'application/ld+json' },
-                { 'uri': 'http://skos.um.es/unescothes/C01194/turtle', 'mediaType': 'text/turtle' }
+        additionalInformation: {
+            updateFrequency: 'yearly',
+            structuredMarkup: [
+                {
+                    uri: 'http://skos.um.es/unescothes/C01194/jsonld',
+                    mediaType: 'application/ld+json'
+                },
+                {
+                    uri: 'http://skos.um.es/unescothes/C01194/turtle',
+                    mediaType: 'text/turtle'
+                }
             ]
         }
     }

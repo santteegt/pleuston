@@ -40,13 +40,15 @@ class Layout extends PureComponent {
                     <nav className={styles.layoutSidebar}>
                         <SidebarLoader />
                     </nav>
-                    {
-                        loading
-                            ? <Spinner />
-                            : this.props.narrow
-                                ? <div className={styles.narrow}>{this.props.children}</div>
-                                : this.props.children
-                    }
+                    {loading ? (
+                        <Spinner />
+                    ) : this.props.narrow ? (
+                        <div className={styles.narrow}>
+                            {this.props.children}
+                        </div>
+                    ) : (
+                        this.props.children
+                    )}
                 </main>
 
                 <Footer />

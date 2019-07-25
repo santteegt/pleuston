@@ -1,38 +1,21 @@
 import { Ocean } from '@oceanprotocol/squid'
 
 import {
-    nodeScheme,
-    nodeHost,
-    nodePort,
-    aquariusScheme,
-    aquariusHost,
-    aquariusPort,
-    brizoScheme,
-    brizoHost,
-    brizoPort,
+    nodeUri,
+    aquariusUri,
+    brizoUri,
     brizoAddress,
-    parityScheme,
-    parityHost,
-    parityPort,
-    secretStoreScheme,
-    secretStoreHost,
-    secretStorePort,
+    secretStoreUri,
     verboseLogging
-} from '../../config/ocean'
+} from '../config/ocean'
 
 export async function provideOcean() {
-    const nodeUri = `${nodeScheme}://${nodeHost}:${nodePort}`
-    const aquariusUri = `${aquariusScheme}://${aquariusHost}:${aquariusPort}`
-    const brizoUri = `${brizoScheme}://${brizoHost}:${brizoPort}`
-    const parityUri = `${parityScheme}://${parityHost}:${parityPort}`
-    const secretStoreUri = `${secretStoreScheme}://${secretStoreHost}:${secretStorePort}`
-
     const config = {
         nodeUri,
         aquariusUri,
         brizoUri,
         brizoAddress,
-        parityUri,
+        parityUri: nodeUri,
         secretStoreUri,
         verbose: verboseLogging
     }

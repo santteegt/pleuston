@@ -3,7 +3,7 @@ import PropTypes from 'prop-types'
 import styles from './Balance.module.scss'
 
 const Balance = ({ eth, ocn }) => {
-    const ethFromWei = (eth / 1e18)
+    const ethFromWei = eth / 1e18
 
     return (
         <Fragment>

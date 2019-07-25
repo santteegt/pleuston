@@ -11,8 +11,6 @@ const NewDataset = () => (
     </Layout>
 )
 
-NewDataset.propTypes = {
-
-}
+NewDataset.propTypes = {}
 
 export default NewDataset

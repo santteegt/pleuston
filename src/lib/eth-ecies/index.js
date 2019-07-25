@@ -16,12 +16,25 @@ const AES256GcmEncrypt = (key, plaintext) => {
     let _ciphertext = Buffer.from(ciphertext, 'base64')
     let _iv = Buffer.from(iv, 'base64')
     let _tag = Buffer.from(tag, 'base64')
-    console.log('tag length: ', _tag.length, _iv.length, _ciphertext.length, _iv, _tag, _ciphertext)
+    console.log(
+        'tag length: ',
+        _tag.length,
+        _iv.length,
+        _ciphertext.length,
+        _iv,
+        _tag,
+        _ciphertext
+    )
     return Buffer.concat([_iv, _tag, _ciphertext])
 }
 
 const AES256GcmDecrypt = (iv, tag, key, ciphertext) => {
-    let plaintext = Aes256Gcm.decrypt(ciphertext.toString('base64'), iv.toString('base64'), tag.toString('base64'), key)
+    let plaintext = Aes256Gcm.decrypt(
+        ciphertext.toString('base64'),
+        iv.toString('base64'),
+        tag.toString('base64'),
+        key
+    )
     return plaintext
 }
 

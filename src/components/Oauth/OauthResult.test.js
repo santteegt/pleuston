@@ -17,12 +17,7 @@ const history = createBrowserHistory()
 
 const store = createStore(
     appReducer(history),
-    composeWithDevTools(
-        applyMiddleware(
-            routerMiddleware(history),
-            thunk
-        )
-    )
+    composeWithDevTools(applyMiddleware(routerMiddleware(history), thunk))
 )
 
 it('OauthResult renders without crashing', () => {

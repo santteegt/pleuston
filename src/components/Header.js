@@ -15,7 +15,6 @@ const Header = () => (
             <div className={styles.headerMenu}>
                 <AccountLoader />
             </div>
-
         </div>
     </header>
 )

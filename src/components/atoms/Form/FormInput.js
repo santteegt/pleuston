@@ -34,13 +34,25 @@ class FormInput extends PureComponent {
     }
 
     render() {
-        const { name, label, required, type, help, small, dimmed, additionalComponent, ...props } = this.props
+        const {
+            name,
+            label,
+            required,
+            type,
+            help,
+            small,
+            dimmed,
+            additionalComponent,
+            ...props
+        } = this.props
 
         return (
             <div className={dimmed ? 'form__group is-dimmed' : 'form__group'}>
                 <label
                     htmlFor={name}
-                    className={required ? 'form__label is-required' : 'form__label'}
+                    className={
+                        required ? 'form__label is-required' : 'form__label'
+                    }
                     title={required ? 'Required' : null}
                 >
                     {label}

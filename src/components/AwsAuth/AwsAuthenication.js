@@ -5,7 +5,7 @@ import Button from '../atoms/Button'
 import styles from './AwsAuthenication.module.scss'
 
 import Amplify from 'aws-amplify'
-import { aws } from '../../../config/cloudStorage'
+import { aws } from '../../config/cloudStorage'
 
 Amplify.configure(aws)
 
@@ -47,11 +47,21 @@ export default class AwsAuthenication extends Component {
     render() {
         return (
             <div className={styles.screen}>
-                {!this.state.logged && <Authenticator onStateChange={this.handleStateChange} />}
-                {this.state.logged && <div>
-                    <Empty title="Success" text="Click the Aws button again to see your blobs." />
-                    <Button link="true" onClick={() => window.close()}>{`Closing window in ${this.state.count}s ...`}</Button>
-                </div>}
+                {!this.state.logged && (
+                    <Authenticator onStateChange={this.handleStateChange} />
+                )}
+                {this.state.logged && (
+                    <div>
+                        <Empty
+                            title="Success"
+                            text="Click the Aws button again to see your blobs."
+                        />
+                        <Button
+                            link="true"
+                            onClick={() => window.close()}
+                        >{`Closing window in ${this.state.count}s ...`}</Button>
+                    </div>
+                )}
             </div>
         )
     }

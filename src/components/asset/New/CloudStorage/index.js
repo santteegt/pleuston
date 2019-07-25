@@ -5,7 +5,7 @@ import Button from '../../../atoms/Button'
 import CloudStorageModal from './Modal'
 import { ReactComponent as IconAzure } from '../../../../svg/azure.svg'
 import { ReactComponent as IconAws } from '../../../../svg/aws.svg'
-import { azure } from '../../../../../config/cloudStorage'
+import { azure } from '../../../../config/cloudStorage'
 import StorageProviders from '../../../../lib/storage-providers'
 
 import styles from './index.module.scss'
@@ -100,16 +100,18 @@ export default class CloudStorage extends PureComponent {
                                     <Button
                                         link="true"
                                         icon={IconAzure}
-                                        onClick={(e) => this.toggleAzure(e, url)}
+                                        onClick={e => this.toggleAzure(e, url)}
                                     >
-                                    Azure
+                                        Azure
                                     </Button>
                                     {this.state.isConnectedAzure && (
                                         <Button
                                             className={styles.logout}
-                                            onClick={(e) => this.disconnectAzure(e)}
+                                            onClick={e =>
+                                                this.disconnectAzure(e)
+                                            }
                                         >
-                                        logout
+                                            logout
                                         </Button>
                                     )}
                                 </>
@@ -120,16 +122,16 @@ export default class CloudStorage extends PureComponent {
                         <Button
                             link="true"
                             icon={IconAws}
-                            onClick={(e) => this.toggleAws(e)}
+                            onClick={e => this.toggleAws(e)}
                         >
-                        AWS
+                            AWS
                         </Button>
                         {this.state.isConnectedAws && (
                             <Button
                                 className={styles.logout}
-                                onClick={(e) => this.disconnectAws(e)}
+                                onClick={e => this.disconnectAws(e)}
                             >
-                            logout
+                                logout
                             </Button>
                         )}
                     </div>
@@ -137,7 +139,7 @@ export default class CloudStorage extends PureComponent {
 
                 <CloudStorageModal
                     handleCloseModal={this.closeModal}
-                    isOpen={(this.state.storageProvider !== null)}
+                    isOpen={this.state.storageProvider !== null}
                     storageProvider={this.state.storageProvider}
                 />
             </>

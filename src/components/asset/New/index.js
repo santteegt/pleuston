@@ -9,10 +9,23 @@ import Links from './Links/'
 
 const AssetNew = ({ handleSubmit, fileSetter, resetLinksForm }) => (
     <Form className="form" onSubmit={handleSubmit}>
+        <FormInput
+            label="Title"
+            name="name"
+            required
+            component="input"
+            type="text"
+            help="The title of your asset."
+        />
 
-        <FormInput label="Title" name="name" required component="input" type="text" help="The title of your asset." />
-
-        <FormInput label="Description" name="description" required component="textarea" rows="5" help="Describe your asset, explaining what the data represents and what it can be used for." />
+        <FormInput
+            label="Description"
+            name="description"
+            required
+            component="textarea"
+            rows="5"
+            help="Describe your asset, explaining what the data represents and what it can be used for."
+        />
 
         <FormInput
             label="Asset file"
@@ -25,11 +38,33 @@ const AssetNew = ({ handleSubmit, fileSetter, resetLinksForm }) => (
             additionalComponent={<CloudStorageLoader fileSetter={fileSetter} />}
         />
 
-        <FormInput label="Price" name="price" required type="number" component="input" placeholder="0" help="Price of your asset in Ocean Tokens." />
+        <FormInput
+            label="Price"
+            name="price"
+            required
+            type="number"
+            component="input"
+            placeholder="0"
+            help="Price of your asset in Ocean Tokens."
+        />
 
-        <FormInput label="Author" name="author" required component="input" type="text" placeholder="e.g. Tfl, Disney Corp." help="The name of the entity generating this data." />
+        <FormInput
+            label="Author"
+            name="author"
+            required
+            component="input"
+            type="text"
+            placeholder="e.g. Tfl, Disney Corp."
+            help="The name of the entity generating this data."
+        />
 
-        <FormInput label="Type" required name="type" component="select" help="The type of your asset.">
+        <FormInput
+            label="Type"
+            required
+            name="type"
+            component="select"
+            help="The type of your asset."
+        >
             <option />
             <option value="dataset">Data set</option>
             <option value="algorithm">Algorithm</option>
@@ -44,24 +79,56 @@ const AssetNew = ({ handleSubmit, fileSetter, resetLinksForm }) => (
             <option value="CC BY">CC BY: Attribution</option>
             <option value="CC BY-SA">CC BY-SA: Attribution ShareAlike</option>
             <option value="CC BY-ND">CC BY-ND: Attribution-NoDerivs</option>
-            <option value="CC BY-NC">CC BY-NC: Attribution-NonCommercial</option>
-            <option value="CC BY-NC-SA">CC BY-NC-SA: Attribution-NonCommercial-ShareAlike</option>
-            <option value="CC BY-NC-ND">CC BY-NC-ND: Attribution-NonCommercial-NoDerivs</option>
+            <option value="CC BY-NC">
+                CC BY-NC: Attribution-NonCommercial
+            </option>
+            <option value="CC BY-NC-SA">
+                CC BY-NC-SA: Attribution-NonCommercial-ShareAlike
+            </option>
+            <option value="CC BY-NC-ND">
+                CC BY-NC-ND: Attribution-NonCommercial-NoDerivs
+            </option>
         </FormInput>
 
         <div className="form__group">
             <h3 className="form__group__title">Samples, discovery image</h3>
 
-            <FormHelp>Provide one or multiple links (e.g. samples, format definitions, web links, discovery images) to give supplementary information about an Asset.</FormHelp>
+            <FormHelp>
+                Provide one or multiple links (e.g. samples, format definitions,
+                web links, discovery images) to give supplementary information
+                about an Asset.
+            </FormHelp>
 
-            <FieldArray name="links" resetLinksForm={resetLinksForm} component={Links} />
+            <FieldArray
+                name="links"
+                resetLinksForm={resetLinksForm}
+                component={Links}
+            />
         </div>
 
-        <FormInput label="Copyright holder" name="copyrightHolder" component="input" type="text" placeholder="" help="The party holding the legal copyright." />
+        <FormInput
+            label="Copyright holder"
+            name="copyrightHolder"
+            component="input"
+            type="text"
+            placeholder=""
+            help="The party holding the legal copyright."
+        />
 
-        <FormInput label="Tags" name="tags" component="input" placeholder="e.g. climate, ocean, atmosphere, temperature, earth-science, public" help="Categorize your asset by one or more tags, separated by comma." />
+        <FormInput
+            label="Tags"
+            name="tags"
+            component="input"
+            placeholder="e.g. climate, ocean, atmosphere, temperature, earth-science, public"
+            help="Categorize your asset by one or more tags, separated by comma."
+        />
 
-        <FormInput label="Update Frequency" name="updateFrequency" component="select" help="How often are updates expected, or is the resource static?">
+        <FormInput
+            label="Update Frequency"
+            name="updateFrequency"
+            component="select"
+            help="How often are updates expected, or is the resource static?"
+        >
             <option />
             <option value="seldom">Seldom</option>
             <option value="annually">Annually</option>
@@ -70,7 +137,9 @@ const AssetNew = ({ handleSubmit, fileSetter, resetLinksForm }) => (
         </FormInput>
 
         <div className="form__group">
-            <Button primary="true" type="submit">Publish</Button>
+            <Button primary="true" type="submit">
+                Publish
+            </Button>
         </div>
     </Form>
 )
