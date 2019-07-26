@@ -12,10 +12,6 @@ export default class FormInputGroup extends PureComponent {
     render() {
         const { children } = this.props
 
-        return (
-            <div className={styles.inputGroup}>
-                {children}
-            </div>
-        )
+        return <div className={styles.inputGroup}>{children}</div>
     }
 }

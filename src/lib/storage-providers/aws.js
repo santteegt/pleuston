@@ -1,5 +1,5 @@
 import amplify from 'aws-amplify'
-import { aws } from '../../../config/cloudStorage'
+import { aws } from '../../config/cloudStorage'
 
 amplify.configure(aws)
 // hack for getting bucket
@@ -25,7 +25,9 @@ class Aws {
     }
 
     isConnected() {
-        let storeObject = window.localStorage.getItem('amplify-authenticator-authState')
+        let storeObject = window.localStorage.getItem(
+            'amplify-authenticator-authState'
+        )
         if (storeObject !== null && storeObject !== undefined) {
             if (storeObject === 'signedIn') {
                 // check for expirations
@@ -36,7 +38,7 @@ class Aws {
     }
 
     async connect(url) {
-        const windowObjectReference = window.open( // eslint-disable-line
+        const windowObjectReference = window.open(
             '/aws',
             'Connect to Aws',
             'resizable,scrollbars,status,width=400,height=500'

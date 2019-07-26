@@ -27,16 +27,16 @@ export async function publish(formValues, account, providers) {
         base: Object.assign(AssetModel.base, {
             name,
             description,
-            dateCreated: new Date()
-                .toISOString()
-                .split('.')[0] + 'Z', // remove milliseconds
+            dateCreated: new Date().toISOString().split('.')[0] + 'Z', // remove milliseconds
             author,
             license,
             copyrightHolder,
-            files: [{
-                index: 0,
-                url: files
-            }],
+            files: [
+                {
+                    index: 0,
+                    url: files
+                }
+            ],
             links: links,
             tags: tags && tags.split(','),
             price: Web3.utils.toWei(price, 'ether'), // convert to vodka 10^18
@@ -118,7 +118,13 @@ export async function purchase(inputDdo, consumer, providers) {
             consumer
         )
         const folder = ''
-        const path = await ocean.assets.consume(agreementId, inputDdo.id, accessService.serviceDefinitionId, consumer, folder)
+        const path = await ocean.assets.consume(
+            agreementId,
+            inputDdo.id,
+            accessService.serviceDefinitionId,
+            consumer,
+            folder
+        )
         Logger.log('path', path)
     } catch (error) {
         Logger.error('error', error.message)

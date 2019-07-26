@@ -1,0 +1,25 @@
+@import '../../../../styles/variables';
+
+.cloudstorage {
+    margin-top: $spacer / 3;
+    margin-bottom: $spacer;
+    border-top: 1px solid $brand-grey-lighter;
+    padding-top: $spacer / 4;
+}
+
+.cloudstorageitem {
+    display: inline;
+    padding: 0 7px;
+}
+
+.logout {
+    font-size: $font-size-mini;
+    display: inline-block;
+    margin-left: $spacer / 4;
+    color: $brand-grey-light;
+    background: none;
+    border: none;
+    box-shadow: none;
+    padding: 0;
+    cursor: pointer;
+}

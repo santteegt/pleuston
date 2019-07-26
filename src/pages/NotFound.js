@@ -5,9 +5,7 @@ import ScreenHeader from '../components/ScreenHeader'
 
 const NotFound = () => (
     <Layout>
-        <ScreenHeader
-            subtitle="Shenanigans, page not found."
-            title="404" />
+        <ScreenHeader subtitle="Shenanigans, page not found." title="404" />
     </Layout>
 )
 

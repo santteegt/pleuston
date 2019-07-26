@@ -21,13 +21,13 @@ const menuItems = [
 
 const Sidebar = () => (
     <ul className="sidebar">
-        {menuItems.map(menuItem =>
+        {menuItems.map(menuItem => (
             <li key={menuItem.name}>
                 <NavLink exact to={menuItem.route} activeClassName="is-active">
                     {menuItem.name}
                 </NavLink>
             </li>
-        )}
+        ))}
     </ul>
 )
 

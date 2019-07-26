@@ -4,7 +4,7 @@ import { toDataUrl } from 'ethereum-blockies'
 import styles from './Popover.module.scss'
 
 const Popover = ({ networkName, activeAccount }) => {
-    const accountId = activeAccount.getId()
+    const accountId = activeAccount && activeAccount.getId()
     const identicon = accountId && toDataUrl(accountId)
 
     return (
@@ -12,10 +12,18 @@ const Popover = ({ networkName, activeAccount }) => {
             <div key={'accountName'} className={styles.accountName}>
                 {activeAccount ? (
                     <>
-                        <img className={styles.avatar} src={identicon} alt="Blockies" />
-                        <span className={styles.address} title={accountId}>{accountId}</span>
+                        <img
+                            className={styles.avatar}
+                            src={identicon}
+                            alt="Blockies"
+                        />
+                        <span className={styles.address} title={accountId}>
+                            {accountId}
+                        </span>
                     </>
-                ) : 'No account selected'}
+                ) : (
+                    'No account selected'
+                )}
             </div>
             <div key={'network'} className={styles.popoverInfoline}>
                 Network: &nbsp;<strong>{networkName}</strong>

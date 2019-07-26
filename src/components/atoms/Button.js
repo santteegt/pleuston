@@ -22,19 +22,16 @@ const Button = ({ icon, children, primary, link, ...props }) => {
         classes = styles.button
     }
 
-    return (
-        props.href ? (
-            <a href={props.href} {...props}>
-                {icon && <ButtonIcon icon={icon} />}
-                {children}
-            </a>
-        ) : (
-            <button className={classes} {...props}>
-                {icon && <ButtonIcon icon={icon} />}
-                {children}
-            </button>
-        )
-
+    return props.href ? (
+        <a href={props.href} {...props}>
+            {icon && <ButtonIcon icon={icon} />}
+            {children}
+        </a>
+    ) : (
+        <button className={classes} {...props}>
+            {icon && <ButtonIcon icon={icon} />}
+            {children}
+        </button>
     )
 }
 

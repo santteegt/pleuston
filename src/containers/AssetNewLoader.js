@@ -2,7 +2,7 @@
 import { connect } from 'react-redux'
 import { push } from 'connected-react-router'
 import { change, reset } from 'redux-form'
-import AssetNewForm from '../components/asset/New'
+import AssetNewForm from '../components/Asset/New'
 import { putAsset } from '../actions/index'
 
 export default connect(
@@ -14,7 +14,7 @@ export default connect(
             dispatch(reset('newAsset'))
             dispatch(push('/'))
         },
-        fileSetter: (newValue) => {
+        fileSetter: newValue => {
             dispatch(change('newAsset', 'files', newValue))
         },
         resetLinksForm: () => {
