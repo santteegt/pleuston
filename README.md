@@ -4,9 +4,11 @@
 
 > 🦄 Web app for consumers to explore, download, and publish data assets.
 
-[![Docker Build Status](https://img.shields.io/docker/build/oceanprotocol/pleuston.svg)](https://hub.docker.com/r/oceanprotocol/pleuston/) [![Build Status](https://api.travis-ci.com/oceanprotocol/pleuston.svg?branch=master)](https://travis-ci.com/oceanprotocol/pleuston) [![Codacy Badge](https://api.codacy.com/project/badge/Grade/d4ebd79e33054bf98d8e55b0dde5452b)](https://app.codacy.com/app/ocean-protocol/pleuston?utm_source=github.com&utm_medium=referral&utm_content=oceanprotocol/pleuston&utm_campaign=badger) [![js oceanprotocol](https://img.shields.io/badge/js-oceanprotocol-7b1173.svg)](https://github.com/oceanprotocol/eslint-config-oceanprotocol) [![css bigchaindb](https://img.shields.io/badge/css-bigchaindb-39BA91.svg)](https://github.com/bigchaindb/stylelint-config-bigchaindb)
-
-![banner](https://user-images.githubusercontent.com/90316/43195950-cc01fd90-9006-11e8-8d5e-cb802c6502b3.gif "Big Banner")
+[![Build Status](https://api.travis-ci.com/oceanprotocol/pleuston.svg?branch=master)](https://travis-ci.com/oceanprotocol/pleuston)
+[![Docker Build Status](https://img.shields.io/docker/build/oceanprotocol/pleuston.svg)](https://hub.docker.com/r/oceanprotocol/pleuston/)
+[![Codacy Badge](https://api.codacy.com/project/badge/Grade/d4ebd79e33054bf98d8e55b0dde5452b)](https://app.codacy.com/app/ocean-protocol/pleuston?utm_source=github.com&utm_medium=referral&utm_content=oceanprotocol/pleuston&utm_campaign=badger)
+[![js oceanprotocol](https://img.shields.io/badge/js-oceanprotocol-7b1173.svg)](https://github.com/oceanprotocol/eslint-config-oceanprotocol)
+[![css bigchaindb](https://img.shields.io/badge/css-bigchaindb-39BA91.svg)](https://github.com/bigchaindb/stylelint-config-bigchaindb)
 
 > _Pleuston [`ˈplustən`]: organisms that live in the thin surface layer existing at the air-water interface of a body of water as their habitat_
 
@@ -14,15 +16,15 @@
 
 **🐲🦑 THERE BE DRAGONS AND SQUIDS. This is in alpha state and you can expect running into problems. If you run into them, please open up [a new issue](https://github.com/oceanprotocol/pleuston/issues). 🦑🐲**
 
-**For a more lightweight implementation of Ocean Protocol components into a React app, have a look at [commons](https://github.com/oceanprotocol/commons) too.**
+**For a more lightweight and mature implementation of Ocean Protocol components into a React app, have a look at [commons](https://github.com/oceanprotocol/commons) too.**
 
 ---
 
 - [Features](#features)
 - [Prerequisites](#prerequisites)
 - [Development](#development)
-  - [MetaMask](#metamask)
 - [Configuration](#configuration)
+  - [MetaMask](#metamask)
   - [Storage Providers](#storage-providers)
     - [AWS](#aws)
     - [Azure Storage](#azure-storage)
@@ -53,9 +55,7 @@ _Pleuston_ is a single page React app, bootstrapped with [`create-react-app`](ht
 - Ocean Protocol components (with Docker)
 - [MetaMask](https://metamask.io)
 
-To start development with _Pleuston_ you first have to get all the other Ocean Protocol components up and running.
-
-The simplest way is to use our main script from the [🐳 barge](https://github.com/oceanprotocol/barge) repository to spin up a local Spree test network, and pass the option to skip the _Pleuston_ image in there:
+To start development with _Pleuston_ you first have to get all the other Ocean Protocol components up and running. The simplest way is to use our main script from the [🐳 barge](https://github.com/oceanprotocol/barge) repository to spin up a local Spree test network, and pass the option to skip the _Pleuston_ image in there:
 
 ```bash
 git clone git@github.com:oceanprotocol/barge.git
@@ -68,7 +68,7 @@ This will start up all required components [as documented in _Barge_](https://gi
 
 ## Development
 
-After the Docker containers from the above step are up, you can start your local development version of _Pleuston_:
+After the Docker containers from the above step are up, you can start your local development version of _Pleuston_ in another terminal:
 
 ```bash
 git clone git@github.com:oceanprotocol/pleuston.git
@@ -76,9 +76,9 @@ cd pleuston/
 
 npm i
 
-# exporting this variable before running `npm start`,
-# will copy generated contract artifacts from Docker container
-# required for local Spree test network
+# Exporting this variable before running `npm start`,
+# will copy generated contract artifacts from Docker container.
+# Required only for local Spree test network
 export LOCAL_CONTRACTS=true
 
 npm start
@@ -94,22 +94,25 @@ You can now view @oceanprotocol/pleuston in the browser.
   Local:            http://localhost:3000/
 ```
 
-### MetaMask
-
-Be sure to login into your MetaMask account and either select:
-
-- the [`Nile`](https://docs.oceanprotocol.com/concepts/testnets/#the-nile-testnet) test network (RPC `https://nile.dev-ocean.com`), or
-- `Localhost 8545`
-
-The latter will connect you to the RPC client running inside Docker, which by default is a local [Spree](https://docs.oceanprotocol.com/concepts/testnets/#a-spree-testnet-for-local-development) test network.
-
 ## Configuration
 
-All required components to get _Pleuston_ running are pre-configured and started with _Barge_, and the web app is configured to connect to them locally by default.
+All required components to get _Pleuston_ running are pre-configured and started with _Barge_ as a local Spree network, and the web app is configured to connect to them locally by default.
 
-If you want to change and run _Pleuston_ against Nile remote components, or your own deployed components, head over to the [`src/config/ocean.js`](./src/config/ocean.js) file and modify the respective values.
+If you want to change and run _Pleuston_ against remote components you can either set the following environment variables, or directly edit the [`src/config/ocean.js`](./src/config/ocean.js) file.
 
-- [`src/config/ocean.js`](./src/config/ocean.js)
+- `NODE_URI`
+- `AQUARIUS_URI`
+- `BRIZO_URI`
+- `BRIZO_ADDRESS`
+- `SECRETSTORE_URI`
+
+### MetaMask
+
+Be sure to login into your MetaMask account and select the respective network. By default, Pleuston and Barge will run a Spree test network:
+
+- [Spree](https://docs.oceanprotocol.com/concepts/testnets/#a-spree-testnet-for-local-development) test network (`Localhost 8545`)
+- [Nile](https://docs.oceanprotocol.com/concepts/testnets/#the-nile-testnet) test network (RPC `https://nile.dev-ocean.com`)
+- [Pacific](https://docs.oceanprotocol.com/concepts/pacific-network) PoA network (RPC `https://pacific.oceanprotocol.com`)
 
 ### Storage Providers
 
@@ -129,7 +132,7 @@ App includes a connection to Amazon Web Services, so you can retrieve and regist
 
 App includes an OAuth connection to your Azure account. Once authorized, assets can be chosen from a file list within _Pleuston_.
 
-_Note: Currently, Azure Storage only allows listing containers with OAuth credentials. Listing blobs in containers and operations on blobs can't be done with OAuth credentials until [that feature is out of preview](https://docs.microsoft.com/en-gb/azure/storage/common/storage-auth-aad). Until then, manually added credentials are required in [`src/config/cloudStorage.js`](src/config/cloudStorage.js)_
+> Currently, Azure Storage only allows listing containers with OAuth credentials. Listing blobs in containers and operations on blobs can't be done with OAuth credentials until [that feature is out of preview](https://docs.microsoft.com/en-gb/azure/storage/common/storage-auth-aad). Until then, manually added credentials are required in [`src/config/cloudStorage.js`](src/config/cloudStorage.js)_
 
 ### SSL
 
@@ -150,17 +153,22 @@ The tests run:
 
 - linting checks with ESLint and Stylelint
 - basic rendering tests for components with Jest
-
-While code coverage status will be reported in the console and on Travis, coverage information won't be uploaded to Codacy for any Pull Request from a forked repo. That is because of a [security restriction in Travis](https://docs.travis-ci.com/user/pull-requests/#pull-requests-and-security-restrictions).
+- collect code coverage
 
 ## Code style
 
-Code linting is setup with [ESLint](https://eslint.org) and [stylelint](https://stylelint.io) following [eslint-config-oceanprotocol](https://github.com/oceanprotocol/eslint-config-oceanprotocol) and [stylelint-config-bigchaindb](https://github.com/bigchaindb/stylelint-config-bigchaindb).
+Code linting is setup with [ESLint](https://eslint.org) and [stylelint](https://stylelint.io) following [eslint-config-oceanprotocol](https://github.com/oceanprotocol/eslint-config-oceanprotocol) and [stylelint-config-bigchaindb](https://github.com/bigchaindb/stylelint-config-bigchaindb). Code formatting is achieved with [Prettier](https://prettier.io).
 
 There's a npm script setup which runs only linting tests:
 
 ```bash
 npm run lint
+```
+
+Additionally you can this to auto-format all code:
+
+```bash
+npm run format
 ```
 
 ## Production build
@@ -179,13 +187,13 @@ serve -s build/
 
 From a clean `master` branch you can run any release task doing the following:
 
-- bumps the project version in `package.json`
-- auto-generates and updates the CHANGELOG.md file from commit messages
+- bumps the project version in `package.json` & `package-lock.json`
+- auto-generates and updates the `CHANGELOG.md` file from commit messages
 - creates a Git tag
 - commits and pushes everything
 - creates a GitHub release with commit messages as description
 
-You can execute the script using {major|minor|patch} as first argument to bump the version accordingly:
+You can execute the script to bump the version accordingly:
 
 - To bump a patch version: `npm run release`
 - To bump a minor version: `npm run release minor`
@@ -202,7 +210,7 @@ See the [CHANGELOG.md](./CHANGELOG.md) file. This file is auto-generated during 
 ## License
 
 ```text
-Copyright 2018 Ocean Protocol Foundation Ltd.
+Copyright 2019 Ocean Protocol Foundation Ltd.
 
 Licensed under the Apache License, Version 2.0 (the "License");
 you may not use this file except in compliance with the License.
