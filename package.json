@@ -7,8 +7,8 @@
     "url": "https://github.com/oceanprotocol/pleuston"
   },
   "scripts": {
-    "start": "./scripts/keeper.sh && react-scripts start",
-    "build": "./scripts/keeper.sh && react-scripts --max_old_space_size=4096 build",
+    "start": "react-scripts --max_old_space_size=4096 start",
+    "build": "react-scripts --max_old_space_size=4096 build",
     "lint:js": "eslint ./src/",
     "lint:css": "stylelint ./src/**/*.scss",
     "lint": "run-p --continue-on-error lint:js lint:css",
