@@ -76,8 +76,8 @@ cd pleuston/
 
 npm i
 
-# Exporting this variable before running `npm start`,
-# will copy generated contract artifacts from Docker container.
+# Exporting this variable before running `npm start` will copy
+# generated contract artifacts from Docker container.
 # Required only for local Spree test network
 export LOCAL_CONTRACTS=true
 
@@ -176,6 +176,11 @@ npm run format
 You can inspect a full production build by creating it first, and then run a local web server on top of the build output, e.g. [`serve`](https://github.com/zeit/serve):
 
 ```bash
+# Exporting this variable before running `npm run build` will copy
+# generated contract artifacts from Docker container.
+# Required only for local Spree test network
+export LOCAL_CONTRACTS=true
+
 # create production build
 npm run build
 

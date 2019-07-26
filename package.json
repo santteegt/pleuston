@@ -8,7 +8,7 @@
   },
   "scripts": {
     "start": "./scripts/keeper.sh && react-scripts start",
-    "build": "react-scripts --max_old_space_size=4096 build",
+    "build": "./scripts/keeper.sh && react-scripts --max_old_space_size=4096 build",
     "lint:js": "eslint ./src/",
     "lint:css": "stylelint ./src/**/*.scss",
     "lint": "run-p --continue-on-error lint:js lint:css",
@@ -26,13 +26,12 @@
   },
   "dependencies": {
     "@oceanprotocol/art": "^2.2.0",
-    "@oceanprotocol/squid": "0.6.5",
+    "@oceanprotocol/squid": "^0.6.5",
     "@oceanprotocol/typographies": "^0.1.0",
     "aws-amplify": "^1.1.32",
     "aws-amplify-react": "^2.3.11",
     "azure-storage": "^2.10.3",
     "connected-react-router": "^6.5.2",
-    "elliptic": "^6.5.0",
     "ethereum-blockies": "github:MyEtherWallet/blockies",
     "is-url": "^1.2.4",
     "jsonwebtoken": "^8.5.1",
@@ -54,8 +53,7 @@
     "redux-devtools-extension": "^2.13.8",
     "redux-form": "^8.2.4",
     "redux-thunk": "^2.3.0",
-    "secp256k1": "^3.7.1",
-    "web3": "1.2.0"
+    "web3": "^1.2.0"
   },
   "devDependencies": {
     "@release-it/bumper": "^1.0.3",

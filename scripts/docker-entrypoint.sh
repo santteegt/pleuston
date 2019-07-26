@@ -1,8 +1,5 @@
 #!/bin/sh
 
-# required only for Spree (default)
-export LOCAL_CONTRACTS='true'
-
 echo "Starting Pleuston..."
 
 # we use the development server for faster startup in Barge
