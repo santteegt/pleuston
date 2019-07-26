@@ -5,7 +5,7 @@ import Datasets from './pages/Datasets'
 import NewDataset from './pages/NewDataset'
 import DatasetLoader from './containers/DatasetLoader'
 import OauthLoader from './containers/OauthLoader'
-import AwsAuthenication from './components/AwsAuth/AwsAuthenication'
+import AwsAuthenication from './components/Auth/AwsAuthenication'
 
 const Routes = () => (
     <Switch>

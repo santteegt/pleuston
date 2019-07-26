@@ -39,7 +39,6 @@ class Aws {
 
     async connect(url) {
         const windowObjectReference = window.open(
-            // eslint-disable-line
             '/aws',
             'Connect to Aws',
             'resizable,scrollbars,status,width=400,height=500'

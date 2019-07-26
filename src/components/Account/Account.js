@@ -6,7 +6,6 @@ import Popover from './Popover'
 import styles from './Account.module.scss'
 
 export default class Account extends PureComponent {
-    _isMounted = false
     static propTypes = {
         networkName: PropTypes.string,
         activeAccount: PropTypes.object
@@ -15,6 +14,23 @@ export default class Account extends PureComponent {
     state = {
         popoverOpen: false,
         balance: null
+    }
+
+    _isMounted = false
+
+    componentDidMount() {
+        this._isMounted = true
+        this.getBalances()
+    }
+
+    componentDidUpdate(prevProps) {
+        if (prevProps.activeAccount !== this.props.activeAccount) {
+            this.getBalances(prevProps)
+        }
+    }
+
+    componentWillUnmount() {
+        this._isMounted = false
     }
 
     async getBalances(prevProps) {
@@ -26,21 +42,6 @@ export default class Account extends PureComponent {
                 }))
             }
         }
-    }
-
-    componentDidUpdate(prevProps) {
-        if (prevProps.activeAccount !== this.props.activeAccount) {
-            this.getBalances(prevProps)
-        }
-    }
-
-    componentDidMount() {
-        this._isMounted = true
-        this.getBalances()
-    }
-
-    componentWillUnmount() {
-        this._isMounted = false
     }
 
     togglePopover() {

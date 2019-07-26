@@ -5,7 +5,7 @@ import { CSSTransition } from 'react-transition-group'
 import Button from '../atoms/Button'
 import FormInput from '../atoms/Form/FormInput'
 import FormInputGroup from '../atoms/Form/FormInputGroup'
-import AssetList from '../../components/asset/AssetList'
+import AssetList from '../../components/Asset/AssetList'
 
 import styles from './AssetSearch.module.scss'
 

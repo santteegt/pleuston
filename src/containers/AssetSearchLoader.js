@@ -1,7 +1,7 @@
 import { connect } from 'react-redux'
 import { push } from 'connected-react-router'
 
-import AssetSearch from '../components/asset/AssetSearch'
+import AssetSearch from '../components/Asset/AssetSearch'
 import { getAssets, setActiveAsset, setAssetSearchPage } from '../actions'
 
 export default connect(

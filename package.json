@@ -16,6 +16,7 @@
     "format:css": "prettier-stylelint --write --quiet 'src/**/*.{css,scss}'",
     "format": "run-p format:js format:css",
     "test": "npm run lint && react-scripts test --coverage --watchAll=false",
+    "test:watch": "npm run lint && react-scripts test --coverage",
     "coverage": "cat ./coverage/lcov.info | codacy-coverage",
     "release": "release-it --non-interactive",
     "changelog": "auto-changelog -p"
@@ -57,6 +58,7 @@
     "web3": "1.2.0"
   },
   "devDependencies": {
+    "@release-it/bumper": "^1.0.3",
     "auto-changelog": "^1.13.0",
     "codacy-coverage": "^3.4.0",
     "eslint": "^5.16.0",
@@ -86,14 +88,23 @@
   },
   "jest": {
     "collectCoverageFrom": [
-      "src/**/*.{js,jsx,mjs}"
+      "src/**/*.{js,jsx,mjs}",
+      "!src/mock/**/*.{js,jsx,mjs}",
+      "!src/lib/**/*.{js,jsx,mjs}",
+      "!src/serviceWorker.js"
     ]
   },
   "release-it": {
-    "scripts": {
-      "beforeStart": "npm test",
-      "beforeStage": "npm run changelog",
-      "afterRelease": "echo Successfully released ${name} v${version} to ${repo.repository}."
+    "hooks": {
+      "after:bump": "npm run changelog"
+    },
+    "plugins": {
+      "@release-it/bumper": {
+        "out": [
+          "package.json",
+          "package-lock.json"
+        ]
+      }
     },
     "git": {
       "tagName": "v${version}"

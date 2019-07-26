@@ -4,7 +4,7 @@ import { toDataUrl } from 'ethereum-blockies'
 import styles from './Popover.module.scss'
 
 const Popover = ({ networkName, activeAccount }) => {
-    const accountId = activeAccount.getId()
+    const accountId = activeAccount && activeAccount.getId()
     const identicon = accountId && toDataUrl(accountId)
 
     return (

@@ -81,7 +81,6 @@ class Azure {
 
     connect(url) {
         const windowObjectReference = window.open(
-            // eslint-disable-line
             url,
             'Connect to Azure',
             'resizable,scrollbars,status,width=400,height=500'

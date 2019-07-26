@@ -1,6 +1,6 @@
 import { connect } from 'react-redux'
 
-import AssetFull from '../components/asset/AssetFull'
+import AssetFull from '../components/Asset/AssetFull'
 import { getActiveAsset, purchaseAsset } from '../actions/index'
 
 export default connect(

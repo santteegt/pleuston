@@ -1,6 +1,6 @@
 import React from 'react'
 import Spinner from '../atoms/Spinner'
-import config from '../../../config/ocean.js'
+import config from '../../config/ocean.js'
 import styles from './Web3Unavailable.module.scss'
 
 const Web3AccountUnavailable = () => (
