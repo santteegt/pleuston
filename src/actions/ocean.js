@@ -1,7 +1,7 @@
 import { Ocean } from '@oceanprotocol/squid'
 
 import {
-    nodeUri,
+    keeperNodeUri,
     aquariusUri,
     brizoUri,
     brizoAddress,
@@ -11,11 +11,11 @@ import {
 
 export async function provideOcean() {
     const config = {
-        nodeUri,
+        keeperNodeUri,
         aquariusUri,
         brizoUri,
         brizoAddress,
-        parityUri: nodeUri,
+        parityUri: keeperNodeUri,
         secretStoreUri,
         verbose: verboseLogging
     }

@@ -1,6 +1,6 @@
 import React from 'react'
 import ReactDOM from 'react-dom'
-import { nodeUri } from './config/ocean'
+import { keeperNodeUri } from './config/ocean'
 
 import thunk from 'redux-thunk'
 
@@ -72,7 +72,7 @@ ReactDOM.render(
         <Web3Provider
             defaultProvider={callback => {
                 const fallbackWeb3 = new Web3(
-                    new Web3.providers.HttpProvider(nodeUri)
+                    new Web3.providers.HttpProvider(keeperNodeUri)
                 )
                 window.web3 = fallbackWeb3
                 bootstrap()

@@ -99,11 +99,11 @@ All required components to get _Pleuston_ running are pre-configured and started
 
 If you want to change and run _Pleuston_ against remote components you can either set the following environment variables, or directly edit the [`src/config/ocean.js`](./src/config/ocean.js) file.
 
-- `NODE_URI`
-- `AQUARIUS_URI`
-- `BRIZO_URI`
-- `BRIZO_ADDRESS`
-- `SECRETSTORE_URI`
+- `REACT_APP_KEEPER_NODE_URI`
+- `REACT_APP_AQUARIUS_URI`
+- `REACT_APP_BRIZO_URI`
+- `REACT_APP_BRIZO_ADDRESS`
+- `REACT_APP_SECRETSTORE_URI`
 
 ### MetaMask
 
@@ -139,7 +139,7 @@ To run your application over SSL, set the scheme values in [`src/config/ocean.js
 
 ```js
 module.exports = {
-    nodeUri: 'https://my-node-uri.com',
+    keeperNodeUri: 'https://my-node-uri.com',
     ...
 }
 ```
