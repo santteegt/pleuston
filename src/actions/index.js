@@ -118,3 +118,10 @@ export function purchaseAsset(assetId) {
 export function updateOauthAccounts(state) {
     storageProviders.azure.updateConnected(state)
 }
+
+export function airdropTokens(provider, activeAccount) {
+    return async ()  => {
+        const { ocean } = provider
+        await ocean.accounts.requestTokens(activeAccount, 10)
+    }
+}

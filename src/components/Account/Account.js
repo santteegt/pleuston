@@ -8,7 +8,9 @@ import styles from './Account.module.scss'
 export default class Account extends PureComponent {
     static propTypes = {
         networkName: PropTypes.string,
-        activeAccount: PropTypes.object
+        activeAccount: PropTypes.object,
+        airdropTokens: PropTypes.func,
+        provider: PropTypes.object
     }
 
     state = {
@@ -24,9 +26,9 @@ export default class Account extends PureComponent {
     }
 
     componentDidUpdate(prevProps) {
-        if (prevProps.activeAccount !== this.props.activeAccount) {
+        // if (prevProps.activeAccount !== this.props.activeAccount) {
             this.getBalances(prevProps)
-        }
+        // }
     }
 
     componentWillUnmount() {
@@ -75,6 +77,8 @@ export default class Account extends PureComponent {
                     <Popover
                         networkName={this.props.networkName}
                         activeAccount={this.props.activeAccount}
+                        airdropTokens={this.props.airdropTokens}
+                        provider={this.props.provider}
                     />
                 )}
             </div>

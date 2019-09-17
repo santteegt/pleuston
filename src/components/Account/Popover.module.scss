@@ -58,12 +58,17 @@ $popoverWidth: 18rem;
 }
 
 .avatar {
+    width: 50px;
     display: inline-block;
     border-radius: 50%;
-    overflow: hidden;
+    // overflow: hidden;
     flex: 0 0 20px;
     margin-right: $spacer / 4;
     border: 1px solid $brand-grey-light;
+}
+
+.airdrop {
+    margin-left: 5%;
 }
 
 .address {
